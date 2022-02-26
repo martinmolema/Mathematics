@@ -1,7 +1,7 @@
 # Mandelbrot Visualiser
 Website with interaction to visualise squared complex number with addition. 
 
-Please have a look at the sourcecode at [GitHub](https://github.com/martinmolema/MandelBrotSquaredVisualiser) and an excellent explanation at [NumberPhile](https://www.youtube.com/watch?v=FFftmWSzgmk). 
+Please have a look at the sourcecode at [GitHub](https://github.com/martinmolema/Mathematics/) and an excellent explanation at [NumberPhile](https://www.youtube.com/watch?v=FFftmWSzgmk). 
 I completely ripped this idea from their video, but the code is all original.
 
 One of the underlying reasons to build this website was a function once implemented in the program
@@ -187,22 +187,23 @@ function createPalette(){
 }
 ```
 
-A working simpe example can be viewed [here](http://wiskunde.molema.org/example/). See the code in action on [Youtube](https://youtu.be/oQjXnukH60A).
+A working simpe example can be viewed [here](http://wiskunde.molema.org/mandelbrot/example/). 
+See the code in action on [Youtube](https://youtu.be/oQjXnukH60A).
 
 ## Links to working examples
 
 Working examples published at my Homepage
-  * [v1](http://wiskunde.molema.org/v1) / first simple version
-  * [v2](http://wiskunde.molema.org/v2) / backdrop with actual Mandebrot fractal image + julia fractal
-  * [v3](http://wiskunde.molema.org/v3) / zooming and zoom preview box
-  * [v4](http://wiskunde.molema.org/v4) / live preview, new way of calculating
-  * [v5](http://wiskunde.molema.org/v5) / yet another new way of calculating, live palette coloring and history 
-  * [v6](http://wiskunde.molema.org/v7) / 
-  * [v7](http://wiskunde.molema.org/v8) / RGB + HSL palette | proper history for zoom+palette | basic help-screen with the keyboard shortcuts.| resizable canvas | more shortcut keys (check out the dot and comma for color cycling) 
-  * [v8](http://wiskunde.molema.org/v8) / Speed improvements/julia set preview
-  * [v9](http://wiskunde.molema.org/v9) / Speed + code improvements; declutter GUI; large Julia Set. Export function 
-  * [v10](http://wiskunde.molema.org/v10) / Removed Julia; added iterator lines; 
-  * [v11](http://wiskunde.molema.org/v11) / Added loadable .map files from [XFractint](http://manpages.ubuntu.com/manpages/bionic/man1/xfractint.1.html)  containing palettes; improve colorcycling speed
+  * [v1](http://wiskunde.molema.org/mandelbrot/v1) / first simple version
+  * [v2](http://wiskunde.molema.org/mandelbrot/v2) / backdrop with actual Mandebrot fractal image + julia fractal
+  * [v3](http://wiskunde.molema.org/mandelbrot/v3) / zooming and zoom preview box
+  * [v4](http://wiskunde.molema.org/mandelbrot/v4) / live preview, new way of calculating
+  * [v5](http://wiskunde.molema.org/mandelbrot/v5) / yet another new way of calculating, live palette coloring and history 
+  * [v6](http://wiskunde.molema.org/mandelbrot/v7) / 
+  * [v7](http://wiskunde.molema.org/mandelbrot/v8) / RGB + HSL palette | proper history for zoom+palette | basic help-screen with the keyboard shortcuts.| resizable canvas | more shortcut keys (check out the dot and comma for color cycling) 
+  * [v8](http://wiskunde.molema.org/mandelbrot/v8) / Speed improvements/julia set preview
+  * [v9](http://wiskunde.molema.org/mandelbrot/v9) / Speed + code improvements; declutter GUI; large Julia Set. Export function 
+  * [v10](http://wiskunde.molema.org/mandelbrot/v10) / Removed Julia; added iterator lines; 
+  * [v11](http://wiskunde.molema.org/mandelbrot/v11) / Added loadable .map files from [XFractint](http://manpages.ubuntu.com/manpages/bionic/man1/xfractint.1.html)  containing palettes; improve colorcycling speed
 
 ## Video examples
 Videos available at my [Youtube channel](https://www.youtube.com/playlist?list=PL-n4xRuGyhSGXnHdafaCmPnIzy8SXKyca). 

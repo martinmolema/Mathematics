@@ -107,7 +107,7 @@ function draw(canvas, iterations, offset){
             var iter = iterations[index];
 
             // simply use an index for the palette instead of calling a function each time.
-            const realOffset = Math.ceil((this.offset / 100.0) * this.maxIterations);
+            const realOffset = Math.ceil((offset / 100.0) * MAX_ITERATIONS);
             var paletteIndex = (realOffset + iter) % MAX_ITERATIONS;
             var color = palette[paletteIndex]
 
