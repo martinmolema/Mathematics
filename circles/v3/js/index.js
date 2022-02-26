@@ -1,7 +1,12 @@
 import {VirtualLine} from "./VirtualLine.js";
 import {SVGInfo} from "./SVGInfo.js";
 import {BallTrackerListCollection} from "./BallTrackerListCollection.js";
-import {GUIOptions} from "./GUIOptions.js";
+import {
+    BALL_COLOR_TYPE_FIXED,
+    BALL_COLOR_TYPE_FOLLOW_SHAPE,
+    BALL_COLOR_TYPE_PALETTE,
+    GUIOptions
+} from "./GUIOptions.js";
 
 export class Runner {
     svgInfo = undefined;
@@ -64,6 +69,7 @@ export class Runner {
     setupHTMLElementReferences() {
         this.svgBackgroundCircle     = document.getElementById("backgroundCircle");
 
+        /* Elements for events and supplying values */
         this.elNrOfCollections        = document.querySelector("input[name='nrOfCollections']");
         this.elDistanceType           = document.querySelector("select[name='distanceType']");
         this.elDistanceValue          = document.querySelector("input[name='distanceValue']");
@@ -73,7 +79,7 @@ export class Runner {
         this.elShowBackgroundLines    = document.querySelector("input[name='showBackgroundLines']");
         this.elFillShapes             = document.querySelector("input[name='fillShapes']");
         this.elFillOpacity            = document.querySelector("input[name='fillOpacity']");
-        this.elPaletteSelect          = document.querySelector("select[name='palette']");
+        this.elPaletteSelect          = document.querySelector("select[name='paletteForBalls']");
         this.elPaletteForShapesSelect = document.querySelector("select[name='paletteShapes']");
         this.elShowBalls              = document.querySelector("input[name='showBalls']");
         this.elRefreshSpeed           = document.querySelector("input[name='refreshSpeed']");
@@ -81,20 +87,32 @@ export class Runner {
         this.elBallOpacity            = document.querySelector("input[name='ballOpacity']");
         this.elBallSize               = document.querySelector("input[name='ballSize']");
         this.elfadeOpacity            = document.querySelector("input[name='fadeOpacity']");
-        this.elUsePaletForCorners     = document.querySelector("input[name='usePaletForCorners']");
-        this.elUseSingleHSLColor      = document.querySelector("input[name='useSingleHSLColor']");
+        this.elShapeLineWidth         = document.getElementById("shapeLineWidth");
 
-        this.elRefreshSpeedValue            = document.getElementById("refreshSpeedValue");
-        this.elPalettelistBalls             = document.getElementById("palettelistBalls");
-        this.elPalettelistCollections       = document.getElementById("palettelistCollections");
-        this.elnrOfCollectionsValue         = document.getElementById("nrOfCollectionsValue");
-        this.elnrOfBallsValue               = document.getElementById("nrOfBallsValue");
-        this.elBallPalletViewContainer      = document.getElementById("ballPalletContainer");
-        this.elShapeLineWidth               = document.getElementById("shapeLineWidth");
-        this.elHSLColorpicker               = document.getElementById("hslcolors");
-        this.elHSLColorChosen               = document.getElementById("hslcolorchosen");
-        this.elHSLColorpickerContainer      = document.getElementById("hslcolorpickerContainer");
-        this.elBallPaletteSelectorContainer = document.getElementById("ballPaletteContainer");
+        /* The radio button group */
+        this.elRadiobuttonsBallColoringType = document.querySelectorAll("input[name='ballColoringType']");
+        this.elRadioBallColoringTypeValue   = document.querySelector("input[name='ballColoringType']");
+
+        /* elements needed supply feedback */
+        this.elRefreshSpeedValue    = document.getElementById("refreshSpeedValue");
+        this.elnrOfCollectionsValue = document.getElementById("nrOfCollectionsValue");
+        this.elnrOfBallsValue       = document.getElementById("nrOfBallsValue");
+
+        /* Select lists to be filled */
+        this.elPalettelistBalls                 = document.getElementById("palettelistBalls");
+        this.elPalettelistCollections           = document.getElementById("palettelistCollections");
+
+        /* The HSL Color picker */
+        this.elHSLColorpickerContainer          = document.getElementById("hslcolorpickerContainer");
+        this.elHSLColorpicker                   = document.getElementById("hslcolors");
+        this.elHSLColorChosen                   = document.getElementById("hslcolorchosen");
+
+        /* Containers to switch on/off certain elements */
+        /* the DIV-element to show all colors of the ball-palette */
+        this.elBallPaletteViewContainer         = document.getElementById("ballPalletListContainer");
+
+        /* a DIV-element to be switched on or off only if "Multi Color" for balls is selected */
+        this.elpaletteForBallsSectionContainer  = document.getElementById("paletteForBallsSectionContainer");
     }
 
     initValuesFromControls() {
@@ -116,8 +134,8 @@ export class Runner {
         this.options.showLines              = this.elShowLines.checked;
         this.options.showBalls              = this.elShowBalls.checked;
         this.options.fadeOpacity            = this.elfadeOpacity.checked;
-        this.options.usePaletForCorners     = this.elUsePaletForCorners.checked;
-        this.options.useSingleHSLColor      = this.elUseSingleHSLColor.checked;
+
+        this.options.ballColorType          = this.elRadioBallColoringTypeValue.value;
 
         this.selectPalettes();
 
@@ -157,6 +175,13 @@ export class Runner {
     }
 
     setupEventHandlers() {
+        this.elRadiobuttonsBallColoringType.forEach(value => {
+            value.addEventListener("change", evt => {
+                this.options.ballColorType = evt.currentTarget.value;
+                this.syncControls();
+                this.init();
+            });
+        });
 
         this.elNrOfCollections.addEventListener("change", (evt) => {
             this.options.nrOfCollections = this.elNrOfCollections.value;
@@ -250,22 +275,27 @@ export class Runner {
            this.options.fadeOpacity = evt.currentTarget.checked;
            this.syncControls();
         });
+/*
 
         this.elUsePaletForCorners.addEventListener("change", evt => {
             this.options.usePaletForCorners = evt.currentTarget.checked;
             this.syncControls();
             this.init();
         });
+*/
 
         this.elShapeLineWidth.addEventListener("change", evt => {
             this.options.shapeLineWidth = evt.currentTarget.value;
             this.syncControls();
         });
+/*
 
         this.elUseSingleHSLColor.addEventListener("change", evt => {
             this.options.useSingleHSLColor = evt.currentTarget.checked;
             this.syncControls();
+            this.init();
         });
+*/
 
         this.elHSLColorpicker.addEventListener("click", evt => {
             const x = evt.offsetX;
@@ -288,20 +318,19 @@ export class Runner {
                 this.elDistanceValue.disabled = true;
                 break;
         }
-        // this.elFillShapes.disabled  = !this.elShowLines.checked;
-        this.elBallOpacity.disabled = !this.elShowBalls.checked;
-        this.elBallSize.disabled = !this.elShowBalls.checked;
-        this.elfadeOpacity.disabled = !this.elShowBalls.checked;
+        this.elBallOpacity.disabled = !this.options.showBalls;
+        this.elBallSize.disabled    = !this.options.showBalls;
+        this.elfadeOpacity.disabled = !this.options.showBalls;
+
+        this.elpaletteForBallsSectionContainer.style.display = this.options.ballColorTypeIsPalette() ? "block": "none";
+        this.elBallPaletteViewContainer.style.display        = this.options.ballColorTypeIsPalette() ? "block": "none";
 
         this.elRefreshSpeedValue.innerText = `${this.options.refreshSpeed}ms`;
         this.elnrOfCollectionsValue.innerText = `${this.options.nrOfCollections}`;
         this.elnrOfBallsValue.innerText = `${this.options.nrOfBallsPerCollection}`;
 
-        this.elHSLColorpickerContainer.style.visibility = this.options.useSingleHSLColor ? "visible" : "hidden";
-        this.elHSLColorChosen.style.backgroundColor = this.options.selectedSingleHSLColor;
-        this.elBallPaletteSelectorContainer.style.display = this.options.useSingleHSLColor ? "none": "block";
-        this.elBallPalletViewContainer.style.display = this.options.useSingleHSLColor ? "none": "block";
-
+        this.elHSLColorpickerContainer.style.display = this.options.ballColorTypeIsFixed() ? "flex" : "none";
+        this.elHSLColorChosen.style.backgroundColor  = this.options.selectedSingleHSLColor;
     }
 
     clearBackgroundLines() {
@@ -353,16 +382,27 @@ export class Runner {
             const coll = this.collection.newList(c * distanceInDegrees, collectionColor);
             let colNr = 0;
             for (let angle = 0; angle < 180; angle += (180 / this.options.nrOfBallsPerCollection)) {
+
+                switch(this.options.ballColorType) {
+                    case BALL_COLOR_TYPE_FIXED:
+                        coll.addNewBall(angle, this.options.selectedSingleHSLColor);
+                        break;
+                    case BALL_COLOR_TYPE_FOLLOW_SHAPE:
+                        const paletteColor = this.options.paletteListForCollections().getPaletteColor(c);
+                        coll.addNewBall(angle, paletteColor);
+                        break;
+                    case BALL_COLOR_TYPE_PALETTE:
+                        const cssColor = this.options.paletteListForBalls().getPaletteColor(colNr++);
+                        coll.addNewBall(angle, cssColor);
+                        break;
+                }
+
                 if (this.options.useSingleHSLColor) {
-                    coll.addNewBall(angle, this.options.selectedSingleHSLColor);
+
                 }
                 else if (this.options.usePaletForCorners) {
-                    const cssColor = this.options.paletteListForBalls().getPaletteColor(colNr++);
-                    coll.addNewBall(angle, cssColor);
                 }
                 else{
-                    const cssColor = this.options.paletteListForBalls().getPaletteColor(c);
-                    coll.addNewBall(angle, cssColor);
                 }
 
             }

@@ -1,5 +1,9 @@
 import {ColorPaletteList} from "./ColorPaletteList.js";
 
+export const BALL_COLOR_TYPE_FIXED = 'FIXED';
+export const BALL_COLOR_TYPE_FOLLOW_SHAPE = 'SHAPE';
+export const BALL_COLOR_TYPE_PALETTE = 'PALETTE';
+
 export class GUIOptions {
     distanceType = "";
     distanceInDegrees = -1;
@@ -20,10 +24,10 @@ export class GUIOptions {
     animationDirection = "";
     ballSize = 5;
     fadeOpacity = false;
-    usePaletForCorners = false;
     shapeLineWidth = 1;
-    useSingleHSLColor = false;
     selectedSingleHSLColor = "";
+
+    ballColorType = "";
 
     constructor() {
         this.collectionPalette = new ColorPaletteList(1);
@@ -45,5 +49,10 @@ export class GUIOptions {
     paletteListForCollections() {
         return this.collectionPalette;
     }
+
+    ballColorTypeIsPalette()      { return this.ballColorType === BALL_COLOR_TYPE_PALETTE; }
+    ballColorTypeIsFixed()        { return this.ballColorType === BALL_COLOR_TYPE_FIXED; }
+    ballColorTypeIsFollowShape()  { return this.ballColorType === BALL_COLOR_TYPE_FOLLOW_SHAPE; }
+
 
 }

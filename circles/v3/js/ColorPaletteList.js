@@ -31,8 +31,11 @@ export class ColorPaletteList {
     }
 
     setupPalettes(maxNrOfColors) {
-        console.log(`Requesting nr of colors for palette :  ${maxNrOfColors}`);
         const colorList = [ /* in total the same amount of colors as the maximum of colors*/
+            "blue","orange","red","yellow","grey",
+            "darkgreen","purple","lightblue","green","crimson",
+            "Chocolate","deeppink","gold","honeydew","lavender",
+            "magenta","seashell","brown", "teal", "orangered",
             "blue","orange","red","yellow","grey",
             "darkgreen","purple","lightblue","green","crimson",
             "Chocolate","deeppink","gold","honeydew","lavender",
@@ -52,6 +55,10 @@ export class ColorPaletteList {
         const hsl = [];
         for (let i = 0; i<360; i+= 360/maxNrOfColors) {
             hsl.push(`hsl(${i}, 100%, 50%)`);
+        }
+        const hslreversed = [];
+        for (let i = 360; i>=0; i-= 360/maxNrOfColors) {
+            hslreversed.push(`hsl(${i}, 100%, 50%)`);
         }
         const randomhsl = [];
         for (let i = 0; i<360; i+= 360/maxNrOfColors) {
@@ -89,11 +96,11 @@ export class ColorPaletteList {
         }
 
         this.palettes = [
-            colored, coloredReverse, greyscales, greyscalesReverse, hsl, randomhsl, randomrgb, randomgray,
+            colored, coloredReverse, greyscales, greyscalesReverse, hsl, hslreversed, randomhsl, randomrgb, randomgray,
             constantRed, constantGreen, constantBlue
         ];
         this.paletteNames = [
-            'Colored' , 'Colored reverse' , 'Greyscales', 'Greyscales reversed', 'HSL', 'Random HSL', 'Random RGB', 'Random greyscales',
+            'Colored' , 'Colored reverse' , 'Greyscales', 'Greyscales reversed', 'HSL', 'HSL Reversed', 'Random HSL', 'Random RGB', 'Random greyscales',
             'Only red', 'Only green', 'Only blue'
         ];
         if (this.selectedPaletteNr !== undefined) {

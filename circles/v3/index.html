@@ -23,61 +23,78 @@
     <div class="controls">
         <h1>Controls</h1>
         <label for="nrOfCollections">Shapes:</label>
-        <input type="range" min="1" max="20" value="1" name="nrOfCollections" id="nrOfCollections">
+        <input type="range" min="1" max="40" value="1" name="nrOfCollections" id="nrOfCollections">
         <span class="suffix" id="nrOfCollectionsValue"></span>
-
+        <br>
         <label for="nrOfBalls">Corners</label>
         <input type="range" min="1" max="60" value="2" name="nrOfBalls" id="nrOfBalls">
         <span class="suffix" id="nrOfBallsValue"></span>
 
+
         <hr>
-        <label for="useSingleHSLColor">Fixed Color</label>
-        <input type="checkbox" name="useSingleHSLColor" id="useSingleHSLColor">
+        <h2>Corners / balls - visibility</h2>
+
+        <label for="showBalls">Show corners</label>
+        <input type="checkbox" name="showBalls" id="showBalls" checked>
+        <br>
+        <label for="ballSize">Ball size</label>
+        <input type="range" min="1" max="30" value="5" name="ballSize" id="ballSize">
+        <br>
+        <label for="ballOpacity">Ball opacity</label>
+        <input type="range" min="1" max="100" value="50" name="ballOpacity" id="ballOpacity">
+        <br>
+
+        <label for="fadeOpacity">Fade opacity</label>
+        <input type="checkbox" name="fadeOpacity" id="fadeOpacity">
+        <br>
+
+
+        <hr>
+        <h2>Corners / balls - coloring</h2>
+        <div class="ballColoringSection">
+            <label for="ballColoringTypeFollowShape">Follow shape
+                <input type="radio" name="ballColoringType" id="ballColoringTypeFollowShape" value="SHAPE"
+                       checked></label>
+            <label for="ballColoringTypeFollowShape">Fixed
+                <input type="radio" name="ballColoringType" id="ballColoringTypeFixedHSL" value="FIXED"></label>
+            <label for="ballColoringTypeFollowShape">Own Palette
+                <input type="radio" name="ballColoringType" id="ballColoringTypeFromPalette" value="PALETTE"></label>
+        </div>
+
         <div class="hslcolorpickerContainer" id="hslcolorpickerContainer">
             <div class="hslcolors" id="hslcolors"></div>&nbsp; : &nbsp;
             <div class="hslcolorchosen" id="hslcolorchosen"></div>
         </div>
-        <div class="" id="ballPaletteContainer">
-            <label for="palette">Palette for corners</label>
-            <select name="palette" id="palette">
+
+        <div class="" id="paletteForBallsSectionContainer">
+            <label for="paletteForBalls">Palette for corners</label>
+            <select name="paletteForBalls" id="paletteForBalls">
             </select>
-            <label for="usePaletForCorners">Multi color</label>
-            <input type="checkbox" name="usePaletForCorners" id="usePaletForCorners">
-        </div>
-        <hr>
+        </div>       <hr>
+        <h2>Shapes</h2>
 
-
-        <label for="showBalls">Show corners</label>
-        <input type="checkbox" name="showBalls" id="showBalls" checked>
-
-        <label for="ballOpacity">Ball opacity</label>
-        <input type="range" min="1" max="100" value="50" name="ballOpacity" id="ballOpacity">
-
-        <label for="fadeOpacity">Fade opacity</label>
-        <input type="checkbox" name="fadeOpacity" id="fadeOpacity">
-
-        <label for="ballSize">Ball size</label>
-        <input type="range" min="1" max="30" value="5" name="ballSize" id="ballSize">
-        <hr>
-        <label for="showLines">Shapelines</label>
-        <input type="checkbox" name="showLines" id="showLines">
-
-        <label for="fillShapes">Fill shapes</label>
-        <input type="checkbox" name="fillShapes" id="fillShapes">
-
-        <label for="paletteShapes">Palette for shapes</label>
+        <label for="paletteShapes">Palette</label>
         <select name="paletteShapes" id="paletteShapes">
         </select>
 
+        <label for="showLines">Lines</label>
+        <input type="checkbox" name="showLines" id="showLines">
+        <br>
+
+        <label for="shapeLineWidth">Line width</label>
+        <input type="range" min="1" max="100" value="2" name="shapeLineWidth" id="shapeLineWidth">
+        <br>
+
+        <label for="fillShapes">Fill</label>
+        <input type="checkbox" name="fillShapes" id="fillShapes">
+        <br>
 
         <label for="fillOpacity">Fill/Line opacity</label>
         <input type="range" min="1" max="100" value="50" name="fillOpacity" id="fillOpacity">
 
-        <label for="shapeLineWidth">Line width</label>
-        <input type="range" min="1" max="100" value="2" name="shapeLineWidth" id="shapeLineWidth">
-
         <hr>
-        <label for="showLines">Tracers</label>
+        <h2>Background</h2>
+        <label for="showOuterballs">Tracers</label>
         <input type="checkbox" name="showOuterballs" id="showOuterballs">
 
 
@@ -85,35 +102,35 @@
         <input type="checkbox" name="showBackgroundLines" id="showBackgroundLines">
 
         <hr>
+        <h2>Generator</h2>
         <label for="distanceType">Distance type:</label>
         <select name="distanceType" id="distanceType">
             <option value="AUTO">Automatic</option>
             <option value="MAN">Manual</option>
         </select>
-
+        <br>
         <label for="distanceValue">Distance:</label>
         <input disabled="true" type="number" min="1" max="360" value="90" name="distanceValue" id="distanceValue"> <span
             class="suffix">&deg;</span>
+        <br>
 
-        <hr>
         <label for="refreshSpeed">Delay </label>
         <input type="range" min="10" max="20000" step="10" value="50" name="refreshSpeed" id="refreshSpeed">
         <span class="suffix" id="refreshSpeedValue"></span>
+        <br>
 
         <label for="animationDirection">Direction:</label>
         <select name="animationDirection" id="animationDirection">
             <option value="CW">Clockwise</option>
             <option value="CCW">Counter clockwise</option>
         </select>
-
-        <br>
         <hr>
         <div class="palettes">
-            <h1>Shapes</h1>
+            <h2>Shapes</h2>
             <div id="palettelistCollections" class="palettelist Collections"></div>
             <hr>
-            <div id="ballPalletContainer">
-                <h1>Corners</h1>
+            <div id="ballPalletListContainer">
+                <h2>Corners</h2>
                 <div id="palettelistBalls" class="palettelist Balls"></div>
             </div>
         </div>
