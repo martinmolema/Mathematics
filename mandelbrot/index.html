@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Martin's Mandelbrot Page</title>
+</head>
+<body>
+
+<article>
+    <section>
+        <H1>Mandelbrot</H1>
+        <P>Code available at <a href="https://github.com/martinmolema/MandelBrotSquaredVisualiser">GitHub</a></P>
+        <P>
+            Visualisation of Mandelbrot calculations<br>
+            <span style="font-size:larger">&#x192;</span>
+            (Z) = Z
+            <span>
+                <span style="vertical-align: super">2</span> + C
+            </span>
+            <br>
+            with possible variants in Z and C, using the mouse.
+        </P>
+        <h2>Variant 1</h2>
+        <P>Working example can be viewed <a href="v1">here</a></P>
+        <p>
+            Have a look at this <a href="https://www.youtube.com/watch?v=gMz6lNZRe2g">video</a>.
+            <a href="images/mandel-v1.png">
+                <figure>
+                    <figcaption>Mandelbrot version 1</figcaption>
+                    <img src="images/mandel-v1.png" style="max-height:200px">
+                </figure>
+            </a>
+        </p>
+        <h2>Variant 2</h2>
+        <P>Working example can be viewed <a href="v2">here</a></P>
+
+        <p>Have a look at this <a href="https://www.youtube.com/watch?v=d5z3RDMp5lQ">video</a>.</p>
+        <a href="images/mandel-v2.png">
+            <figure>
+                <figcaption>Mandelbrot version 2</figcaption>
+                <img src="images/mandel-v2.png" style="max-height:200px">
+            </figure>
+        </a>
+        <h2>Variant 3</h2>
+        <P>Working example can be viewed <a href="v3">here</a></P>
+
+        <p>Have a look at this <a href="https://youtu.be/ZLaBOvvI0pI">video</a>.</p>
+        <a href="images/mandel-v3.png">
+            <figure>
+                <figcaption>Mandelbrot version 3</figcaption>
+                <img src="images/mandel-v3.png" style="max-height:200px">
+            </figure>
+        </a>
+        <h2>Variant 4</h2>
+        <P>Working example can be viewed <a href="v4">here</a></P>
+
+        <P>This version was heavily optimised using a complete different way of drawing the pixels. This results in a
+            dramatic boost in performance.
+            First the step was made to create a palette only once, in stead of calculating the colors for every pixels.
+            With a maximum number of iterations
+            the palette only has 200 items which isn&quote;t a big deal memory-wise.
+            <br>
+            Second the way of drawing the pixels is changed: in stead of of drawing each pixel separately directly on
+            the canvas,
+            the pixels are first stored in an ImageData. Thanks to this <a
+                    href="https://stackoverflow.com/questions/4899799/whats-the-best-way-to-set-a-single-pixel-in-an-html5-canvas">
+                Stack Overflow</a> answer this works well.
+        </P>
+        <p> The resulting performance boost can be viewed in this source-code image, enriched with data from the
+            Javascript profiler.<br>
+            <a href="images/optimise06.png"><img src="images/optimise06.png" alt="Optimised code"
+                                                 style="max-height: 300px;"></a>
+            <br>Compare with old code:<br>
+            <a href="images/optimise01.png"><img src="images/optimise01.png" alt="Optimised code"
+                                                 style="max-height: 300px;"></a>
+            <br>
+        </p>
+
+        <p>
+            The resulting code is so fast that even on a decent computer a live-preview of the zoombox is possible. This
+            can be enabled using the checkbox on the right.
+        </p>
+        <!-- <p>Have a look at this <a href="https://youtu.be/ZLaBOvvI0pI">video</a>.</p> -->
+        <a href="images/mandel-v4.png">
+            <figure>
+                <figcaption>Mandelbrot version 4</figcaption>
+                <img src="images/mandel-v4.png" style="max-height:200px">
+            </figure>
+        </a>
+
+        <h2>Variant 5</h2>
+        <P>Working example can be viewed <a href="v5">here</a></P>
+
+        <P>
+            And yet another fun Mandelbrot project.
+            <br>
+            Completely refactored the code to speed things up. Now it's possible to have a live preview in the zoombox.
+            <br>
+            The new method separates the calculations from the drawing, making it possible to swap the color palette
+            without doing all the recalculations. So, now the slider for the palette immediately sends a request to
+            calculate a new palette and immediately apply it to the current situation.
+            <br>
+            When zooming in the previous situation is stored in a history list. So, using the right mouse-button you can
+            quickly go back to your previous situation, even preserving the palette.
+        </P>
+        <p>Have a look at this <a href="https://youtu.be/RR3j4I9A9RY">video</a>.</p>
+        <a href="images/mandel-v5.png">
+            <figure>
+                <figcaption>Mandelbrot version 5</figcaption>
+                <img src="images/mandel-v5.png" style="max-height:200px">
+            </figure>
+        </a>
+
+        <h2>Variant 7</h2>
+        <P>Working example can be viewed <a href="v7">here</a></P>
+        <P>
+            Lots of improvements
+        <ul>
+            <li>Help page with keyboard shortcut</li>
+            <li>Immediate zoom available after redraw/zoom</li>
+            <li>Proper saving of palettes</li>
+            <li>HSL + RGB palettes available</li>
+            <li>Resize canvas; width and height independantly; remembered in browser local storage</li>
+            <li>Reporting of zoom factor</li>
+            <li>history is saved in browser local storage so page refresh will restore last situation + complete
+                history
+            </li>
+            <li>Zoombox can be made invisible</li>
+            <li>Export function for the really HUGE images (6000x6000 pixels max).</li>
+        </ul>
+        </P>
+        <p>Have a look at this <a href="https://www.youtube.com/watch?v=b6ppr56bStE">video</a>.</p>
+        <a href="images/mandel-v7.png">
+            <figure>
+                <figcaption>Mandelbrot version 7</figcaption>
+                <img src="images/mandel-v7.png" style="max-height:200px">
+            </figure>
+        </a>
+
+
+        <h2>Variant 8</h2>
+        <P>Working example can be viewed <a href="v8">here</a></P>
+        <P>
+            Lots of improvements
+        <ul>
+            <li>Speed improvements</li>
+        </ul>
+        </P>
+        <p>Have a look at this <a href="#">video</a>.</p>
+        <a href="images/mandel-v8.png">
+            <figure>
+                <figcaption>Mandelbrot version 8</figcaption>
+                <img src="images/mandel-v8.png" style="max-height:200px">
+            </figure>
+        </a>
+
+        <h2>Variant 9</h2>
+        <P>Working example can be viewed <a href="v9">here</a></P>
+        <P>
+            Added Julia Set fractal (large and preview)
+        <ul>
+            <li>Code improvements based on WebStorm Linter for Javascript.</li>
+        </ul>
+        </P>
+        <p>Have a look at this <a href="https://youtu.be/9ZQ94-h9VYM">video</a>.</p>
+        <a href="images/mandel-v9.png">
+            <figure>
+                <figcaption>Mandelbrot version 9</figcaption>
+                <img src="images/mandel-v9.png" style="max-height:200px">
+            </figure>
+        </a>
+
+
+        <h2>Variant 10</h2>
+        <P>Working example can be viewed <a href="v10">here</a></P>
+        <P>
+            Reintroduced the iterator points and connector lines.
+        <ul>
+            <li>When clicking or in live-preview the points that are hit during one iteration are drawn
+            just like in the first example. However, when zooming this also keeps working.</li>
+        </ul>
+        </P>
+        <p>Have a look at this <a href="https://youtu.be/s0HfB4_Ye5w">video</a>.</p>
+        <a href="images/mandel-v10.png">
+            <figure>
+                <figcaption>Mandelbrot version 10</figcaption>
+                <img src="images/mandel-v10.png" style="max-height:200px">
+            </figure>
+        </a>
+
+        <h2>Variant 11</h2>
+        <P>Working example can be viewed <a href="v11">here</a></P>
+        <P>
+            Added RGB palette files from Fractint that can be loaded through the GUI.
+        </P>
+        <ul>
+            <li>Added checkbox to enable/disable linedrawing</li>
+            <li>Improved the color cycling by not recalculating the palette each time</li>
+            <li>Added RGB palette files available in dropdown box</li>
+        </ul>
+        <p>Have a look at this <a href="https://youtu.be/RipQ090Lkm0">video</a>.</p>
+        <!-- <p>Have a look at this <a href="https://youtu.be/s0HfB4_Ye5w">video</a>.</p> -->
+        <a href="images/mandel-v11.png">
+            <figure>
+                <figcaption>Mandelbrot version 11</figcaption>
+                <img src="images/mandel-v11.png" style="max-height:200px">
+            </figure>
+        </a>
+    </section>
+</article>
+
+</body>
+</html>

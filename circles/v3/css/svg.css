@@ -1,0 +1,45 @@
+line.background.yaxis,
+line.background.xaxis {
+    stroke: black;
+    stroke-width: 1;
+    fill: none;
+}
+
+circle.background.circle {
+    stroke: black;
+    stroke-width: 1;
+    fill: none;
+}
+
+line.virtualline {
+    stroke-width: 1;
+    stroke: darkgray;
+    fill: none;
+}
+
+circle.ball {
+    stroke-width: 0;
+}
+
+circle.travellingcircle {
+    stroke-width: 2;
+}
+
+
+polygon.shape.showShapeLines {
+}
+
+polygon.shape:not(.showShapeLines) {
+    stroke:none;
+}
+
+polygon.shape:not(.fillShapes) {
+    fill: none;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+circle.ball.inside {
+}

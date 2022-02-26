@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Circles v2</title>
+    <script src="js/index.js" type="module"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/svg.css">
+</head>
+<body>
+<div class="container">
+    <svg width="800" height="800" id="svgContainer">
+        <g id="background">
+            <circle r="4" cx="4" cy="4" class="background circle hidden" id="backgroundCircle"></circle>
+        </g>
+        <g id="virtuallines">
+        </g>
+        <g id="collections">
+        </g>
+        <g id="outerballs">
+        </g>
+    </svg>
+    <div class="controls">
+        <h1>Controls</h1>
+        <label for="nrOfCollections">Shapes:</label>
+        <input type="range" min="1" max="20" value="1" name="nrOfCollections" id="nrOfCollections">
+        <span class="suffix" id="nrOfCollectionsValue"></span>
+        <label for="nrOfBalls">Corners</label>
+        <input type="range" min="1" max="60" value="2" name="nrOfBalls" id="nrOfBalls">
+        <span class="suffix" id="nrOfBallsValue"></span>
+
+
+        <label for="palette">Palette</label>
+        <select name="palette" id="palette">
+        </select>
+
+        <label for="showBalls">Show corners</label>
+        <input type="checkbox" name="showBalls" id="showBalls" checked>
+
+        <label for="ballOpacity">Ball opacity</label>
+        <input type="range" min="1" max="100" value="50" name="ballOpacity" id="ballOpacity">
+
+        <label for="fadeOpacity">Fade opacity</label>
+        <input type="checkbox" name="fadeOpacity" id="fadeOpacity">
+
+        <label for="ballSize">Ball size</label>
+        <input type="range" min="1" max="20" value="5" name="ballSize" id="ballSize">
+
+        <label for="showLines">Shapelines</label>
+        <input type="checkbox" name="showLines" id="showLines">
+
+        <label for="fillShapes">Fill shapes</label>
+        <input type="checkbox" name="fillShapes" id="fillShapes">
+
+
+        <label for="fillOpacity">Fill/Line opacity</label>
+        <input type="range" min="1" max="100" value="50" name="fillOpacity" id="fillOpacity">
+
+        <label for="showLines">Tracers</label>
+        <input type="checkbox" name="showOuterballs" id="showOuterballs">
+
+        <label for="showBackgroundLines">Show background lines</label>
+        <input type="checkbox" name="showBackgroundLines" id="showBackgroundLines">
+
+        <label for="distanceType">Distance type:</label>
+        <select name="distanceType" id="distanceType">
+            <option value="AUTO">Automatic</option>
+            <option value="MAN">Manual</option>
+        </select>
+
+        <label for="distanceValue">Distance:</label>
+        <input disabled="true" type="number" min="1" max="360" value="90" name="distanceValue" id="distanceValue"> <span class="suffix">&deg;</span>
+
+        <label for="refreshSpeed">Delay </label>
+        <input type="range" min="10" max="2000" step="10" value="50" name="refreshSpeed" id="refreshSpeed">
+        <span class="suffix" id="refreshSpeedValue"></span>
+
+        <label for="animationDirection">Distance type:</label>
+        <select name="animationDirection" id="animationDirection">
+            <option value="CW">Clockwise</option>
+            <option value="CCW">Counter clockwise</option>
+        </select>
+
+        <br>
+        <hr>
+        <div id="palettelist" class="palettelist">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
