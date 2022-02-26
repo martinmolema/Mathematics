@@ -22,6 +22,8 @@ export class GUIOptions {
     fadeOpacity = false;
     usePaletForCorners = false;
     shapeLineWidth = 1;
+    useSingleHSLColor = false;
+    selectedSingleHSLColor = "";
 
     constructor() {
         this.collectionPalette = new ColorPaletteList(1);

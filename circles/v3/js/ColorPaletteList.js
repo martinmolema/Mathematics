@@ -40,6 +40,7 @@ export class ColorPaletteList {
 
         ];
         const colored = colorList.slice(0,maxNrOfColors);
+        const coloredReverse = [...colored].reverse();
         const greyscales = [];
         for (let i=0;i<=255; i+= 255 / maxNrOfColors) {
             greyscales.push(`rgb(${i},${i},${i})`)
@@ -49,11 +50,11 @@ export class ColorPaletteList {
             greyscalesReverse.push(`rgb(${i},${i},${i})`)
         }
         const hsl = [];
-        for (let i = 0; i<255; i+= 255/maxNrOfColors) {
+        for (let i = 0; i<360; i+= 360/maxNrOfColors) {
             hsl.push(`hsl(${i}, 100%, 50%)`);
         }
         const randomhsl = [];
-        for (let i = 0; i<255; i+= 255/maxNrOfColors) {
+        for (let i = 0; i<360; i+= 360/maxNrOfColors) {
             const color = Math.random() * 255;
             randomhsl.push(`hsl(${color}, 100%, 50%)`);
         }
@@ -72,11 +73,28 @@ export class ColorPaletteList {
             randomgray.push(`rgb(${color1}, ${color1}, ${color1})`);
         }
 
+        const constantRed = [];
+        for (let i = 0; i<255; i+= 255/maxNrOfColors) {
+            constantRed.push("red");
+        }
+
+        const constantGreen = [];
+        for (let i = 0; i<255; i+= 255/maxNrOfColors) {
+            constantGreen.push("green");
+        }
+
+        const constantBlue = [];
+        for (let i = 0; i<255; i+= 255/maxNrOfColors) {
+            constantBlue.push("blue");
+        }
+
         this.palettes = [
-            colored, greyscales, greyscalesReverse, hsl, randomhsl, randomrgb, randomgray
+            colored, coloredReverse, greyscales, greyscalesReverse, hsl, randomhsl, randomrgb, randomgray,
+            constantRed, constantGreen, constantBlue
         ];
         this.paletteNames = [
-            'Colored' , 'Greyscales', 'Greyscales reversed', 'HSL', 'Random HSL', 'Random RGB', 'Random greyscales'
+            'Colored' , 'Colored reverse' , 'Greyscales', 'Greyscales reversed', 'HSL', 'Random HSL', 'Random RGB', 'Random greyscales',
+            'Only red', 'Only green', 'Only blue'
         ];
         if (this.selectedPaletteNr !== undefined) {
             this.selectedPalette = this.palettes[this.selectedPaletteNr];

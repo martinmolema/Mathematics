@@ -31,12 +31,21 @@
         <span class="suffix" id="nrOfBallsValue"></span>
 
         <hr>
-        <label for="palette">Palette</label>
-        <select name="palette" id="palette">
-        </select>
-        <label for="usePaletForCorners">Use palette for corners</label>
-        <input type="checkbox" name="usePaletForCorners" id="usePaletForCorners">
+        <label for="useSingleHSLColor">Fixed Color</label>
+        <input type="checkbox" name="useSingleHSLColor" id="useSingleHSLColor">
+        <div class="hslcolorpickerContainer" id="hslcolorpickerContainer">
+            <div class="hslcolors" id="hslcolors"></div>&nbsp; : &nbsp;
+            <div class="hslcolorchosen" id="hslcolorchosen"></div>
+        </div>
+        <div class="" id="ballPaletteContainer">
+            <label for="palette">Palette for corners</label>
+            <select name="palette" id="palette">
+            </select>
+            <label for="usePaletForCorners">Multi color</label>
+            <input type="checkbox" name="usePaletForCorners" id="usePaletForCorners">
+        </div>
         <hr>
+
 
         <label for="showBalls">Show corners</label>
         <input type="checkbox" name="showBalls" id="showBalls" checked>
@@ -55,6 +64,10 @@
 
         <label for="fillShapes">Fill shapes</label>
         <input type="checkbox" name="fillShapes" id="fillShapes">
+
+        <label for="paletteShapes">Palette for shapes</label>
+        <select name="paletteShapes" id="paletteShapes">
+        </select>
 
 
         <label for="fillOpacity">Fill/Line opacity</label>

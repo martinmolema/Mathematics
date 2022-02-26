@@ -45,13 +45,19 @@ export class Runner {
     }
 
     addPalettesToGUIElement() {
+        this.addOnePaletteToOneGUIElement(this.elPaletteSelect);
+        this.addOnePaletteToOneGUIElement(this.elPaletteForShapesSelect);
+    }
+
+    addOnePaletteToOneGUIElement(selectElement){
         const pal = this.options.paletteListForCollections();
         const nrOfNamesInPalette = pal.getNumberOfItemsInList();
         for(let i=0;i<nrOfNamesInPalette; i++) {
             const option = document.createElement("option");
             option.value = i;
             option.innerText = pal.getPaletteName(i);
-            this.elPaletteSelect.appendChild(option);
+
+            selectElement.appendChild(option);
         }
     }
 
@@ -68,6 +74,7 @@ export class Runner {
         this.elFillShapes             = document.querySelector("input[name='fillShapes']");
         this.elFillOpacity            = document.querySelector("input[name='fillOpacity']");
         this.elPaletteSelect          = document.querySelector("select[name='palette']");
+        this.elPaletteForShapesSelect = document.querySelector("select[name='paletteShapes']");
         this.elShowBalls              = document.querySelector("input[name='showBalls']");
         this.elRefreshSpeed           = document.querySelector("input[name='refreshSpeed']");
         this.elAnimationDirection     = document.querySelector("select[name='animationDirection']");
@@ -75,14 +82,19 @@ export class Runner {
         this.elBallSize               = document.querySelector("input[name='ballSize']");
         this.elfadeOpacity            = document.querySelector("input[name='fadeOpacity']");
         this.elUsePaletForCorners     = document.querySelector("input[name='usePaletForCorners']");
+        this.elUseSingleHSLColor      = document.querySelector("input[name='useSingleHSLColor']");
 
-        this.elRefreshSpeedValue      = document.getElementById("refreshSpeedValue");
-        this.elPalettelistBalls       = document.getElementById("palettelistBalls");
-        this.elPalettelistCollections = document.getElementById("palettelistCollections");
-        this.elnrOfCollectionsValue   = document.getElementById("nrOfCollectionsValue");
-        this.elnrOfBallsValue         = document.getElementById("nrOfBallsValue");
-        this.elballPalletContainer    = document.getElementById("ballPalletContainer");
-        this.elShapeLineWidth         = document.getElementById("shapeLineWidth");
+        this.elRefreshSpeedValue            = document.getElementById("refreshSpeedValue");
+        this.elPalettelistBalls             = document.getElementById("palettelistBalls");
+        this.elPalettelistCollections       = document.getElementById("palettelistCollections");
+        this.elnrOfCollectionsValue         = document.getElementById("nrOfCollectionsValue");
+        this.elnrOfBallsValue               = document.getElementById("nrOfBallsValue");
+        this.elBallPalletViewContainer      = document.getElementById("ballPalletContainer");
+        this.elShapeLineWidth               = document.getElementById("shapeLineWidth");
+        this.elHSLColorpicker               = document.getElementById("hslcolors");
+        this.elHSLColorChosen               = document.getElementById("hslcolorchosen");
+        this.elHSLColorpickerContainer      = document.getElementById("hslcolorpickerContainer");
+        this.elBallPaletteSelectorContainer = document.getElementById("ballPaletteContainer");
     }
 
     initValuesFromControls() {
@@ -105,19 +117,21 @@ export class Runner {
         this.options.showBalls              = this.elShowBalls.checked;
         this.options.fadeOpacity            = this.elfadeOpacity.checked;
         this.options.usePaletForCorners     = this.elUsePaletForCorners.checked;
+        this.options.useSingleHSLColor      = this.elUseSingleHSLColor.checked;
 
-
-        this.selectPalette();
+        this.selectPalettes();
 
         if (!this.options.showBackgroundLines) {
             this.hideBackgroundCircle();
         }
     }
 
-    selectPalette() {
-        const paletteNrSelected = this.elPaletteSelect.value;
-        this.options.paletteListForBalls().selectPalette(paletteNrSelected);
-        this.options.paletteListForCollections().selectPalette(paletteNrSelected);
+    selectPalettes() {
+        const paletteNrSelectedBalls  = this.elPaletteSelect.value;
+        const paletteNrSelectedShapes = this.elPaletteForShapesSelect.value;
+
+        this.options.paletteListForBalls().selectPalette(paletteNrSelectedBalls);
+        this.options.paletteListForCollections().selectPalette(paletteNrSelectedShapes);
 
         this.showPaletteList();
     }
@@ -192,7 +206,13 @@ export class Runner {
         });
 
         this.elPaletteSelect.addEventListener("change", evt => {
-            this.selectPalette();
+            this.selectPalettes();
+            this.init();
+            this.syncControls();
+        });
+
+        this.elPaletteForShapesSelect.addEventListener("change", evt => {
+            this.selectPalettes();
             this.init();
             this.syncControls();
         });
@@ -242,6 +262,21 @@ export class Runner {
             this.syncControls();
         });
 
+        this.elUseSingleHSLColor.addEventListener("change", evt => {
+            this.options.useSingleHSLColor = evt.currentTarget.checked;
+            this.syncControls();
+        });
+
+        this.elHSLColorpicker.addEventListener("click", evt => {
+            const x = evt.offsetX;
+            const w = this.elHSLColorpicker.clientWidth;
+            const colorNumber = 360 * (x/w);
+            const color = `hsl(${colorNumber}, 100%, 50%)`;
+            this.options.selectedSingleHSLColor = color;
+            this.syncControls();
+            this.init();
+        });
+
     }
 
     syncControls() {
@@ -255,10 +290,18 @@ export class Runner {
         }
         // this.elFillShapes.disabled  = !this.elShowLines.checked;
         this.elBallOpacity.disabled = !this.elShowBalls.checked;
+        this.elBallSize.disabled = !this.elShowBalls.checked;
+        this.elfadeOpacity.disabled = !this.elShowBalls.checked;
+
         this.elRefreshSpeedValue.innerText = `${this.options.refreshSpeed}ms`;
         this.elnrOfCollectionsValue.innerText = `${this.options.nrOfCollections}`;
         this.elnrOfBallsValue.innerText = `${this.options.nrOfBallsPerCollection}`;
-        this.elballPalletContainer.style.visibility = this.options.usePaletForCorners ? "visible" : "hidden";
+
+        this.elHSLColorpickerContainer.style.visibility = this.options.useSingleHSLColor ? "visible" : "hidden";
+        this.elHSLColorChosen.style.backgroundColor = this.options.selectedSingleHSLColor;
+        this.elBallPaletteSelectorContainer.style.display = this.options.useSingleHSLColor ? "none": "block";
+        this.elBallPalletViewContainer.style.display = this.options.useSingleHSLColor ? "none": "block";
+
     }
 
     clearBackgroundLines() {
@@ -310,12 +353,16 @@ export class Runner {
             const coll = this.collection.newList(c * distanceInDegrees, collectionColor);
             let colNr = 0;
             for (let angle = 0; angle < 180; angle += (180 / this.options.nrOfBallsPerCollection)) {
-                const cssColor = this.options.paletteListForBalls().getPaletteColor(colNr++);
-                if (this.options.usePaletForCorners) {
+                if (this.options.useSingleHSLColor) {
+                    coll.addNewBall(angle, this.options.selectedSingleHSLColor);
+                }
+                else if (this.options.usePaletForCorners) {
+                    const cssColor = this.options.paletteListForBalls().getPaletteColor(colNr++);
                     coll.addNewBall(angle, cssColor);
                 }
                 else{
-                    coll.addNewBall(angle, collectionColor);
+                    const cssColor = this.options.paletteListForBalls().getPaletteColor(c);
+                    coll.addNewBall(angle, cssColor);
                 }
 
             }
