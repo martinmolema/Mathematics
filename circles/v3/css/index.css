@@ -9,15 +9,45 @@ div.container {
 }
 
 div.buttonbar .bar {
+  margin-bottom: 4px;
+}
 
+div.buttonbar div.bar.spread {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+div.buttonbar div.bar.right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 .buttonbar label {
-    display: inline;
+    display: inherit;
+    width:auto;
+}
+#exportsettings {
+    max-width: 330px;
 }
 
-#savedConfigs {
-    min-width: 50px;
+div.buttonbar label.uploadButton {
+    display: inline;
+    width: fit-content;
+    height: 23px;
+    border-radius: 4px;
+    appearance: auto;
+    white-space: pre;
+    cursor: default;
+    box-sizing: border-box;
+    background-color: rgb(239, 239, 239);
+    color: black;
+    padding: 1px 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: rgb(118, 118, 118);
+    border-image: initial;
 }
 
 /*******************************************************************************/

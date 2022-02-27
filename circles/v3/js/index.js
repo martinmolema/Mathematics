@@ -28,7 +28,9 @@ export class Runner {
         );
 
         this.savedConfigs = new SavedConfigs("Circles_V1");
-        this.loadDefaultConfigFromWebsite();
+        if (this.savedConfigs.isEmpty()) {
+            this.loadDefaultConfigFromWebsite();
+        }
 
         // Create a list of default options and two default palettelists.
         this.options = new GUIOptions();
@@ -61,7 +63,7 @@ export class Runner {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     const json = xhr.responseText;
-                    this.savedConfigs.loadJSON(json);
+                    this.savedConfigs.loadJSON(json, true, true);
                     this.updateSavedConfigsList();
                 }
             }
@@ -169,7 +171,7 @@ export class Runner {
 
         this.options.ballColorType          = this.elRadioBallColoringTypeValue.value;
 
-        this.selectPalettes();
+        this.selectPalettesUsingControls();
 
         if (!this.options.showBackgroundLines) {
             this.hideBackgroundCircle();
@@ -177,29 +179,40 @@ export class Runner {
     }
 
     initControlsFromValues() {
-        this.elNrOfCollections.value = this.options.nrOfCollections;
-        this.elDistanceType.value = this.options.distanceType;
-        this.elDistanceValue.value = this.options.distanceInDegrees;
-        this.elnrOfBalls.value = this.options.nrOfBallsPerCollection;
-        this.elFillOpacity.value = this.options.fillOpacity;
-        this.elRefreshSpeed.value = this.options.refreshSpeed;
+        this.elNrOfCollections.value    = this.options.nrOfCollections;
+        this.elDistanceType.value       = this.options.distanceType;
+        this.elDistanceValue.value      = this.options.distanceInDegrees;
+        this.elnrOfBalls.value          = this.options.nrOfBallsPerCollection;
+        this.elFillOpacity.value        = this.options.fillOpacity;
+        this.elRefreshSpeed.value       = this.options.refreshSpeed;
         this.elAnimationDirection.value = this.options.animationDirection;
-        this.elBallOpacity.value = this.options.ballOpacity;
-        this.elBallSize.value = this.options.ballSize;
-        this.elShapeLineWidth.value = this.options.shapeLineWidth;
+        this.elBallOpacity.value        = this.options.ballOpacity;
+        this.elBallSize.value           = this.options.ballSize;
+        this.elShapeLineWidth.value     = this.options.shapeLineWidth;
 
         this.elShowBackgroundLines.checked = this.options.showBackgroundLines;
-        this.elshowOuterballs.checked = this.options.showOuterballs;
-        this.elFillShapes.checked = this.options.fillShapes;
-        this.elShowLines.checked = this.options.showLines;
-        this.elShowBalls.checked = this.options.showBalls;
-        this.elfadeOpacity.checked = this.options.fadeOpacity;
+        this.elshowOuterballs.checked      = this.options.showOuterballs;
+        this.elFillShapes.checked          = this.options.fillShapes;
+        this.elShowLines.checked           = this.options.showLines;
+        this.elShowBalls.checked           = this.options.showBalls;
+        this.elfadeOpacity.checked         = this.options.fadeOpacity;
 
-        this.options.ballColorType          = this.elRadioBallColoringTypeValue.value;
-        this.selectPalettes();
+        this.setValueOfRadioButtonGroup(this.elRadiobuttonsBallColoringType);
+
+        this.elPaletteSelect.value          = this.options.paletteListForBalls().selectedPaletteNr;
+        this.elPaletteForShapesSelect.value = this.options.paletteListForCollections().selectedPaletteNr;
     }// initControlsFromValues
 
-    selectPalettes() {
+    setValueOfRadioButtonGroup(radiobuttons) {
+        for(const radiobutton of radiobuttons) {
+            radiobutton.checked = false;
+            if (radiobutton.value === this.options.ballColorType) {
+                radiobutton.checked = true;
+            }
+        }
+    }// setValueOfRadioButtonGroup
+
+    selectPalettesUsingControls() {
         const paletteNrSelectedBalls  = this.elPaletteSelect.value;
         const paletteNrSelectedShapes = this.elPaletteForShapesSelect.value;
 
@@ -207,7 +220,7 @@ export class Runner {
         this.options.paletteListForCollections().selectPalette(paletteNrSelectedShapes);
 
         this.showPaletteList();
-    }
+    }// selectPalettesUsingControls
 
     showPaletteList() {
         this.showOnePaletteList(this.elPalettelistBalls, this.options.paletteListForBalls());
@@ -286,13 +299,13 @@ export class Runner {
         });
 
         this.elPaletteSelect.addEventListener("change", evt => {
-            this.selectPalettes();
+            this.selectPalettesUsingControls();
             this.init();
             this.syncControls();
         });
 
         this.elPaletteForShapesSelect.addEventListener("change", evt => {
-            this.selectPalettes();
+            this.selectPalettesUsingControls();
             this.init();
             this.syncControls();
         });
@@ -361,15 +374,17 @@ export class Runner {
         });
 
         this.btnActivateConfig.addEventListener("click", evt => {
-            this.loadNewConfig(this.elSelectSavedConfig.value);
+            this.activateConfig(this.elSelectSavedConfig.value);
         });
 
         this.elSelectSavedConfig.addEventListener("change", evt => {
             this.syncControls();
         });
         this.btnClearSettings.addEventListener("click", evt => {
-            this.savedConfigs.clear();
-            this.updateSavedConfigsList();
+            if (confirm("Are you sure you want to clear all locally saved items?")){
+                this.savedConfigs.clear();
+                this.updateSavedConfigsList();
+            }
         });
         this.btnDeleteSetting.addEventListener("click", evt => {
 
@@ -393,7 +408,11 @@ export class Runner {
         reader.readAsText(file);
     }
 
-    exportToDownloadableFile(json) {
+    /**
+     * Creates a download file by creating a temporary <A>-element and activating it
+     * @param json the JSON to be exported
+     */
+    exportToDownloadableFile(/* string */ json) {
         const filename = 'circles.configurations.json';
         // Set up the link
         var link = document.createElement("a");
@@ -410,24 +429,38 @@ export class Runner {
         document.body.removeChild(link);
     }
 
-    loadNewConfig(/* GUID */ id) {
+    /**
+     * Activate a certain configuration
+     * @param id the unique identification of the configuration
+     */
+    activateConfig(/* GUID */ id) {
         const config = this.savedConfigs.getConfigByID(id);
         this.options.updateFromRestoredObject(config.config);
         this.initControlsFromValues();
         this.syncControls();
+        this.showPaletteList();
         this.init();
     }// loadNewConfig
 
-    importNewConfigurationsFromJSON(json) {
+    /**
+     * Imports a new set of configurations by the supplied JSON string
+     * @param json
+     */
+    importNewConfigurationsFromJSON(/* string */ json) {
         this.savedConfigs.loadJSON(json, true, true);
         this.updateSavedConfigsList();
     }
 
+    /**
+     * Updates the <SELECT>-element on the GUI so the list of available configurations is visible
+     */
     updateSavedConfigsList() {
         while (this.elSelectSavedConfig.childNodes.length !== 0){
             this.elSelectSavedConfig.firstChild.remove();
         }
-        const items = this.savedConfigs.getNamesAndIDs();
+        const items = this.savedConfigs
+            .getNamesAndIDs()
+            .sort((a, b) => a.name.localeCompare(b.name));
 
         for (const item of items) {
             const option = document.createElement("option");
@@ -438,6 +471,10 @@ export class Runner {
         this.elSelectSavedConfig.value = null;
     }
 
+    /**
+     * Saves the current configuration (the GUI-elements selected) to a new or existing configuration.
+     * @param existingID
+     */
     saveCurrentGUIConfiguration(/* GUID */ existingID = "") {
         if (existingID === "") {
             const name = prompt("What is the name of this configuration");
@@ -448,7 +485,14 @@ export class Runner {
             }
         }
         else{
-            this.savedConfigs.updateConfigurationByID(existingID, this.options);
+            const currentName = this.savedConfigs.getNameForID(existingID);
+            const name = prompt("What is the name of this configuration", currentName);
+            if (name != null) {
+                this.savedConfigs.updateNameForID(existingID, name);
+                this.savedConfigs.updateConfigurationFromGUIObjectByID(existingID, this.options);
+                this.updateSavedConfigsList();
+            }
+
         }
 
     }// saveCurrentGUIConfiguration
@@ -469,9 +513,9 @@ export class Runner {
         this.elpaletteForBallsSectionContainer.style.display = this.options.ballColorTypeIsPalette() ? "block": "none";
         this.elBallPaletteViewContainer.style.display        = this.options.ballColorTypeIsPalette() ? "block": "none";
 
-        this.elRefreshSpeedValue.innerText = `${this.options.refreshSpeed}ms`;
+        this.elRefreshSpeedValue.innerText    = `${this.options.refreshSpeed}ms`;
         this.elnrOfCollectionsValue.innerText = `${this.options.nrOfCollections}`;
-        this.elnrOfBallsValue.innerText = `${this.options.nrOfBallsPerCollection}`;
+        this.elnrOfBallsValue.innerText       = `${this.options.nrOfBallsPerCollection}`;
 
         this.elHSLColorpickerContainer.style.display = this.options.ballColorTypeIsFixed() ? "flex" : "none";
         this.elHSLColorChosen.style.backgroundColor  = this.options.selectedSingleHSLColor;

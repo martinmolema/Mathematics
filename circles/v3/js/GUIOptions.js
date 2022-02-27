@@ -9,6 +9,7 @@ export class GUIOptions {
     distanceInDegrees = -1;
     nrOfCollections = 1;
     nrOfBallsPerCollection = 0;
+    ballOpacity = 1;
     showLines = false;
     showOuterballs = true;
     showBackgroundLines = true;
@@ -41,6 +42,7 @@ export class GUIOptions {
             distanceType: this.distanceType,
             distanceInDegrees: this.distanceInDegrees,
             nrOfCollections: this.nrOfCollections,
+            ballOpacity: this.ballOpacity,
             nrOfBallsPerCollection: this.nrOfBallsPerCollection,
             showLines: this.showLines,
             showOuterballs: this.showOuterballs,
@@ -74,6 +76,7 @@ export class GUIOptions {
         this.distanceType = obj.distanceType;
         this.distanceInDegrees = obj.distanceInDegrees;
         this.nrOfCollections = obj.nrOfCollections;
+        this.ballOpacity =obj.ballOpacity;
         this.nrOfBallsPerCollection = obj.nrOfBallsPerCollection;
         this.showLines = obj.showLines;
         this.showOuterballs = obj.showOuterballs;

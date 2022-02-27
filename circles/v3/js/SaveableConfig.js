@@ -18,11 +18,12 @@ function generateUUID() { // Public Domain/MIT
 export class SaveableConfig {
     /* string */ name;
     /* String */ id;
-    /* GUIOptions */ config;
+    /* GUIOptions */ options;
+    /* Object */ config;
 
-    constructor(/* string */ name, /* GUIOptions */ config, /* String */ id="") {
+    constructor(/* string */ name, /* GUIOptions */ options, /* String */ id="") {
         this.name = name;
-        this.config = config;
+        this.config = options.saveableObject();
         if (id === "") {
             this.id = generateUUID();
         }
@@ -36,13 +37,13 @@ export class SaveableConfig {
      * Updates the configuratoin to an existing new one
      * @param newConfig
      */
-    update(/* GUIConfig*/ newConfig){
-        this.config = newConfig;
+    updateFromGUIObject(/* GUIConfig*/ newConfig){
+        this.config = newConfig.saveableObject();
     }
 
     saveableInfo() {
         const obj = {
-            data: this.config.saveableObject(),
+            data: this.config,
             name: this.name,
             id: this.id
         };
@@ -50,12 +51,6 @@ export class SaveableConfig {
     }
 
     restoreFromSavedObject(/* Object */ data) {
-        this.config.updateFromRestoredObject(data);
+        this.config = data;
     }//restoreFromSavedObject
-
-    restoreFromJSON(/* String */ json){
-        this.config.updateFromJSON(json);
-    }
-
-
 }

@@ -10,6 +10,14 @@ export class SavedConfigs {
         this.load();
     }
 
+    nrOfConfigurationsPresent() {
+        return this.configs.length;
+    }
+
+    isEmpty() {
+        return this.nrOfConfigurationsPresent() === 0;
+    }
+
     addNewConfig(/* string */ name, /* GUIOptions */ options) {
         const newConfig = new SaveableConfig(name, options);
         this.configs.push(newConfig);
@@ -17,10 +25,24 @@ export class SavedConfigs {
         return newConfig.id;
     }
 
-    updateConfigurationByID(/* GUID */ id, /* GUIConfig */ newConfig) {
+    updateConfigurationFromGUIObjectByID(/* GUID */ id, /* GUIConfig */ newConfig) {
         const config = this.getConfigByID(id);
         if (config) {
-            config.update(newConfig);
+            config.updateFromGUIObject(newConfig);
+            this.save();
+        }
+    }
+
+    getNameForID(/* GUID */ id) {
+        const item = this.getConfigByID(id);
+        if (item === undefined) { return ""; }
+        return item.name;
+    }
+
+    updateNameForID(/* GUID */ id, /* string */ newname) {
+        const item = this.getConfigByID(id);
+        if (item !== undefined) {
+            item.name = newname;
         }
     }
 
