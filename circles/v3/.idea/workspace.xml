@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c98e790-25a1-4c3b-b030-e043b7b7c8a3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/GUIOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/GUIOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/SaveableConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/SaveableConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/SavedConfigs.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/SavedConfigs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/circles.configurations.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/circles.configurations.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/default.configs.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/default.configs.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/test.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/test.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../mandelbrot/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mandelbrot/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/json/circles.configurations.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/json/test.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +63,7 @@
       <option name="presentableId" value="Default" />
       <updated>1645871894821</updated>
       <workItem from="1645871895955" duration="17272000" />
-      <workItem from="1645958370394" duration="22874000" />
+      <workItem from="1645958370394" duration="23416000" />
     </task>
     <servers />
   </component>
