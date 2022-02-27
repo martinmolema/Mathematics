@@ -48,5 +48,55 @@
     },
     "name": "test 2",
     "id": "100bd0f1-9684-4e87-b8b8-b2161e3471ed"
+  },
+  {
+    "data": {
+      "distanceType": "AUTO",
+      "distanceInDegrees": "90",
+      "nrOfCollections": "1",
+      "nrOfBallsPerCollection": "2",
+      "showLines": false,
+      "showOuterballs": false,
+      "showBackgroundLines": false,
+      "fillShapes": false,
+      "fillOpacity": "50",
+      "showBalls": true,
+      "refreshSpeed": "50",
+      "animationDirection": "CW",
+      "ballSize": "5",
+      "fadeOpacity": false,
+      "shapeLineWidth": "2",
+      "selectedSingleHSLColor": "",
+      "ballColorType": "SHAPE",
+      "selectedPaletteForBalls": "0",
+      "selectedPaletteForShapes": "0"
+    },
+    "name": "test 3",
+    "id": "09a9dace-d9d9-46d7-aa98-1acd83042f95"
+  },
+  {
+    "data": {
+      "distanceType": "MAN",
+      "distanceInDegrees": "15",
+      "nrOfCollections": "11",
+      "nrOfBallsPerCollection": "42",
+      "showLines": false,
+      "showOuterballs": false,
+      "showBackgroundLines": false,
+      "fillShapes": false,
+      "fillOpacity": "50",
+      "showBalls": true,
+      "refreshSpeed": "50",
+      "animationDirection": "CW",
+      "ballSize": "9",
+      "fadeOpacity": false,
+      "shapeLineWidth": "33",
+      "selectedSingleHSLColor": "",
+      "ballColorType": "SHAPE",
+      "selectedPaletteForBalls": "0",
+      "selectedPaletteForShapes": "0"
+    },
+    "name": "tewst 4",
+    "id": "37df6c75-aa7f-4d94-a984-fb67088854d1"
   }
 ]

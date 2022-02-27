@@ -14,6 +14,14 @@ export class SavedConfigs {
         const newConfig = new SaveableConfig(name, options);
         this.configs.push(newConfig);
         this.save();
+        return newConfig.id;
+    }
+
+    updateConfigurationByID(/* GUID */ id, /* GUIConfig */ newConfig) {
+        const config = this.getConfigByID(id);
+        if (config) {
+            config.update(newConfig);
+        }
     }
 
     /**
@@ -40,6 +48,11 @@ export class SavedConfigs {
         localStorage.setItem(this.key, json);
     }// save()
 
+    clear() {
+        localStorage.setItem(this.key, "");
+        this.configs.length = 0; // proper cleaning instead of assigning a new array
+    }
+
     json() {
         const saveableContents = this.configs.map(x => x.saveableInfo());
         return JSON.stringify(saveableContents);
@@ -52,19 +65,30 @@ export class SavedConfigs {
     load() {
         const json = localStorage.getItem(this.key);
         if (json != null) {
-            this.loadJSON(json);
+            this.loadJSON(json,true);
         }
     }
 
-    loadJSON(/* string */json) {
-        this.configs = [];
+    /**
+     * Loads a set of configurations from the given parameter and then saves it to localstorage. first clears the current
+     * set of
+     * @param json
+     */
+    loadJSON(/* string */ json, /* boolean */ clearCurrentset=true, /* boolean */ saveAfterLoadCompleted = false) {
+        if (clearCurrentset) {
+            this.configs = [];
+        }
+        if (json === "") { return ; }
         const items = JSON.parse(json);
         for(const item of items) {
             const name = item.name;
             const id   = item.id;
             const newConfig = new SaveableConfig(name, new GUIOptions(), id);
-            newConfig.restoreFromJSON(item.data);
+            newConfig.restoreFromSavedObject(item.data);
             this.configs.push(newConfig);
+        }
+        if (saveAfterLoadCompleted) {
+            this.save();
         }
     }
 

@@ -28,6 +28,7 @@ export class Runner {
         );
 
         this.savedConfigs = new SavedConfigs("Circles_V1");
+        this.loadDefaultConfigFromWebsite();
 
         // Create a list of default options and two default palettelists.
         this.options = new GUIOptions();
@@ -51,6 +52,23 @@ export class Runner {
         this.collection = new BallTrackerListCollection(this.svgInfo);
         this.syncControls();
         this.init();
+    }
+
+    loadDefaultConfigFromWebsite() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("get", "./json/default.configs.json");
+        xhr.onload = (evt) => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const json = xhr.responseText;
+                    this.savedConfigs.loadJSON(json);
+                    this.updateSavedConfigsList();
+                }
+            }
+        }
+        xhr.error = (evt) => { console.error('Cannot load default config'); }
+        xhr.send();
+
     }
 
     addPalettesToGUIElement() {
@@ -119,11 +137,14 @@ export class Runner {
         this.elpaletteForBallsSectionContainer  = document.getElementById("paletteForBallsSectionContainer");
 
         /* Save & Load buttons / Textarea*/
-        this.btnSave              = document.getElementById("savesettings");
-        this.btnLoad              = document.getElementById("loadsettings");
-        this.btnExport            = document.getElementById("exportsettings");
-        this.btnImport            = document.getElementById("importsettings");
-        this.txtImportExport      = document.getElementById("importexport");
+        this.btnActivateConfig = document.getElementById("loadsettings");
+        this.btnExportConfigs  = document.getElementById("exportsettings");
+        this.btnImportConfigs  = document.getElementById("importsettings");
+        this.btnUpdateSaved    = document.getElementById("updateSavedSettings");
+        this.btnAddNewSaved    = document.getElementById("createNewSavedSettings");
+        this.btnClearSettings  = document.getElementById("clearsettings");
+        this.btnDeleteSetting  = document.getElementById("deleteExistingItem");
+
         this.elSelectSavedConfig  = document.querySelector("select[name='savedConfigs']");
     }
 
@@ -322,49 +343,114 @@ export class Runner {
             this.syncControls();
             this.init();
         });
-        this.btnExport.addEventListener("click", evt => {
+        this.btnExportConfigs.addEventListener("click", evt => {
             const json = this.savedConfigs.json();
-            this.txtImportExport.textContent = json;
+            this.exportToDownloadableFile(json);
         });
-        this.btnImport.addEventListener("click", evt => {
-            const json = this.txtImportExport.value;
-            this.savedConfigs.loadJSON(json);
+        this.btnImportConfigs.addEventListener("change", evt => {
+            this.importFromFileUpload(this.btnImportConfigs.files[0]);
+        }, false);
+
+        this.btnAddNewSaved.addEventListener("click", evt => {
+            this.saveCurrentGUIConfiguration();
+            this.syncControls();
+        });
+        this.btnUpdateSaved.addEventListener("click", evt => {
+            this.saveCurrentGUIConfiguration(this.elSelectSavedConfig.value);
+            this.syncControls();
+        });
+
+        this.btnActivateConfig.addEventListener("click", evt => {
+            this.loadNewConfig(this.elSelectSavedConfig.value);
+        });
+
+        this.elSelectSavedConfig.addEventListener("change", evt => {
+            this.syncControls();
+        });
+        this.btnClearSettings.addEventListener("click", evt => {
+            this.savedConfigs.clear();
             this.updateSavedConfigsList();
         });
-        this.btnSave.addEventListener("click", evt => {
-            this.saveCurrentGUIConfiguration();
-        });
-        this.btnLoad.addEventListener("click", evt => {
-            const config = this.savedConfigs.getConfigByID(this.elSelectSavedConfig.value);
-            this.options.updateFromRestoredObject(config.config);
-            this.initControlsFromValues();
-            this.syncControls();
-            this.init();
-        });
+        this.btnDeleteSetting.addEventListener("click", evt => {
 
-        this.elSelectSavedConfig.addEventListener("change", evt => {});
+        });
 
     }// setupEventhandlers
+
+    /**
+     * Import a file, selected by the user using a <input type="file"> and input.addEventListener("change", ...)
+     * @param file
+     */
+    importFromFileUpload(/*File */ file){
+        // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+        const reader = new FileReader();
+        const that = this;
+        reader.onload = (evt) => {
+            const json = evt.target.result;
+            that.importNewConfigurationsFromJSON(json);
+            this.syncControls();
+        }
+        reader.readAsText(file);
+    }
+
+    exportToDownloadableFile(json) {
+        const filename = 'circles.configurations.json';
+        // Set up the link
+        var link = document.createElement("a");
+        link.setAttribute("target","_blank");
+        if(Blob !== undefined) {
+            var blob = new Blob([json], {type: "text/plain"});
+            link.setAttribute("href", URL.createObjectURL(blob));
+        } else {
+            link.setAttribute("href","data:text/plain," + encodeURIComponent(text));
+        }
+        link.setAttribute("download",filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    loadNewConfig(/* GUID */ id) {
+        const config = this.savedConfigs.getConfigByID(id);
+        this.options.updateFromRestoredObject(config.config);
+        this.initControlsFromValues();
+        this.syncControls();
+        this.init();
+    }// loadNewConfig
+
+    importNewConfigurationsFromJSON(json) {
+        this.savedConfigs.loadJSON(json, true, true);
+        this.updateSavedConfigsList();
+    }
 
     updateSavedConfigsList() {
         while (this.elSelectSavedConfig.childNodes.length !== 0){
             this.elSelectSavedConfig.firstChild.remove();
         }
         const items = this.savedConfigs.getNamesAndIDs();
+
         for (const item of items) {
             const option = document.createElement("option");
             option.value = item.id;
             option.innerText = item.name;
             this.elSelectSavedConfig.appendChild(option);
         }
+        this.elSelectSavedConfig.value = null;
     }
 
-    saveCurrentGUIConfiguration() {
-        const name = prompt("What is the name of this configuration");
-        if (name !== null) {
-            this.savedConfigs.addNewConfig(name, this.options);
+    saveCurrentGUIConfiguration(/* GUID */ existingID = "") {
+        if (existingID === "") {
+            const name = prompt("What is the name of this configuration");
+            if (name !== null) {
+                const newId = this.savedConfigs.addNewConfig(name, this.options);
+                this.updateSavedConfigsList();
+                this.elSelectSavedConfig.value = newId;
+            }
         }
-        this.updateSavedConfigsList();
+        else{
+            this.savedConfigs.updateConfigurationByID(existingID, this.options);
+        }
+
     }// saveCurrentGUIConfiguration
 
     syncControls() {
@@ -389,6 +475,11 @@ export class Runner {
 
         this.elHSLColorpickerContainer.style.display = this.options.ballColorTypeIsFixed() ? "flex" : "none";
         this.elHSLColorChosen.style.backgroundColor  = this.options.selectedSingleHSLColor;
+
+        const isConfigSelected = (this.elSelectSavedConfig.value !== null  && this.elSelectSavedConfig.value !== "");
+        this.btnUpdateSaved.disabled    = !isConfigSelected;
+        this.btnDeleteSetting.disabled  = !isConfigSelected;
+        this.btnActivateConfig.disabled = !isConfigSelected;
     }
 
     clearBackgroundLines() {

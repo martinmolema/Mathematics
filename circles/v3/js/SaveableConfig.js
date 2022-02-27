@@ -32,9 +32,17 @@ export class SaveableConfig {
 
     }
 
+    /**
+     * Updates the configuratoin to an existing new one
+     * @param newConfig
+     */
+    update(/* GUIConfig*/ newConfig){
+        this.config = newConfig;
+    }
+
     saveableInfo() {
         const obj = {
-            data: this.config.json(),
+            data: this.config.saveableObject(),
             name: this.name,
             id: this.id
         };

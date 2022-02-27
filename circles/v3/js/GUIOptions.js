@@ -33,8 +33,11 @@ export class GUIOptions {
         this.ballPalette       = new ColorPaletteList(1);
     }
 
-    json() {
-        const obj = {
+    /**
+     * Creates an object that can be serialised/saved using e.g. JSON.stringify
+     */
+    saveableObject(){
+        return {
             distanceType: this.distanceType,
             distanceInDegrees: this.distanceInDegrees,
             nrOfCollections: this.nrOfCollections,
@@ -55,6 +58,10 @@ export class GUIOptions {
             selectedPaletteForBalls: this.paletteListForBalls().selectedPaletteNr,
             selectedPaletteForShapes: this.paletteListForCollections().selectedPaletteNr,
         }
+    }
+
+    json() {
+        const obj = this.saveableObject();
         return JSON.stringify(obj);
     }
 

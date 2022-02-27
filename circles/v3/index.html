@@ -133,15 +133,25 @@
             <div id="ballPalletListContainer">
                 <h2>Corners</h2>
                 <div id="palettelistBalls" class="palettelist Balls"></div>
+                <hr>
             </div>
         </div>
-        <div>
-            <textarea id="importexport"></textarea>
-            <input type="button" value="Export" id="exportsettings">
-            <input type="button" value="Import" id="importsettings">
-            <input type="button" value="Save" id="savesettings">
-            <input type="button" value="Load" id="loadsettings">
-            <select name="savedConfigs" id="savedConfigs"></select>
+        <div class="buttonbar">
+            <div class="bar">
+                <input type="button" value="Export" id="exportsettings">
+                <input type="file" value="Import" id="importsettings">
+            </div>
+            <div class="bar">
+                <label>Saved configurations:
+                    <select name="savedConfigs" id="savedConfigs"></select>
+                </label>
+                <input type="button" value="Activate" id="loadsettings">
+                <input type="button" value="Update" id="updateSavedSettings">
+                <input type="button" value="Delete" id="deleteExistingItem">
+                <br>
+                <input type="button" value="New" id="createNewSavedSettings">
+                <input type="button" value="Clear all" id="clearsettings">
+            </div>
         </div>
     </div>
 </div>
