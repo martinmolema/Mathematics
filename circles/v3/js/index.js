@@ -7,6 +7,7 @@ import {
     BALL_COLOR_TYPE_PALETTE,
     GUIOptions
 } from "./GUIOptions.js";
+import {SavedConfigs} from "./SavedConfigs.js";
 
 export class Runner {
     svgInfo = undefined;
@@ -26,6 +27,8 @@ export class Runner {
             document.getElementById("outerballs"),
         );
 
+        this.savedConfigs = new SavedConfigs("Circles_V1");
+
         // Create a list of default options and two default palettelists.
         this.options = new GUIOptions();
 
@@ -38,6 +41,7 @@ export class Runner {
 
         // now setup all options from the GUI
         this.initValuesFromControls();
+        this.updateSavedConfigsList();
 
         // now that the options are set, we can setup the palettes according to the number of corners and collections
         this.options.updatePaletteForCollections(this.options.nrOfCollections);
@@ -99,13 +103,13 @@ export class Runner {
         this.elnrOfBallsValue       = document.getElementById("nrOfBallsValue");
 
         /* Select lists to be filled */
-        this.elPalettelistBalls                 = document.getElementById("palettelistBalls");
-        this.elPalettelistCollections           = document.getElementById("palettelistCollections");
+        this.elPalettelistBalls        = document.getElementById("palettelistBalls");
+        this.elPalettelistCollections  = document.getElementById("palettelistCollections");
 
         /* The HSL Color picker */
-        this.elHSLColorpickerContainer          = document.getElementById("hslcolorpickerContainer");
-        this.elHSLColorpicker                   = document.getElementById("hslcolors");
-        this.elHSLColorChosen                   = document.getElementById("hslcolorchosen");
+        this.elHSLColorpickerContainer = document.getElementById("hslcolorpickerContainer");
+        this.elHSLColorpicker          = document.getElementById("hslcolors");
+        this.elHSLColorChosen          = document.getElementById("hslcolorchosen");
 
         /* Containers to switch on/off certain elements */
         /* the DIV-element to show all colors of the ball-palette */
@@ -113,10 +117,17 @@ export class Runner {
 
         /* a DIV-element to be switched on or off only if "Multi Color" for balls is selected */
         this.elpaletteForBallsSectionContainer  = document.getElementById("paletteForBallsSectionContainer");
+
+        /* Save & Load buttons / Textarea*/
+        this.btnSave              = document.getElementById("savesettings");
+        this.btnLoad              = document.getElementById("loadsettings");
+        this.btnExport            = document.getElementById("exportsettings");
+        this.btnImport            = document.getElementById("importsettings");
+        this.txtImportExport      = document.getElementById("importexport");
+        this.elSelectSavedConfig  = document.querySelector("select[name='savedConfigs']");
     }
 
     initValuesFromControls() {
-
         this.options.nrOfCollections        = this.elNrOfCollections.value;
         this.options.distanceType           = this.elDistanceType.value;
         this.options.distanceInDegrees      = this.elDistanceValue.value;
@@ -143,6 +154,29 @@ export class Runner {
             this.hideBackgroundCircle();
         }
     }
+
+    initControlsFromValues() {
+        this.elNrOfCollections.value = this.options.nrOfCollections;
+        this.elDistanceType.value = this.options.distanceType;
+        this.elDistanceValue.value = this.options.distanceInDegrees;
+        this.elnrOfBalls.value = this.options.nrOfBallsPerCollection;
+        this.elFillOpacity.value = this.options.fillOpacity;
+        this.elRefreshSpeed.value = this.options.refreshSpeed;
+        this.elAnimationDirection.value = this.options.animationDirection;
+        this.elBallOpacity.value = this.options.ballOpacity;
+        this.elBallSize.value = this.options.ballSize;
+        this.elShapeLineWidth.value = this.options.shapeLineWidth;
+
+        this.elShowBackgroundLines.checked = this.options.showBackgroundLines;
+        this.elshowOuterballs.checked = this.options.showOuterballs;
+        this.elFillShapes.checked = this.options.fillShapes;
+        this.elShowLines.checked = this.options.showLines;
+        this.elShowBalls.checked = this.options.showBalls;
+        this.elfadeOpacity.checked = this.options.fadeOpacity;
+
+        this.options.ballColorType          = this.elRadioBallColoringTypeValue.value;
+        this.selectPalettes();
+    }// initControlsFromValues
 
     selectPalettes() {
         const paletteNrSelectedBalls  = this.elPaletteSelect.value;
@@ -275,28 +309,10 @@ export class Runner {
            this.options.fadeOpacity = evt.currentTarget.checked;
            this.syncControls();
         });
-/*
-
-        this.elUsePaletForCorners.addEventListener("change", evt => {
-            this.options.usePaletForCorners = evt.currentTarget.checked;
-            this.syncControls();
-            this.init();
-        });
-*/
-
         this.elShapeLineWidth.addEventListener("change", evt => {
             this.options.shapeLineWidth = evt.currentTarget.value;
             this.syncControls();
         });
-/*
-
-        this.elUseSingleHSLColor.addEventListener("change", evt => {
-            this.options.useSingleHSLColor = evt.currentTarget.checked;
-            this.syncControls();
-            this.init();
-        });
-*/
-
         this.elHSLColorpicker.addEventListener("click", evt => {
             const x = evt.offsetX;
             const w = this.elHSLColorpicker.clientWidth;
@@ -306,8 +322,50 @@ export class Runner {
             this.syncControls();
             this.init();
         });
+        this.btnExport.addEventListener("click", evt => {
+            const json = this.savedConfigs.json();
+            this.txtImportExport.textContent = json;
+        });
+        this.btnImport.addEventListener("click", evt => {
+            const json = this.txtImportExport.value;
+            this.savedConfigs.loadJSON(json);
+            this.updateSavedConfigsList();
+        });
+        this.btnSave.addEventListener("click", evt => {
+            this.saveCurrentGUIConfiguration();
+        });
+        this.btnLoad.addEventListener("click", evt => {
+            const config = this.savedConfigs.getConfigByID(this.elSelectSavedConfig.value);
+            this.options.updateFromRestoredObject(config.config);
+            this.initControlsFromValues();
+            this.syncControls();
+            this.init();
+        });
 
+        this.elSelectSavedConfig.addEventListener("change", evt => {});
+
+    }// setupEventhandlers
+
+    updateSavedConfigsList() {
+        while (this.elSelectSavedConfig.childNodes.length !== 0){
+            this.elSelectSavedConfig.firstChild.remove();
+        }
+        const items = this.savedConfigs.getNamesAndIDs();
+        for (const item of items) {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.innerText = item.name;
+            this.elSelectSavedConfig.appendChild(option);
+        }
     }
+
+    saveCurrentGUIConfiguration() {
+        const name = prompt("What is the name of this configuration");
+        if (name !== null) {
+            this.savedConfigs.addNewConfig(name, this.options);
+        }
+        this.updateSavedConfigsList();
+    }// saveCurrentGUIConfiguration
 
     syncControls() {
         switch (this.elDistanceType.value) {

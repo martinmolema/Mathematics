@@ -8,14 +8,13 @@ export class GUIOptions {
     distanceType = "";
     distanceInDegrees = -1;
     nrOfCollections = 1;
-    svgSupportForCollections = undefined;
     nrOfBallsPerCollection = 0;
     showLines = false;
     showOuterballs = true;
     showBackgroundLines = true;
-    svgBackgroundCircle = undefined;
     fillShapes = false;
     fillOpacity = 50;
+
     collectionPalette = undefined; // the current palette chosen for the collection
     ballPalette = undefined; // the current palette chosen chosen if a palette is chosen per ball
 
@@ -32,6 +31,62 @@ export class GUIOptions {
     constructor() {
         this.collectionPalette = new ColorPaletteList(1);
         this.ballPalette       = new ColorPaletteList(1);
+    }
+
+    json() {
+        const obj = {
+            distanceType: this.distanceType,
+            distanceInDegrees: this.distanceInDegrees,
+            nrOfCollections: this.nrOfCollections,
+            nrOfBallsPerCollection: this.nrOfBallsPerCollection,
+            showLines: this.showLines,
+            showOuterballs: this.showOuterballs,
+            showBackgroundLines: this.showBackgroundLines,
+            fillShapes: this.fillShapes,
+            fillOpacity: this.fillOpacity,
+            showBalls: this.showBalls,
+            refreshSpeed: this.refreshSpeed,
+            animationDirection: this.animationDirection,
+            ballSize: this.ballSize,
+            fadeOpacity: this.fadeOpacity,
+            shapeLineWidth: this.shapeLineWidth,
+            selectedSingleHSLColor: this.selectedSingleHSLColor,
+            ballColorType: this.ballColorType,
+            selectedPaletteForBalls: this.paletteListForBalls().selectedPaletteNr,
+            selectedPaletteForShapes: this.paletteListForCollections().selectedPaletteNr,
+        }
+        return JSON.stringify(obj);
+    }
+
+    updateFromJSON(/* string */ json) {
+        const obj = JSON.parse(json);
+        this.updateFromRestoredObject(obj);
+    }
+
+    updateFromRestoredObject(obj){
+        this.distanceType = obj.distanceType;
+        this.distanceInDegrees = obj.distanceInDegrees;
+        this.nrOfCollections = obj.nrOfCollections;
+        this.nrOfBallsPerCollection = obj.nrOfBallsPerCollection;
+        this.showLines = obj.showLines;
+        this.showOuterballs = obj.showOuterballs;
+        this.showBackgroundLines = obj.showBackgroundLines;
+        this.fillShapes = obj.fillShapes;
+        this.fillOpacity = obj.fillOpacity;
+        this.showBalls = obj.showBalls;
+        this.refreshSpeed = obj.refreshSpeed;
+        this.animationDirection = obj.animationDirection;
+        this.ballSize = obj.ballSize;
+        this.fadeOpacity = obj.fadeOpacity;
+        this.shapeLineWidth = obj.shapeLineWidth;
+        this.selectedSingleHSLColor = obj.selectedSingleHSLColor;
+        this.ballColorType = obj.ballColorType;
+
+        this.updatePaletteForCollections(this.nrOfCollections);
+        this.updatePaletteForBalls(this.nrOfBallsPerCollection);
+
+        this.paletteListForBalls().selectPalette(obj.selectedPaletteForBalls);
+        this.paletteListForCollections().selectPalette(obj.selectedPaletteForShapes);
     }
 
     updatePaletteForCollections(nrOfCollections) {
