@@ -11,6 +11,12 @@ export class Palette {
      * @param {int} offset a percentage from 0-100 indicating how much of the total colorrange the palette should be offset
      */
     setOffset(offset) {
+        if (offset > 100) {
+            offset = 0;
+        }
+        if (offset <0 ) {
+            offset = 100;
+        }
         this.offset = offset;
     }
 

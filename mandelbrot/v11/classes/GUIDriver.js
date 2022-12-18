@@ -48,8 +48,8 @@ export class GUIDriver {
         /**
          * checks if the current canvas size is stored in the browser's storage
          */
-        const lsCanvasW = localStorage.getItem("V11_CANVAS_WIDTH");
-        const lsCanvasH = localStorage.getItem("V11_CANVAS_HEIGHT");
+        const lsCanvasW = localStorage.getItem("CANVAS_WIDTH");
+        const lsCanvasH = localStorage.getItem("CANVAS_HEIGHT");
 
         if (lsCanvasH && lsCanvasW) {
             this.elmCanvasWidthSlider.value  = lsCanvasW.toString();
@@ -62,8 +62,8 @@ export class GUIDriver {
         this.canvasLargeMandelbrot.width = w;
         this.canvasLargeMandelbrot.height = h;
 
-        localStorage.setItem("V11_CANVAS_WIDTH",  this.canvasLargeMandelbrot.width);
-        localStorage.setItem("V11_CANVAS_HEIGHT", this.canvasLargeMandelbrot.height);
+        localStorage.setItem("CANVAS_WIDTH",  this.canvasLargeMandelbrot.width);
+        localStorage.setItem("CANVAS_HEIGHT", this.canvasLargeMandelbrot.height);
 
 
     }// setupCanvas()
@@ -199,7 +199,7 @@ export class GUIDriver {
 
             this.canvasLargeMandelbrot.width = w;
 
-            localStorage.setItem("V11_CANVAS_WIDTH", w);
+            localStorage.setItem("CANVAS_WIDTH", w);
 
             this.clearHistory();
 
@@ -215,7 +215,7 @@ export class GUIDriver {
             let h = parseInt(this.elmCanvasHeightSlider.value);
             this.canvasLargeMandelbrot.height = h;
 
-            localStorage.setItem("V11_CANVAS_HEIGHT", h);
+            localStorage.setItem("CANVAS_HEIGHT", h);
 
             this.clearHistory();
 
@@ -274,14 +274,15 @@ export class GUIDriver {
                 case ".":
                 case ">":
                     let newPaletValueUp = parseInt(this.elmPaletslider.value) + 1;
+                    if (newPaletValueUp > 100) { newPaletValueUp = 0 ;}
                     this.elmPaletslider.value = newPaletValueUp;
                     this.palettes.getActive().setOffset(newPaletValueUp);
-
                     this.paletteChangedForceRedraw();
                     break;
                 case ",":
                 case "<":
                     let newPaletValueDown = parseInt(this.elmPaletslider.value) - 1;
+                    if (newPaletValueUp <0) { newPaletValueUp = 10.0 ;}
                     this.elmPaletslider.value = newPaletValueDown;
                     this.palettes.getActive().setOffset(newPaletValueDown);
                     this.paletteChangedForceRedraw();

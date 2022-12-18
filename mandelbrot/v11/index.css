@@ -7,12 +7,14 @@ body {
 #boxinfo {
     display: none;
 }
-
-#fractalLargeMandelbrot,
-#overlay{
+#juliapreview
+#fractalLargeMandelbrot{
+    float:left;
+}
+#overlay {
     position: absolute;
-    left:0px;
-    top:0px;
+    top: 0px;
+    left: 0px
 }
 
 fieldset.preview {
@@ -111,7 +113,23 @@ table.keymapping td.key.letter {
     font-size:25pt;
     text-align: center;
 }
-
+div#waitingDialog{
+    position:absolute;
+    display:none;
+    top:10%;
+    left:10%;
+    width:200px;
+    height:200px;
+    z-index: 1000;
+    border:2px solid blue;
+    padding:10px;
+    background-color:lightgray;
+    color:black;
+    text-align: center;
+}
+div#waitingDialog.show {
+    display:block;
+}
 div#generalinfo fieldset {
     min-width:250px;
 }
