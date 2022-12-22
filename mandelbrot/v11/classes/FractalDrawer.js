@@ -3,7 +3,6 @@
 export const EPSILON     = 0.00003;
 export const EPSILONSQRD = EPSILON * EPSILON ;
 
-
 export class FractalDrawer {
     constructor(constants, palettes, maxIterations, name) {
         this.palettes  = palettes;

@@ -23,6 +23,7 @@ export class Constants {
         this.feedbackElement = null;
 
         this.maxIterations = 200;
+        this.useSmoothColoringAlgorithm = '_';
     }// constructor
 
     hasFeedbackElement(){

@@ -4,7 +4,7 @@ import {HistoryList} from "./HistoryList.js";
 import {Zoombox} from "./Zoombox.js";
 import {Rectangle} from "./Dimensions.js";
 import {MandelbrotAlternateFractalDrawer} from "./MandelbrotAlternateFractalDrawer.js";
-import {SVGSupport} from "../../v1/modules/SVGSupport.js";
+import {SVGSupport} from "./SVGSupport.js";
 import {IterationLines} from "./IterationLines.js";
 
 export class GUIDriver {
@@ -135,11 +135,12 @@ export class GUIDriver {
         this.elmDrawtime        = document.getElementById("drawtime");
         this.elmZoomHistoryInfo = document.getElementById("zoomhistoryinfo");
 
-        this.eventcatcher   = document.getElementById("eventcatcher");
-        this.elmPaletslider = document.getElementById("rngPalet");
-        this.elmZoomfactor  = document.getElementById("zoomfactor");
-        this.elmZoombox     = document.getElementById('zoombox');
-        this.elmDrawLines   = document.getElementById("cbxDrawLines");
+        this.eventcatcher         = document.getElementById("eventcatcher");
+        this.elmPaletslider       = document.getElementById("rngPalet");
+        this.elmUseSmoothColoring = document.getElementById("useSmoothColoring");
+        this.elmZoomfactor        = document.getElementById("zoomfactor");
+        this.elmZoombox           = document.getElementById('zoombox');
+        this.elmDrawLines         = document.getElementById("cbxDrawLines");
 
         this.elmSetPaletteRGB = document.getElementById("paletteRGB");
         this.elmSetPaletteHSL = document.getElementById("paletteHSL");
@@ -282,7 +283,7 @@ export class GUIDriver {
                 case ",":
                 case "<":
                     let newPaletValueDown = parseInt(this.elmPaletslider.value) - 1;
-                    if (newPaletValueUp <0) { newPaletValueUp = 10.0 ;}
+                    if (newPaletValueDown <0) { newPaletValueDown = 100 ;}
                     this.elmPaletslider.value = newPaletValueDown;
                     this.palettes.getActive().setOffset(newPaletValueDown);
                     this.paletteChangedForceRedraw();
@@ -436,6 +437,13 @@ export class GUIDriver {
         this.elmDrawLines.addEventListener("click", evt => {
             this.drawLines = this.elmDrawLines.checked;
         });
+        this.elmUseSmoothColoring.addEventListener("change",evt => {
+            this.constantsMandelbrotLarge.useSmoothColoringAlgorithm = this.elmUseSmoothColoring.value;
+            this.constantsPreview.useSmoothColoringAlgorithm = this.elmUseSmoothColoring.value;
+            this.redrawBoth();
+        });
+
+
     }// setupEventhandlers()
 
     /**

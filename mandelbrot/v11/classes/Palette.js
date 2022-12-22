@@ -11,12 +11,8 @@ export class Palette {
      * @param {int} offset a percentage from 0-100 indicating how much of the total colorrange the palette should be offset
      */
     setOffset(offset) {
-        if (offset > 100) {
-            offset = 0;
-        }
-        if (offset <0 ) {
-            offset = 100;
-        }
+        offset = Math.max(0, offset);
+        offset = Math.min(100, offset);
         this.offset = offset;
     }
 
@@ -26,6 +22,7 @@ export class Palette {
      * @param {int} pos
      */
     getColor(pos){ //OVERRIDE super function
+        pos = Math.trunc(pos);
         const realOffset = Math.ceil((this.offset / 100.0) * this.maxIterations);
         const newpos = (realOffset + pos) % this.maxIterations;
         return this.colors[newpos];
