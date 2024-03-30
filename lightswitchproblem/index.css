@@ -90,3 +90,7 @@ aside input[name='counter'] {
   font-size:30pt;
   width: 4em;
 }
+
+#primefactors {
+  font-size: 15pt;
+}
