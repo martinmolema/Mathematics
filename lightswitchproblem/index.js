@@ -37,7 +37,6 @@ function setup() {
     elBtnStop.addEventListener("click", StopIteration);
     elBtnReset.addEventListener("click", ResetFieldValues);
 
-    console.log(elNrOfItems, elHeight.value, elHeight.value, elContents);
     ResetFieldValues();
 
     findAllPrimesUpTo(nrOfItems)
@@ -78,8 +77,8 @@ function ResetField() {
                 const cell = document.createElement("TD");
                 row.appendChild(cell);
                 cell.innerHTML = `<p>${cellnr}</p>`;
-                cell.dataset.number = cellnr;
-                cell.dataset.nrOfChanges = 1;
+                cell.dataset.number = cellnr.toString();
+                cell.dataset.nrOfChanges = '1';
 
                 cellnr++;
             }
@@ -91,6 +90,7 @@ function ResetField() {
 function StartIteration() {
     ResetFieldValues();
     const iterationSpeed = elIterationSpeed.value;
+    elPrimefactors.innerHTML = '';
 
     elBtnNextValue.disabled = true;
     let nr = 2;
@@ -114,8 +114,29 @@ function StopIteration() {
 }
 
 
-function ProcessForNumber(counter, iterationSpeed) {
-    elPrimefactors.textContent = determinePrimeFactorsForNumber(counter).join(" x ")
+function ProcessForNumber(counter) {
+    const factors = determinePrimeFactorsForNumber(counter);
+
+    const uniqueFactors = factors.filter((value, index, array) => array.indexOf(value) === index);
+    let html = [];
+    let totalFactors = 1;
+
+    uniqueFactors.forEach(value => {
+        const repeatingFactor = factors.filter(x => x === value).length;
+        totalFactors *= (repeatingFactor + 1);
+
+        html.push(`<mrow><msup><mn class="factor">${value}</mn><mn class="power">${repeatingFactor}</mn></msup></mrow>`);
+    });
+
+    const isEven = totalFactors % 2 === 0;
+
+    elPrimefactors.innerHTML += `<tr class="${isEven ? 'even' : 'odd'}">`
+        + `<td class="number">${counter}</td>`
+        + `<td class="factors"><math>` + html.join('<mo>x</mo>') + `</math></td>`
+        + `<td class="factors-count" >${totalFactors}</td>`
+        + `<td class="odd-even" >${isEven ? "Even" : "Odd"}</td>`
+        + `</tr>`
+    ;
 
     let items = document.querySelectorAll("TD");
     items.forEach(elTableCell => {
@@ -129,8 +150,6 @@ function ProcessForNumber(counter, iterationSpeed) {
             const nrOfChanges = elTableCell.dataset.nrOfChanges;
 
             elTableCell.innerHTML = `<p>${nr}</p><p>(${nrOfChanges})</p>`;
-
-
         }
     });
 }
@@ -138,16 +157,22 @@ function ProcessForNumber(counter, iterationSpeed) {
 /* Use sif to find all primes up to the number of items given */
 function findAllPrimesUpTo(num) {
     // fill list with numbers
+    primes = [];
+
     const numbers = [...Array(num + 1).keys().map(x => x + 1)];
+
     numbers[0] = 0; // 1 is not a prime number;
     for (let i = 2; i <= num; i++) {
         let j = i * i;
-        while (j <= num) {
-            numbers[j - 1] = 0;
-            j = j + i;
+        if (numbers[i - 1] !== 0) {
+            primes.push(i);
+            while (j <= num) {
+                numbers[j - 1] = 0;
+                j = j + i;
+            }
         }
     }
-    primes = numbers.filter(x => x !== 0);
+    console.log(primes);
 }
 
 function isPrime(num) {
@@ -157,12 +182,10 @@ function isPrime(num) {
 function determinePrimeFactorsForNumber(num) {
     const originalNumber = num;
     const factors = [];
-    const halfway = (num % 2) === 0 ? (num / 2) : (num / 2) + 1;
     const numberOfPrimes = primes.length;
 
     if (isPrime(num)) {
         factors.push(num);
-        factors.push(1);
     } else {
         let primeIndex = 0;
         while (primeIndex < numberOfPrimes && num !== 1) {
@@ -174,12 +197,10 @@ function determinePrimeFactorsForNumber(num) {
                 num = num / prime;
 
                 primeIndex = 0;
-            }
-            else {
+            } else {
                 primeIndex++;
             }
         }
-        factors.push(1);
     }
 
     console.log(originalNumber, factors.join("x"))

@@ -36,17 +36,33 @@
             <table id="contents">
 
             </table>
-            <aside>
-                <label>Guest:<input name="counter" type="number" value="2" disabled></label>
-                <span> = </span>
-                <span id="primefactors"></span>
-                <br>
-                <label>Speed (ms):<input name="iterationSpeed" type="number" value="1000"></label>
-                <br>
-                <button id="startIteration">Start!</button>
-                <button id="reset">Reset!</button>
-                <button id="stop">Stop!</button>
-            </aside>
+            <div>
+                <aside>
+
+                    <label>Guest:<input name="counter" type="number" value="2" disabled></label>
+                    <span> = </span>
+                    <br>
+                    <label>Speed (ms):<input name="iterationSpeed" type="number" value="1000"></label>
+                    <br>
+                    <button id="startIteration">Start!</button>
+                    <button id="reset">Reset!</button>
+                    <button id="stop">Stop!</button>
+                </aside>
+                <div class="list-of-numbers">
+                    <table>
+                        <thead>
+                        <th>Number</th>
+                        <th>Factors</th>
+                        <th>nr of factors</th>
+                        <th>Odd/Even</th>
+                        </thead>
+                        <tbody id="primefactors">
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
     </article>
 </main>
 </body>

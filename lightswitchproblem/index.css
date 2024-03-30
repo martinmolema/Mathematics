@@ -5,7 +5,7 @@
   table-layout: fixed;
 }
 
-td {
+#contents td {
   border-width:2px;
   border-style: solid;
   border-color: white;
@@ -13,11 +13,11 @@ td {
   font-size:15pt;
 }
 
-td.currentlyChanging p:first-of-type {
+#contents td.currentlyChanging p:first-of-type {
   color:green;
 }
 
-td:not(.invisible) {
+#contents td:not(.invisible) {
   background:gold;
   color:black;
   animation-name: toggleLightOn;
@@ -91,6 +91,24 @@ aside input[name='counter'] {
   width: 4em;
 }
 
-#primefactors {
+.list-of-numbers {
   font-size: 15pt;
+  height: 400px;
+  overflow-y: auto;
+  font-family: monospace;
+}
+
+#primefactors span.factor {
+
+}
+
+#primefactors span.power {
+  vertical-align: super;
+  font-size: smaller;
+  line-height: normal;
+}
+
+#primefactors tr.odd td.odd-even {
+  background-color: green;
+  color:white;
 }
