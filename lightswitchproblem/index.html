@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Lightswitch Problem</title>
+    <script src="index.js" type="module"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<main>
+    <article>
+        <section>
+            <h1>The Lightswitch Problem</h1>
+            <p>Imagine 100 light bulbs with light switches numbered 1 through 100, all in a row, all off. Suppose you do
+                the following: toggle all switches that are multiples of 1, then toggle all switches that are multiples
+                of 2, then toggle all switches that are multiples of 3, etc.
+                <br/>
+                By the time you are finished (and have toggled multiples of 100, which is just the last switch), which
+                light bulbs are on and which are off?</p>
+            <P>
+                See <a href="https://www.youtube.com/watch?v=-UBDRX6bk-A">Numberphile</a>.
+            </P>
+            <p>Here you can experiment and see the outcomes for yourself.</p>
+        </section>
+    </article>
+    <article>
+        <section>
+            <form id="settings">
+                <label>Number of items:<input name="nrOfItems" type="number" value="100"/></label>
+                <label>Width<input name="width" type="number" value="10"></label>
+                <label>Height<input name="height" disabled></label>
+                <button type="submit">Go!</button>
+            </form>
+        </section>
+        <section>
+            <table id="contents">
+
+            </table>
+            <aside>
+                <label>Guest:<input name="counter" type="number" value="2" disabled></label>
+                <br>
+                <label>Speed (ms):<input name="iterationSpeed" type="number" value="1000"></label>
+                <br>
+                <button id="startIteration">Start!</button>
+                <button id="reset">Reset!</button>
+                <button id="stop">Stop!</button>
+            </aside>
+    </article>
+</main>
+</body>
+</html>

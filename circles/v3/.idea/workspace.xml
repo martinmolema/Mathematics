@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c98e790-25a1-4c3b-b030-e043b7b7c8a3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/json/circles.configurations.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/test.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +62,8 @@
       <option name="presentableId" value="Default" />
       <updated>1645871894821</updated>
       <workItem from="1645871895955" duration="17272000" />
-      <workItem from="1645958370394" duration="23416000" />
+      <workItem from="1645958370394" duration="23554000" />
+      <workItem from="1646125593593" duration="7000" />
     </task>
     <servers />
   </component>
