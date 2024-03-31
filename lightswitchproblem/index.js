@@ -137,9 +137,10 @@ function ProcessForNumber(counter) {
     const isEven = totalFactors % 2 === 0;
 
     elPrimefactors.innerHTML += `<tr class="${isEven ? 'even' : 'odd'}">`
-        + `<td class="number">${counter}</td>`
+        + `<td class="number isNumber">${counter}</td>`
+        + `<td class="isPrime">${isPrime(counter) ? "Y" : ""}</td>`
         + `<td class="factors"><math>` + html.join('<mo>x</mo>') + `</math></td>`
-        + `<td class="factors-count" >${totalFactors}</td>`
+        + `<td class="factors-count isNumber" >${totalFactors}</td>`
         + `<td class="odd-even" >${isEven ? "Even" : "Odd"}</td>`
         + `</tr>`
     ;

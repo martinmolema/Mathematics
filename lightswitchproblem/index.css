@@ -98,9 +98,29 @@ aside input[name='counter'] {
 
 .list-of-numbers {
   font-size: 15pt;
-  height: calc(100vh - 145px - 100px - 22px - 50px);
+  height: calc(100vh - 145px - 100px - 22px - 20px - 50px);
   overflow-y: auto;
   font-family: monospace;
+  margin-left: 20px;
+  margin-top: 20px;
+
+}
+
+.list-of-numbers table {
+  border-collapse: collapse;
+}
+
+.list-of-numbers td {
+  border:1px solid darkgray;
+  padding:1px;
+}
+
+.list-of-numbers table td.isPrime {
+  text-align: center;
+}
+
+td.isNumber {
+  text-align: right;
 }
 
 .list-of-numbers table thead {
