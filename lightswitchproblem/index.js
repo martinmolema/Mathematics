@@ -36,17 +36,14 @@ function setup() {
     elBtnNextValue.addEventListener("click", StartIteration);
     elBtnStop.addEventListener("click", StopIteration);
     elBtnReset.addEventListener("click", ResetFieldValues);
-
     ResetFieldValues();
 
-    findAllPrimesUpTo(nrOfItems)
 }
 
 function handleSubmit(event) {
     event.stopPropagation();
     event.preventDefault();
     ResetFieldValues();
-    findAllPrimesUpTo(elNrOfItems)
 }
 
 function ResetFieldValues() {
@@ -57,7 +54,7 @@ function ResetFieldValues() {
     elHeight.value = parseInt(height);
 
     console.log(nrOfItems, width, height);
-
+    findAllPrimesUpTo(nrOfItems);
     ResetField();
     elContents.addEventListener('animationend', (event) => {
         const element = event.target;
@@ -76,10 +73,19 @@ function ResetField() {
             if (cellnr <= nrOfItems) {
                 const cell = document.createElement("TD");
                 row.appendChild(cell);
-                cell.innerHTML = `<p>${cellnr}</p>`;
+
+                if (isPrime(cellnr)){
+                    cell.classList.add('isPrime');
+                    cell.innerHTML = "<p class='prime-indicator'>*</p>"
+                }
+                else{
+                    cell.innerHTML = "<p class='prime-indicator'>&nbsp;</p>"
+                }
+
+                cell.innerHTML += `<p class="light-number">${cellnr}</p>`;
+                cell.innerHTML += `<p class="nrOfChanges">(0)</p>`;
                 cell.dataset.number = cellnr.toString();
                 cell.dataset.nrOfChanges = '1';
-
                 cellnr++;
             }
         }
@@ -149,7 +155,8 @@ function ProcessForNumber(counter) {
             elTableCell.dataset.nrOfChanges++;
             const nrOfChanges = elTableCell.dataset.nrOfChanges;
 
-            elTableCell.innerHTML = `<p>${nr}</p><p>(${nrOfChanges})</p>`;
+            elTableCell.querySelector('p.light-number').textContent = nr.toString();
+            elTableCell.querySelector('p.nrOfChanges').textContent = `(${nrOfChanges.toString()})`;
         }
     });
 }
