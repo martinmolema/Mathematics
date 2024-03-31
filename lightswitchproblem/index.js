@@ -142,6 +142,7 @@ function ProcessForNumber(counter) {
         + `<td class="factors"><math>` + html.join('<mo>x</mo>') + `</math></td>`
         + `<td class="factors-count isNumber" >${totalFactors}</td>`
         + `<td class="odd-even" >${isEven ? "Even" : "Odd"}</td>`
+        + `<td class="sqrt isNumber" >${(!isEven) ? Math.sqrt(counter) : ""}</td>`
         + `</tr>`
     ;
 

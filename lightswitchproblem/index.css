@@ -97,7 +97,7 @@ aside input[name='counter'] {
 }
 
 .list-of-numbers {
-  font-size: 15pt;
+  font-size: normal;
   height: calc(100vh - 145px - 100px - 22px - 20px - 50px);
   overflow-y: auto;
   font-family: monospace;
@@ -108,6 +108,12 @@ aside input[name='counter'] {
 
 .list-of-numbers table {
   border-collapse: collapse;
+
+}
+.list-of-numbers table th {
+  border: 1px solid black;
+  background-color: darkgray;
+  color:white;
 }
 
 .list-of-numbers td {
@@ -127,16 +133,6 @@ td.isNumber {
   position: sticky;
   top: 0;
   background: white;
-}
-
-#primefactors span.factor {
-
-}
-
-#primefactors span.power {
-  vertical-align: super;
-  font-size: smaller;
-  line-height: normal;
 }
 
 #primefactors tr.odd td.odd-even {
