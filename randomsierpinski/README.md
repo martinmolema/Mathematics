@@ -1,4 +1,4 @@
-#Random Sierpinski
+# Random Sierpinski
 
 This game goes as follows:
 
