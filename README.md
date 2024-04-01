@@ -11,6 +11,7 @@ There are currently two projects:
 2. Rotating balls
 3. Burning ship fractal
 4. Lightswitch problem
+5. Chaos game (Sierpinski)
 
 You can see the working code here: [http://wiskunde.molema.org](http://wiskunde.molema.org) and play with it
 yourself. 
