@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+section.drawing {
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas#contents {
+  border:1px solid green;
+}
+
+form input[type='number'] {
+  width:6em;
+  text-align: right;
+  display: inline-block;
+}
+
+form label {
+  display: inline-block;
+  width:7em;
+}
