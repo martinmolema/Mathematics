@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Seed Sierpinski</title>
+    <link rel="stylesheet" href="index.css">
+    <script type="module" src="index.js"></script>
+</head>
+<body>
+<main>
+    <article>
+        <header>
+            <h1>Random Sierpinski</h1>
+        </header>
+        <section>
+            <p>
+                This game goes as follows:
+            </p>
+            <ol>
+                <li>Put three dots on a piece of paper so they form the corners of a triangle.</li>
+                <li>Add numbers to each dot: the first gets 1 & 2, the second 3 & 4 and the thirst gets 5 & 6.</li>
+                <li>Place a new dot somewhere in the (virtual) triangle</li>
+                <li>Throw a die and read the number of eyes visible.</li>
+                <li>Lookup the corner using the number of eyes from the die. So if the die shows 3 eyes, then select the
+                    2nd corner
+                </li>
+                <li>Now draw an imaginary line between the dot from step 3 and the selected corner</li>
+                <li>Draw a new dot halfway on this imaginary line.</li>
+                <li>Use this new dot as the starting point and iterate from step 4</li>
+            </ol>
+            <p>
+                Question: what is the expected image that will appear from this algorithm?
+            </p>
+            <p>
+                This will get boring soon enough, so I wrote this simple program to speed up the iterations. First try
+                a low number of iterations. Then to see a better image do not hesitate to use 100,000 iterations.
+                <br>
+                Hint: when you've changed the numbers, simply press "Enter" on your keyboard to submit the numbers and
+                recreate the image.
+            </p>
+            <p>
+                Also play around with the number of corners and the divider (the number that divides the dinstance between
+                the corner and the current point).
+            </p>
+            <p>
+                See also the Numberphile <a
+                    href="https://www.youtube.com/watch?v=kbKtFN71Lfs&list=PLt5AfwLFPxWLDKmnxLg8477hrxY33LL6q&index=22">Youtube</a>
+                video.
+            </p>
+        </section>
+
+        <section>
+            <form id="settings">
+                <label>Corners:</label>
+                <input name="corners" type="number" size="3" step="1" value="3" min="3">
+                <br>
+                <label>Divider:</label>
+                <input name="divider" type="number" value="2" step="0.1" min="1">
+                <br>
+                <label>Iterations:</label>
+                <input name="iterations" type="number" value="5" min="1">
+                <br>
+                <button type="submit">Go!</button>
+            </form>
+        </section>
+        <section class="drawing">
+            <canvas id="contents" width="600" height="600"></canvas> 
+        </section>
+    </article>
+</main>
+</body>
+</html>
