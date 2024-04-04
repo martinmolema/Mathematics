@@ -10,6 +10,9 @@ let boardWidth = 8;
 let nrOfIterations = 0;
 let solution = [];
 
+let nrOfSolutions = 0;
+
+const MAX_NR_OF_SOLUTIONS = 6;
 const EMPTY_CELL = -1;
 const SVG_NS = "http://www.w3.org/2000/svg";
 /*
@@ -81,7 +84,8 @@ function searchTour(knightX, knightY, moveNr) {
         drawBoardConsole(board);
         console.log(solution);
         addNewBoardToHTML(board);
-        return true;
+        nrOfSolutions++;
+        return nrOfSolutions === MAX_NR_OF_SOLUTIONS;
     }
 
     for (let j = 0; j < possibleJumps.length; j++) {
@@ -136,8 +140,8 @@ function isValidJump(x, y) {
 function addNewBoardToHTML(board) {
     const svg = document.createElementNS(SVG_NS, "svg");
     elContents.appendChild(svg);
-    const width = 600;
-    const height = 600;
+    const width = 400;
+    const height = 400;
     const cellWidth = width / boardWidth;
     const cellHeight = height / boardWidth;
 
@@ -148,12 +152,12 @@ function addNewBoardToHTML(board) {
     elContents.appendChild(svg);
 
 
-    for (let row = 0; row < boardWidth; row++) {
-        for (let col = 0; col < boardWidth; col++) {
+    for (let col = 0; col < boardWidth; col++) {
+        for (let row = 0; row < boardWidth; row++) {
             const value = board[row][col];
             const rect = document.createElementNS(SVG_NS, "rect");
-            const x = col * cellWidth;
-            const y = row * cellHeight;
+            const x = row * cellWidth;
+            const y = col * cellHeight;
             rect.setAttribute('x', x);
             rect.setAttribute('y', y);
             rect.setAttribute('width', cellWidth);
@@ -162,8 +166,8 @@ function addNewBoardToHTML(board) {
             svg.appendChild(rect);
 
             const txt = document.createElementNS(SVG_NS, "text");
-            txt.setAttribute('x' , x + cellWidth / 2);
-            txt.setAttribute('y' ,  y+ cellHeight / 3);
+            txt.setAttribute('x', x + cellWidth / 2);
+            txt.setAttribute('y', y + cellHeight / 3);
             txt.textContent = value.toString();
             txt.classList.add("cell");
             txt.classList.add("value");
@@ -173,15 +177,17 @@ function addNewBoardToHTML(board) {
         }
     }
     const polygon = document.createElementNS(SVG_NS, 'polyline');
-    const points =  solution.map(p => `${p.x * cellWidth + cellWidth / 2},${p.y * cellHeight + cellHeight / 2}`).join(' ');
+    const points = solution.map(p => `${p.x * cellWidth + cellWidth / 2},${p.y * cellHeight + cellHeight / 2}`).join(' ');
     let lengthOfPolygon = 0;
     let px = solution[0].x;
     let py = solution[0].y;
-    for(let i = 1; i<solution.length; i++ ){
+    for (let i = 1; i < solution.length; i++) {
         const distX = (solution[i].x - px) * cellWidth;
         const distY = (solution[i].y - py) * cellHeight;
 
         lengthOfPolygon += Math.sqrt(distX * distX + distY * distY);
+        px = solution[i].x;
+        py = solution[i].y;
     }
 
     polygon.setAttribute('points', points);

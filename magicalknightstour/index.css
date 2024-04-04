@@ -1,5 +1,6 @@
 #contents svg {
-  border: 1px solid black;
+  border: 1px solid gray;
+  margin:10px;
 }
 
 #contents svg rect.cell {
@@ -16,9 +17,9 @@
   stroke:transparent;
   stroke-width: 2;
   animation-name: drawline;
-  animation-fill-mode: forwards;
-  animation-direction: normal;
+  animation-direction: alternate ;
   animation-duration: 20s;
+  animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
 
