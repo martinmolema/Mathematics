@@ -1,17 +1,17 @@
-
 /*
 window.onload = function () {
     setup();
 }
 */
 
-let elBoard;
+let elContents;
 let board;
 let boardWidth = 8;
 let nrOfIterations = 0;
+let solution = [];
 
 const EMPTY_CELL = -1;
-
+const SVG_NS = "http://www.w3.org/2000/svg";
 /*
  * +---+---+---+---+---+---+---+---+---+
  * |   |   |   |   |   |   |   |   |   |
@@ -31,14 +31,14 @@ const EMPTY_CELL = -1;
  *
  */
 const possibleJumps = [
-    [ + 2,  + 1], // A
-    [ + 1,  + 2], // B
-    [ - 1,  + 2], // C
-    [ - 2,  + 1], // D
-    [ - 2,  - 1], // E
-    [ - 1,  - 2], // F
-    [ + 1,  - 2], // G
-    [ + 2,  - 1], // H
+    [+2, +1], // A
+    [+1, +2], // B
+    [-1, +2], // C
+    [-2, +1], // D
+    [-2, -1], // E
+    [-1, -2], // F
+    [+1, -2], // G
+    [+2, -1], // H
 ];
 
 
@@ -46,31 +46,46 @@ setup();
 
 
 function setup() {
+
+    elContents = document.getElementById("contents");
+    elContents.innerHTML = '';
+
+    /*    for(let x = 0; x < boardWidth; x++ ){
+            for(let y = 0; y < boardWidth; y++) {
+
+            }
+        }*/
+    initBoard();
+    const x = 0;
+    const y = 0;
+    assignValueToPosition(x, y, 0);
+    solution.push({x: 0, y: 0});
+    if (searchTour(x, y, 1)) {
+    } else {
+        console.log(`No solution for (${x},${y})`);
+    }
+
+}
+
+function initBoard() {
     // an array of arrays; first index is rows/Y , second index = col/X
     board = Array.from({length: boardWidth}, () =>
         Array.from({length: boardWidth}, () => EMPTY_CELL)
     );
 
-    console.log(board.length, board[0].length);
-    // elBoard = document.getElementById("contents");
-    // createBoard();
-
-    assignValueToPosition(0,0, 1);
-    searchTour(0, 0, 1);
-    console.log(`Solution: ${nrOfIterations}`)
-    console.log(`--------------------------------------------------------------`);
-    drawBoardConsole(board);
-    drawBoardHTML(board);
-    console.log(`--------------------------------------------------------------`);
 }
 
 function searchTour(knightX, knightY, moveNr) {
     if (moveNr === boardWidth * boardWidth) {
         console.log(`new solution : ${nrOfIterations} iterations`);
+        drawBoardConsole(board);
+        console.log(solution);
+        addNewBoardToHTML(board);
         return true;
     }
 
-    possibleJumps.forEach(jump => {
+    for (let j = 0; j < possibleJumps.length; j++) {
+        const jump = possibleJumps[j];
         const newKnightX = knightX + jump[0];
         const newKnightY = knightY + jump[1];
 
@@ -79,38 +94,35 @@ function searchTour(knightX, knightY, moveNr) {
             // block place on board by setting the value of that position to non-zero
             assignValueToPosition(newKnightX, newKnightY, moveNr);
 
+            solution.push({x: newKnightX, y: newKnightY});
+
             // recursively search next step
             nrOfIterations++;
-            if (nrOfIterations % 1000000 == 0) {
-                console.clear();
-                console.log(Intl.NumberFormat().format(nrOfIterations), moveNr);
-                drawBoardConsole(board);
-            }
-            if (searchTour(newKnightX, newKnightY, moveNr + 1) ){
+            if (searchTour(newKnightX, newKnightY, moveNr + 1)) {
+
                 return true;
-            }
-            else {
+            } else {
                 //restore old situation
                 makeCellEmpty(newKnightX, newKnightY);
             }
+            solution.pop();
 
         }
-    });
+    }
     return false;
 }
 
 function assignValueToPosition(x, y, value) {
-    board[y][x] = value;
+    board[x][y] = value;
 }
 
 function boardValue(x, y) {
-    return board[y][x];
+    return board[x][y];
 }
 
 function makeCellEmpty(x, y) {
-    assignValueToPosition(x,y,EMPTY_CELL);
+    assignValueToPosition(x, y, EMPTY_CELL);
 }
-
 
 
 function isValidJump(x, y) {
@@ -118,34 +130,66 @@ function isValidJump(x, y) {
         (x < boardWidth) &&
         (y >= 0) &&
         (y < boardWidth) &&
-        (boardValue(x,y) === EMPTY_CELL); // this MUST be last otherwise index out of bounds
+        (boardValue(x, y) === EMPTY_CELL); // this MUST be last otherwise index out of bounds
 }
 
-function createBoard() {
-    elBoard.innerHTML = '';
-    for (let row = 0; row < boardWidth; row++) {
-        const elRow = document.createElement("tr");
-        elBoard.appendChild(elRow);
+function addNewBoardToHTML(board) {
+    const svg = document.createElementNS(SVG_NS, "svg");
+    elContents.appendChild(svg);
+    const width = 600;
+    const height = 600;
+    const cellWidth = width / boardWidth;
+    const cellHeight = height / boardWidth;
 
+    svg.setAttribute('width', width);
+    svg.setAttribute('height', height);
+    svg.setAttribute('viewBox', `0,0,${width},${height}`);
+
+    elContents.appendChild(svg);
+
+
+    for (let row = 0; row < boardWidth; row++) {
         for (let col = 0; col < boardWidth; col++) {
-            const elCol = document.createElement("td");
-            elCol.innerHTML = '-';
-            elCol.dataset.col = col;
-            elCol.dataset.row = row;
-            elRow.appendChild(elCol);
+            const value = board[row][col];
+            const rect = document.createElementNS(SVG_NS, "rect");
+            const x = col * cellWidth;
+            const y = row * cellHeight;
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', cellWidth);
+            rect.setAttribute('height', cellHeight);
+            rect.classList.add("cell");
+            svg.appendChild(rect);
+
+            const txt = document.createElementNS(SVG_NS, "text");
+            txt.setAttribute('x' , x + cellWidth / 2);
+            txt.setAttribute('y' ,  y+ cellHeight / 3);
+            txt.textContent = value.toString();
+            txt.classList.add("cell");
+            txt.classList.add("value");
+
+            svg.appendChild(txt);
+
         }
     }
-}
+    const polygon = document.createElementNS(SVG_NS, 'polyline');
+    const points =  solution.map(p => `${p.x * cellWidth + cellWidth / 2},${p.y * cellHeight + cellHeight / 2}`).join(' ');
+    let lengthOfPolygon = 0;
+    let px = solution[0].x;
+    let py = solution[0].y;
+    for(let i = 1; i<solution.length; i++ ){
+        const distX = (solution[i].x - px) * cellWidth;
+        const distY = (solution[i].y - py) * cellHeight;
 
-function drawBoardHTML(board) {
-    for (let row = 0; row < boardWidth; row++) {
-        const elRow = elBoard.querySelector(`TR:nth-of-type(${row + 1})`);
-
-        for (let col = 0; col < boardWidth; col++) {
-            const elCell = elRow.querySelector(`TD:nth-of-type(${col + 1})`);
-            elCell.textContent = board[row][col];
-        }
+        lengthOfPolygon += Math.sqrt(distX * distX + distY * distY);
     }
+
+    polygon.setAttribute('points', points);
+    polygon.setAttribute('stroke-dasharray', `${lengthOfPolygon}`);
+    polygon.setAttribute('stroke-dashoffset', `${lengthOfPolygon}`);
+    polygon.classList.add('path');
+
+    svg.appendChild(polygon);
 }
 
 function drawBoardConsole(board) {

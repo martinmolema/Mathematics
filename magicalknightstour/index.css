@@ -1,0 +1,35 @@
+#contents svg {
+  border: 1px solid black;
+}
+
+#contents svg rect.cell {
+  stroke:black;
+  stroke-width: 1;
+  fill: transparent;
+}
+#contents svg text.cell.value {
+  text-anchor: middle;
+}
+
+#contents svg polyline.path {
+  fill: none;
+  stroke:transparent;
+  stroke-width: 2;
+  animation-name: drawline;
+  animation-fill-mode: forwards;
+  animation-direction: normal;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+}
+
+@keyframes drawline {
+  0% {
+    stroke-width: 3;
+    stroke:black;
+  }
+  100% {
+   stroke-width: 3;
+    stroke:black;
+    stroke-dashoffset: 0 ;
+  }
+}
