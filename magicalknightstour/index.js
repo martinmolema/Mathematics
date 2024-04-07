@@ -1,8 +1,7 @@
-/*
+
 window.onload = function () {
     setup();
 }
-*/
 
 let elContents;
 let board;
@@ -12,7 +11,7 @@ let solution = [];
 
 let nrOfSolutions = 0;
 
-const MAX_NR_OF_SOLUTIONS = 6;
+const MAX_NR_OF_SOLUTIONS = 10;
 const EMPTY_CELL = -1;
 const SVG_NS = "http://www.w3.org/2000/svg";
 /*
@@ -45,9 +44,6 @@ const possibleJumps = [
 ];
 
 
-setup();
-
-
 function setup() {
 
     elContents = document.getElementById("contents");
@@ -75,7 +71,6 @@ function initBoard() {
     board = Array.from({length: boardWidth}, () =>
         Array.from({length: boardWidth}, () => EMPTY_CELL)
     );
-
 }
 
 function searchTour(knightX, knightY, moveNr) {
@@ -142,8 +137,8 @@ function addNewBoardToHTML(board) {
     elContents.appendChild(svg);
     const width = 400;
     const height = 400;
-    const cellWidth = width / boardWidth;
-    const cellHeight = height / boardWidth;
+    const cellWidth = width / (boardWidth + 1);
+    const cellHeight = height / (boardWidth + 1);
 
     svg.setAttribute('width', width);
     svg.setAttribute('height', height);
@@ -151,13 +146,14 @@ function addNewBoardToHTML(board) {
 
     elContents.appendChild(svg);
 
-
-    for (let col = 0; col < boardWidth; col++) {
-        for (let row = 0; row < boardWidth; row++) {
-            const value = board[row][col];
+    let sumrow = 0;
+    for (let row = 0; row < boardWidth; row++) {
+        sumrow = 0;
+        for (let col = 0; col < boardWidth; col++) {
+            const value = board[col][row];
             const rect = document.createElementNS(SVG_NS, "rect");
-            const x = row * cellWidth;
-            const y = col * cellHeight;
+            const x = col * cellWidth;
+            const y = row * cellHeight;
             rect.setAttribute('x', x);
             rect.setAttribute('y', y);
             rect.setAttribute('width', cellWidth);
@@ -174,8 +170,29 @@ function addNewBoardToHTML(board) {
 
             svg.appendChild(txt);
 
+            sumrow+=value;
         }
+        const txt = document.createElementNS(SVG_NS, "text");
+        txt.setAttribute('x', (boardWidth) * cellWidth + cellWidth / 2);
+        txt.setAttribute('y', row * cellHeight + cellHeight / 3);
+        txt.textContent = sumrow.toString();
+        txt.classList.add("sum");
+        txt.classList.add("value");
+        svg.appendChild(txt);
     }
+    for (let colnr = 0; colnr < boardWidth; colnr ++) {
+        const rowsum = board[colnr].reduce((accumulator, currentvalue ) => accumulator += currentvalue , 0);
+        const txt = document.createElementNS(SVG_NS, "text");
+        txt.setAttribute('x', colnr * cellWidth + cellWidth / 2);
+        txt.setAttribute('y', boardWidth * cellHeight + cellHeight / 3);
+        txt.textContent = rowsum.toString();
+        txt.classList.add("sum");
+        txt.classList.add("value");
+        svg.appendChild(txt);
+    }
+
+
+
     const polygon = document.createElementNS(SVG_NS, 'polyline');
     const points = solution.map(p => `${p.x * cellWidth + cellWidth / 2},${p.y * cellHeight + cellHeight / 2}`).join(' ');
     let lengthOfPolygon = 0;
@@ -199,10 +216,10 @@ function addNewBoardToHTML(board) {
 }
 
 function drawBoardConsole(board) {
-    console.log(`--------------------------`);
+    console.error(`--------------------------`);
     for (let row = 0; row < boardWidth; row++) {
         const line = board[row].map(x => x.toString().padStart(4, ' ')).join(' ');
-        console.log(line);
+        console.error(line);
     }
 
 }

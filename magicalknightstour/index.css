@@ -8,7 +8,7 @@
   stroke-width: 1;
   fill: transparent;
 }
-#contents svg text.cell.value {
+#contents svg text.value {
   text-anchor: middle;
 }
 
