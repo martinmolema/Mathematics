@@ -1,11 +1,13 @@
 
 let board;
 let boardWidth = 8;
+let startPositionX = 0;
+let startPositionY = 0;
 let solution = [];
 
 let nrOfSolutions = 0;
 
-const MAX_NR_OF_SOLUTIONS = 100;
+let MAX_NR_OF_SOLUTIONS = 1;
 const EMPTY_CELL = -1;
 /*
  * +---+---+---+---+---+---+---+---+---+
@@ -41,13 +43,31 @@ setup();
 
 
 function setup() {
+    // remove the NodeJS executable + script
+    process.argv.splice(0, 2);
+    process.argv.forEach(arg => process.stderr.write(`${arg} \n`));
+
+    if (process.argv.length >= 1) {
+        boardWidth = parseInt(process.argv[0]);
+    }
+    if (process.argv.length > 1) {
+        startPositionX = parseInt(process.argv[1]);
+        startPositionY = parseInt(process.argv[2]);
+    }
+    if (process.argv.length > 3) {
+        MAX_NR_OF_SOLUTIONS = parseInt(process.argv[3]);
+    }
+
+    if (startPositionX < 0 || startPositionX > boardWidth-1 || startPositionY < 0 || startPositionY > boardWidth-1) {
+        process.exit();
+    }
+
+    process.stderr.write(`Using board: ${boardWidth}x${boardWidth} | starting at (${startPositionX},${startPositionY}) | max # solutions: ${MAX_NR_OF_SOLUTIONS}\n`);
 
     initBoard();
-    const x = 0;
-    const y = 0;
-    assignValueToPosition(x, y, 0);
-    solution.push({x: 0, y: 0});
-    if (searchTour(x, y, 1)) {
+    assignValueToPosition(startPositionX, startPositionY, 0);
+    solution.push({x: startPositionX, y: startPositionY});
+    if (searchTour(startPositionX, startPositionY, 1)) {
     } else {
         console.log(`No solution for (${x},${y})`);
     }

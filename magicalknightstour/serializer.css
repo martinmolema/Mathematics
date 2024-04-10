@@ -1,0 +1,23 @@
+#contents {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+div.board {
+  display: block;
+}
+
+#contents svg rect.cell {
+  stroke:black;
+  stroke-width: 1;
+  fill: transparent;
+}
+#contents svg text.value {
+  text-anchor: middle;
+}
+
+#contents svg polyline.path {
+  fill: none;
+  stroke: rgb(0,0,255,0.8);
+  stroke-width: 2;
+}
