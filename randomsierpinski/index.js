@@ -91,27 +91,6 @@ function calculateCorners(){
     }
 
     nrOfFacesOnDie = nrOfCorners;
-/*
-
-    switch (nrOfCorners){
-        case 3:
-            corners.push(new Corner(new Point(width / 2, paddingY),[1,2]));
-            corners.push(new Corner(new Point(paddingX, height - paddingY),[3,4]));
-            corners.push(new Corner(new Point(width-paddingX, height - paddingY),[5,6]));
-            nrOfFacesOnDie = 6;
-            break;
-        case 4:
-            corners.push(new Corner(new Point(paddingX, paddingY),[1,2]));
-            corners.push(new Corner(new Point(width - paddingX, paddingY),[3,4]));
-            corners.push(new Corner(new Point(paddingX, height - paddingY),[5,6]));
-            corners.push(new Corner(new Point(width-paddingX, height - paddingY),[7,8]));
-            nrOfFacesOnDie = 8;
-            break;
-
-        default:
-            break;
-    }
-*/
 }
 
 function drawCorners() {

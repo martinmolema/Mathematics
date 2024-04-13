@@ -1,0 +1,16 @@
+.xaxis, .yaxis {
+  stroke: black;
+  stroke-width: 1px;
+
+}
+
+polygon {
+  stroke: blue;
+  stroke-width: 1px;
+  fill: none;
+}
+
+circle.dot {
+  fill: red;
+  stroke:none;
+}
