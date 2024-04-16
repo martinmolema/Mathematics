@@ -1,3 +1,12 @@
+svg {
+  background-color:whitesmoke;
+  border:1px solid red;
+}
+
+input[type="range"] {
+  width:400px;
+}
+
 .xaxis, .yaxis {
   stroke: black;
   stroke-width: 1px;
@@ -13,4 +22,19 @@ polygon {
 circle.dot {
   fill: red;
   stroke:none;
+}
+
+line.tick {
+  stroke:black;
+  stroke-width: 1;
+}
+
+text.tick {
+  text-anchor: middle;
+  font-size: 8pt;
+  font-family: sans-serif;
+}
+
+text.tick.vertical {
+  text-anchor: end;
 }
