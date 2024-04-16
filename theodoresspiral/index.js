@@ -81,7 +81,7 @@ function setup() {
     elSlider.addEventListener("input", function (event) {
         nrOfIterations = parseInt(elSlider.value);
         updateParametersFromScreenInput();
-        calculateDrawingUnits();
+        calculatePoints();
         draw();
     });
 
@@ -92,7 +92,7 @@ function setup() {
 
     nrOfIterations = 10;
     updateParametersFromScreenInput();
-    calculateDrawingUnits();
+    calculatePoints();
     draw();
 }
 
@@ -115,7 +115,7 @@ function myround(value, step) {
     return Math.round(value * inv) / inv;
 }
 
-function calculateDrawingUnits() {
+function calculatePoints() {
     ORIGIN_X = drawingSpaceMargin + svgWidth / 2;
     ORIGIN_Y = drawingSpaceMargin + svgHeight / 2;
 
@@ -128,22 +128,18 @@ function calculateDrawingUnits() {
 
     // remember the last point so a proper triangle can be constructed.
     let previousPoint = new Point(1, 1);
+    let angle = (90 / 360) * Math.PI *2;
 
-    let angle = (45 / 360) * Math.PI * 2;
-
-    for (let i = 2; i <= nrOfIterations; i++) {
-        // now calculate the angle. fill an array with a range first
-        const parts = Array.from(Array(i - 1).keys());
-
+    for (let i = 1; i < nrOfIterations-1; i++) {
         // calculate the radius: the Square Root of the current iteration
         const radius = Math.sqrt(i);
 
         // calculate the new angle
         angle += Math.atan(1 / radius);
 
-        // translate from Polar to Carthesian (https://www.mathcentre.ac.uk/resources/uploaded/mc-ty-polar-2009-1.pdf)
-        let x = radius * Math.cos(angle);
-        let y = radius * Math.sin(angle);
+        // Add a new point at distance 1 relative to the previous point with angle
+        let x = previousPoint.x + Math.cos(angle);
+        let y = previousPoint.y + Math.sin(angle);
 
         // Add the point
         const newPoint = new Point(x, y);
