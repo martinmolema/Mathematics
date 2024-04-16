@@ -17,18 +17,20 @@
             <p>This spiral is autoscaled depending on the number of iterations so it will always fit in the drawing
                 area</p>
             <p>With the inputs below the drawing process can be influenced.</p>
-            <label>Iterations:</label><input type="range" min="2" max="2000" value="10" id="slider">
+            <label for="slider">Iterations:</label><input type="range" min="2" max="2000" value="10" id="slider">
             <span id="sliderValue"></span>
             <br>
-            <label>Opacity:</label><input type="range" min="0" max="100" value="70" name="fillOpacity">
+            <label for="opacity">Opacity:</label><input type="range" min="0" max="100" value="70" name="fillOpacity"
+                                                        id="opacity">
             <br>
-            <label>Draw lines:</label><input type="checkbox" name="drawLines" checked>
+            <label for="cbxDrawLines">Draw lines:</label><input type="checkbox" name="drawLines" checked
+                                                                id="cbxDrawLines">
             <br>
-            <label>Draw dots:</label><input type="checkbox" name="drawDots" checked>
+            <label for="cbxDrawDots">Draw dots:</label><input type="checkbox" name="drawDots" checked id="cbxDrawDots">
             <br>
-            <label>Fixed color:</label><input type="checkbox" name="fixedColor">
+            <label for="cbxFixedColor">Fixed color:</label><input type="checkbox" name="fixedColor" id="cbxFixedColor">
             <br>
-            <label>Fill triangles:</label><input type="checkbox" name="fillTriangles">
+            <label for="cbxFillTriangles">Fill triangles:</label><input type="checkbox" name="fillTriangles" id="cbxFillTriangles">
             <br>
             <label>Drawing order:</label>
             <label>Forward<input type="radio" name="drawingOrder" value="F" checked></label>
