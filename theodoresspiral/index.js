@@ -276,7 +276,7 @@ function draw() {
         case "R":
             previousPoint = listOfPoints[nrOfPoints-1];
             startValue = nrOfPoints-1;
-            stopValue = 0;
+            stopValue = -1;
             incrementValue = -1;
             break;
     }
