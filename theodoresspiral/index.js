@@ -8,6 +8,18 @@ let elAxesMarkers;
 let elSVGDrawing;
 let elSlider;
 let elSliderValue;
+let elCheckboxDrawLines;
+let elCheckboxDrawDots;
+let elCheckboxFixedColor;
+let elCheckboxFillTriangles;
+let elSliderFillOpacity;
+let drawingDirection = "F";
+
+let drawDots = true;
+let drawLines = true;
+let fixedColor = false;
+let fillTriangles = false;
+let fillOpacity = 0.7;
 
 // the current number of iterations requested by the user
 let nrOfIterations;
@@ -57,6 +69,12 @@ function setup() {
     elSliderValue = document.getElementById("sliderValue");
     elAxesMarkers = document.getElementById("axesmarkers");
 
+    elCheckboxDrawDots = document.querySelector("input[name='drawDots']")
+    elCheckboxDrawLines = document.querySelector("input[name='drawLines']")
+    elCheckboxFixedColor = document.querySelector("input[name='fixedColor']")
+    elCheckboxFillTriangles = document.querySelector("input[name='fillTriangles']")
+    elSliderFillOpacity = document.querySelector("input[name='fillOpacity']")
+
     svgWidth = elSvgCanvas.width.baseVal.value - 2 * drawingSpaceMargin;
     svgHeight = elSvgCanvas.height.baseVal.value - 2 * drawingSpaceMargin;
 
@@ -65,7 +83,12 @@ function setup() {
         updateParametersFromScreenInput();
         calculateDrawingUnits();
         draw();
-    })
+    });
+
+    document.querySelector("article section:first-of-type").addEventListener("input", (event) => {
+        updateParametersFromScreenInput();
+        draw();
+    });
 
     nrOfIterations = 10;
     updateParametersFromScreenInput();
@@ -76,6 +99,14 @@ function setup() {
 function updateParametersFromScreenInput() {
     elSlider.value = nrOfIterations;
     elSliderValue.innerText = nrOfIterations.toString();
+    drawDots = elCheckboxDrawDots.checked;
+    drawLines = elCheckboxDrawLines.checked;
+    fixedColor = elCheckboxFixedColor.checked;
+    fillTriangles = elCheckboxFillTriangles.checked;
+    // elSliderFillOpacity.style.visibility = fillTriangles ? "visible" : "hidden";
+    fillOpacity = parseInt(elSliderFillOpacity.value);
+
+    drawingDirection = document.querySelector("input[name='drawingOrder']:checked").value;
 }
 
 function myround(value, step) {
@@ -104,13 +135,11 @@ function calculateDrawingUnits() {
         // now calculate the angle. fill an array with a range first
         const parts = Array.from(Array(i - 1).keys());
 
-        // now calculate a sum using the Reduce method to calculate the angles
-        // const angle = parts.reduce((sumValue, currentValue) => sumValue + Math.atan(1 / Math.sqrt(currentValue)), 0);
-
-        angle += Math.atan(1 / Math.sqrt(i));
-
         // calculate the radius: the Square Root of the current iteration
         const radius = Math.sqrt(i);
+
+        // calculate the new angle
+        angle += Math.atan(1 / radius);
 
         // translate from Polar to Carthesian (https://www.mathcentre.ac.uk/resources/uploaded/mc-ty-polar-2009-1.pdf)
         let x = radius * Math.cos(angle);
@@ -119,17 +148,25 @@ function calculateDrawingUnits() {
         // Add the point
         const newPoint = new Point(x, y);
         listOfPoints.push(newPoint);
+
+        // move the previous point to the current point.
         previousPoint = newPoint;
     }
 
+    // now find the most extreme point on the grid, in either X or Y direction (positive or negative) so we can
+    // calculate the scale of the drawing and the axis markers
+    // first find the maximum on the X-axis, then find the maximum on the Y-axis and take the max of either.
     const maxX = listOfPoints.map(p => p.x).reduce((previousValue, currentValue) => Math.abs(currentValue) > previousValue ? Math.abs(currentValue) : previousValue, 0);
     const maxY = listOfPoints.map(p => p.y).reduce((previousValue, currentValue) => Math.abs(currentValue) > previousValue ? Math.abs(currentValue) : previousValue, 0);
-
     const maxPosition = Math.max(maxX, maxY);
 
     // calculate the value between ticks: each position is determined by
     markerDistance = maxPosition / desiredNrOfMarkers;
+
+    // round the marker distance to a "normal" value.
     markerDistance = myround(markerDistance, 0.1);
+
+    // now calculate the actual number of markers that will be placed. THIS CAN BE A FRACTION AND IT SHOULD BE!
     actualNumberOfMarkers = maxPosition / markerDistance;
 
     // calculate the multiplication factor: the width is halved (because we only need one part (e.g. positive) of the
@@ -140,7 +177,7 @@ function calculateDrawingUnits() {
 function drawAxesMarkers() {
     elAxesMarkers.innerHTML = '';
 
-    // calculate the visual spacing of the markers
+    // calculate the visual spacing of the markers; use the floating point value of the actual number of markers.
     let stepX = svgWidth / (2 * actualNumberOfMarkers);
     let stepY = svgHeight / (2 * actualNumberOfMarkers);
 
@@ -222,11 +259,42 @@ function draw() {
     elSVGDrawing.innerHTML = '';
 
     drawAxesMarkers();
-    let previousPoint = listOfPoints[0];
 
-    for (let i = 0; i < listOfPoints.length; i++) {
+    let nrOfPoints = listOfPoints.length;
+    let previousPoint;
+    let startValue;
+    let stopValue;
+    let incrementValue;
+
+    switch (drawingDirection) {
+        case "F":
+            previousPoint = listOfPoints[0];
+            startValue = 0;
+            stopValue = nrOfPoints;
+            incrementValue = 1;
+            break;
+        case "R":
+            previousPoint = listOfPoints[nrOfPoints-1];
+            startValue = nrOfPoints-1;
+            stopValue = 0;
+            incrementValue = -1;
+            break;
+    }
+
+
+    for (let i = startValue ; i !== stopValue ; i+= incrementValue) {
 
         const currentPoint = listOfPoints[i];
+        const x = mapXPositionToCanvas(currentPoint.x);
+        const y = mapYPositionToCanvas(currentPoint.y);
+
+        let color = "blue";
+        if (!fixedColor) {
+            const hslHue = (360 / nrOfIterations) * i;
+            color = `hsl(${hslHue}, 100%, 50%)`;
+        }
+        let fillColor = fillTriangles ? color : "none";
+        let strokeColorLine = drawLines ? color : fillColor;
 
         const polygon = document.createElementNS(SVG_NS, "polygon");
 
@@ -239,26 +307,33 @@ function draw() {
         // add the point from the previous iteration
         points.push(mapPointToCanvas(previousPoint));
 
-        const x = mapXPositionToCanvas(currentPoint.x);
-        const y = mapYPositionToCanvas(currentPoint.y);
 
         // Add the point
         const newPoint = new Point(x, y);
         points.push(newPoint);
 
-        // put a small dot on the outer rim of the spiral for this iteration
-        const circle = document.createElementNS(SVG_NS, "circle");
-        circle.setAttribute("cx", x);
-        circle.setAttribute("cy", y);
-        circle.setAttribute("r", 2);
-        circle.classList.add('dot');
-        elSVGDrawing.appendChild(circle);
-
         const listOfPointsAsString = points.map(m => `${m.x},${m.y}`).join(' ');
 
         polygon.setAttribute('class', `segment nr_${i}`);
         polygon.setAttribute("points", listOfPointsAsString);
+
+        polygon.setAttribute('stroke', strokeColorLine);
+        polygon.setAttribute('stroke-opacity', fillOpacity / 100);
+        polygon.setAttribute('fill', fillColor);
+        polygon.setAttribute('fill-opacity', fillOpacity / 100);
+
         elSVGDrawing.appendChild(polygon);
+
+        if (drawDots) {
+            // put a small dot on the outer rim of the spiral for this iteration
+            const circle = document.createElementNS(SVG_NS, "circle");
+            circle.setAttribute("cx", x);
+            circle.setAttribute("cy", y);
+            circle.setAttribute("r", 2);
+            circle.setAttribute("fill", color);
+            circle.classList.add('dot');
+            elSVGDrawing.appendChild(circle);
+        }
 
         previousPoint = currentPoint;
     }

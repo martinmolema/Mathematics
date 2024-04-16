@@ -9,15 +9,30 @@
 <body>
 <main>
     <article>
-        <h1>Theodore's Spiral</h1>
-        <P>
-            See <a href="https://www.youtube.com/watch?v=rwgsceV1cpg">this video</a>.
-        </P>
-    </article>
-    <article>
         <section>
-            <input type="range" min="2" max="500" value="10" id="slider">
+            <h1>Theodore's Spiral</h1>
+            <P>
+                See <a href="https://www.youtube.com/watch?v=rwgsceV1cpg">this video</a>.
+            </P>
+            <p>This spiral is autoscaled depending on the number of iterations so it will always fit in the drawing
+                area</p>
+            <p>With the inputs below the drawing process can be influenced.</p>
+            <label>Iterations:</label><input type="range" min="2" max="2000" value="10" id="slider">
             <span id="sliderValue"></span>
+            <br>
+            <label>Opacity:</label><input type="range" min="0" max="100" value="70" name="fillOpacity">
+            <br>
+            <label>Draw lines:</label><input type="checkbox" name="drawLines" checked>
+            <br>
+            <label>Draw dots:</label><input type="checkbox" name="drawDots" checked>
+            <br>
+            <label>Fixed color:</label><input type="checkbox" name="fixedColor">
+            <br>
+            <label>Fill triangles:</label><input type="checkbox" name="fillTriangles">
+            <br>
+            <label>Drawing order:</label>
+            <label>Forward<input type="radio" name="drawingOrder" value="F" checked></label>
+            <label>Reverse<input type="radio" name="drawingOrder" value="R"></label>
         </section>
         <section>
             <svg width="800" height="800" viewBox="0 0 800 800 " id="canvas">
