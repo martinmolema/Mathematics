@@ -1,0 +1,7 @@
+circle.dot {
+  stroke: none;
+}
+
+svg {
+  border:1px solid darkgray;
+}

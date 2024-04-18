@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prime Spirals</title>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <main>
+      <article>
+          <H1>Prime spirals using Archimedean Spiral </H1>
+          <p>See this <a href="https://www.youtube.com/watch?v=EK32jo7i5LQ">video</a> and this article on <a href="https://en.wikipedia.org/wiki/Archimedean_spiral">Wikipedia</a>
+          </p>
+      </article>
+      <article>
+          <section id="inputs">
+              <label for="zoomValue">Zoom level:</label><input type="range" min="2" max="500" value="1" id="zoomValue">
+              <label for="cbxFixedColor">Fixed color:</label><input type="checkbox" name="fixedColor" id="cbxFixedColor">
+              <br>
+              <p>Showing <span id="nrOfPoints"></span> points of total primes <span id="nrOfPrimes"></span></p>
+
+          </section>
+          <section>
+              <svg height="800" width="800" viewBox="0 0 800 800" id="canvas">
+                  <g id="background">
+
+                  </g>
+                  <g id="contents" transform="translate(1,1)">
+
+                  </g>
+              </svg>
+          </section>
+      </article>
+  </main>
+</body>
+</html>
