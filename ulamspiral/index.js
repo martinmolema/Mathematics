@@ -1,6 +1,3 @@
-window.onload = function () {
-    setup();
-}
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 let nrOfIterations = 15;
@@ -21,6 +18,7 @@ let textBoxWidth = 40;
 let textBoxHeight = 40;
 
 let listOfPoints = [];
+let listOfPrimelines;
 
 class Point {
     n;
@@ -40,6 +38,51 @@ class Point {
     }
 }
 
+/**
+ * This class will collect only unique prime lines.
+ */
+class PrimeLineList {
+    lines;
+
+    constructor() {
+        this.lines = [];
+    }
+
+    /**
+     *
+     * @param newLine Array<Point>
+     */
+    checkIfExistsAndAdd(newLine) {
+        // reject non-lines: it should have at least two points!
+        if (newLine.length < 2) {
+            return;
+        }
+        // collect the numbers in the given line
+        const numbersInOtherLine = newLine.map(p => p.n);
+
+        // check if the list of numbers in the given line match the given line exactly using the every()-iterator.
+        const alreadyExists = this.lines.find(line => line.every(p => numbersInOtherLine.includes(p.n)));
+        if (!alreadyExists) {
+            // sort the given line so the drawing is done properly
+            newLine.sort((a, b) => a.n - b.n);
+            this.lines.push(newLine);
+        }
+    }
+}
+
+/*********************************************************************************************************************
+ *
+ *  Main start
+ */
+window.onload = function () {
+    setup();
+    runSimulation();
+}
+
+
+/**
+ * Setup the environment
+ */
 function setup() {
     elSvgCanvas = document.getElementById("canvas");
     elContents = document.getElementById("contents");
@@ -52,6 +95,12 @@ function setup() {
     ORIGIN_X = drawingSpaceMargin + svgWidth / 2;
     ORIGIN_Y = drawingSpaceMargin + svgHeight / 2;
 
+    listOfPrimelines = new PrimeLineList();
+
+
+}
+
+function runSimulation() {
     findAllPrimesUpTo(nrOfIterations);
     createAllNumbers();
     drawAllNumbers();
@@ -123,32 +172,33 @@ function createAllNumbers() {
 }
 
 /**
- * FIXME: filter out the items that were part of an earlier result. This can be established by keeping a list of
+ * filter out the items that were part of an earlier result. This can be established by keeping a list of
  * results that keep track of a) the number found and b) in which direction it was found. So the number 3 is part of two
  * lines (3, 13,31) and (3, 11). It should be avoided to find the line (3,11) when 11 is processed.
  */
 function findPrimeLines() {
+    // collect possible lines in all directions; use only primes to start with
     listOfPoints.filter(n => n.isPrime).forEach(cell => {
-        const line1 = findPrimeLineFromXY(cell.col, cell.row, 1, 1, []);
-        const line2 = findPrimeLineFromXY(cell.col, cell.row, 1, -1, []);
-        const line3 = findPrimeLineFromXY(cell.col, cell.row, -1, 1, []);
-        const line4 = findPrimeLineFromXY(cell.col, cell.row, -1, -1, []);
+        // catch results in an array to add to the list of lines
+        [
+            findPrimeLineFromXY(cell.col, cell.row, 1, 1, []),
+            findPrimeLineFromXY(cell.col, cell.row, 1, -1, []),
+            findPrimeLineFromXY(cell.col, cell.row, -1, 1, []),
+            findPrimeLineFromXY(cell.col, cell.row, -1, -1, []),
 
-        drawPrimeline(line1);
-        drawPrimeline(line2);
-        drawPrimeline(line3);
-        drawPrimeline(line4);
+        ].forEach(line => listOfPrimelines.checkIfExistsAndAdd(line));
     });
+
+    // now draw all the unique lines
+    listOfPrimelines.lines.forEach(line => drawPrimeline(line));
 }
 
+/**
+ * Draws a line indicating connected diagonal primes; color and stroke is determined through CSS
+ * @param lineparts
+ */
 function drawPrimeline(lineparts) {
     const nrOfParts = lineparts.length;
-    if (nrOfParts < 2) {
-        return;
-    }
-
-    lineparts.sort((a, b) => a.n - b.n);
-
     const x1 = lineparts[0].x;
     const x2 = lineparts[nrOfParts - 1].x;
     const y1 = lineparts[0].y;
@@ -164,20 +214,32 @@ function drawPrimeline(lineparts) {
     elPrimeLines.appendChild(line);
 }
 
+/**
+ * Finds a point on the spiral given the (col,row) coordinate
+ * @param col number
+ * @param row number
+ * @returns {Point}
+ */
 function findValueAtColRow(col, row) {
     return listOfPoints.find(p => p.col === col && p.row === row);
 }
 
+/**
+ * Finds a list of connected primes: they must be in the next adjacent cell. This is done using recursion and collection
+ * through a given parameter (result)
+ * @param col {number} starting cell(x)
+ * @param row {number} starting cell(y)
+ * @param dx {number} direction to look for other prime (x-direction)
+ * @param dy {number} direction to look for other prime (y-direction)
+ * @param result {Array<Point>}
+ * @returns {Array<Point>}
+ */
+
 function findPrimeLineFromXY(col, row, dx, dy, result) {
     const value = findValueAtColRow(col, row); // returns if undefined; convenient if (col, row) coords are out of range.
-    if (value) {
-        const alreadyFound = result.find(p => p.n === value.n) !== undefined;
-        const isPrime = primes.includes(value.n);
-
-        if (!alreadyFound && isPrime) {
-            result.push(value);
-            findPrimeLineFromXY(col + dx, row + dy, dx, dy, result);
-        }
+    if (value && value.isPrime) {
+        result.push(value);
+        findPrimeLineFromXY(col + dx, row + dy, dx, dy, result);
     }
     return result;
 }
@@ -226,13 +288,13 @@ function createNewNumber(n, col, row) {
 
 }
 
-function drawAllNumbers(){
+function drawAllNumbers() {
     listOfPoints.forEach(value => {
-       drawNumber(value);
+        drawNumber(value);
     });
 }
 
-function drawNumber(num){
+function drawNumber(num) {
     const txt = document.createElementNS(SVG_NS, "text");
     txt.setAttribute("x", num.x);
     txt.setAttribute("y", num.y + 6);
