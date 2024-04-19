@@ -3,7 +3,7 @@ window.onload = function () {
 }
 const SVG_NS = "http://www.w3.org/2000/svg";
 
-let nrOfIterations = 8000;
+let nrOfIterations = 15;
 let elSvgCanvas;
 let elContents;
 let elConnectors;
@@ -28,6 +28,7 @@ class Point {
     row;
     x;
     y;
+    isPrime;
 
     constructor(n, col, row, x, y) {
         this.n = n;
@@ -35,6 +36,7 @@ class Point {
         this.row = row;
         this.x = x;
         this.y = y;
+        this.isPrime = primes.includes(n);
     }
 }
 
@@ -51,7 +53,11 @@ function setup() {
     ORIGIN_Y = drawingSpaceMargin + svgHeight / 2;
 
     findAllPrimesUpTo(nrOfIterations);
-    draw();
+    createAllNumbers();
+    drawAllNumbers();
+    drawConnectionPoints();
+    findPrimeLines();
+
 }
 
 function getNextDirection(direction) {
@@ -68,7 +74,7 @@ function getNextDirection(direction) {
     }
 }
 
-function draw() {
+function createAllNumbers() {
     let nrOfNumbersToDraw = 2;
     let direction = "R"; // R=Right, U = Up, L = Left, D=Down. in that order
 
@@ -77,7 +83,7 @@ function draw() {
     let i = 0;
     while (i < nrOfIterations) {
         for (let j = 0; j < nrOfNumbersToDraw - 1 && i < nrOfIterations; j++) {
-            drawOneNumber(i + 1, x, y);
+            createNewNumber(i + 1, x, y);
             i++;
             switch (direction) {
                 case "R":
@@ -95,7 +101,7 @@ function draw() {
         }
         direction = getNextDirection(direction);
         for (let j = 0; j < nrOfNumbersToDraw - 1 && i < nrOfIterations; j++) {
-            drawOneNumber(i + 1, x, y);
+            createNewNumber(i + 1, x, y);
             i++;
             switch (direction) {
                 case "R":
@@ -114,20 +120,15 @@ function draw() {
         direction = getNextDirection(direction);
         nrOfNumbersToDraw++;
     }
-    drawConnectionPoints();
-    findPrimeLines();
 }
 
+/**
+ * FIXME: filter out the items that were part of an earlier result. This can be established by keeping a list of
+ * results that keep track of a) the number found and b) in which direction it was found. So the number 3 is part of two
+ * lines (3, 13,31) and (3, 11). It should be avoided to find the line (3,11) when 11 is processed.
+ */
 function findPrimeLines() {
-    // first find size of matrix that was created
-    const xmin = listOfPoints.map(p => p.col).reduce((previousValue, currentValue) => currentValue < previousValue ? currentValue : previousValue, 1000000);
-    const xmax = listOfPoints.map(p => p.col).reduce((previousValue, currentValue) => currentValue > previousValue ? currentValue : previousValue, -1000000);
-    const ymin = listOfPoints.map(p => p.row).reduce((previousValue, currentValue) => currentValue < previousValue ? currentValue : previousValue, 1000000);
-    const ymax = listOfPoints.map(p => p.row).reduce((previousValue, currentValue) => currentValue > previousValue ? currentValue : previousValue, -100000);
-
-    console.log(`dimensions = (${xmin},${ymin}) x (${xmax},${ymax})`);
-
-    listOfPoints.forEach(cell => {
+    listOfPoints.filter(n => n.isPrime).forEach(cell => {
         const line1 = findPrimeLineFromXY(cell.col, cell.row, 1, 1, []);
         const line2 = findPrimeLineFromXY(cell.col, cell.row, 1, -1, []);
         const line3 = findPrimeLineFromXY(cell.col, cell.row, -1, 1, []);
@@ -137,7 +138,6 @@ function findPrimeLines() {
         drawPrimeline(line2);
         drawPrimeline(line3);
         drawPrimeline(line4);
-
     });
 }
 
@@ -148,8 +148,6 @@ function drawPrimeline(lineparts) {
     }
 
     lineparts.sort((a, b) => a.n - b.n);
-
-    console.log(lineparts.map(p => p.n.toString()).join(','));
 
     const x1 = lineparts[0].x;
     const x2 = lineparts[nrOfParts - 1].x;
@@ -216,20 +214,33 @@ function drawConnectionPoints() {
     }
 }
 
-function drawOneNumber(n, col, row) {
+function createNewNumber(n, col, row) {
     const txtX = ORIGIN_X + col * textBoxWidth + textBoxWidth / 2;
     const txtY = ORIGIN_Y + row * textBoxHeight + textBoxHeight / 2;
 
-    listOfPoints.push(new Point(n, col, row, txtX, txtY));
+    const newPoint = new Point(n, col, row, txtX, txtY);
 
+    listOfPoints.push(newPoint);
+
+    return newPoint;
+
+}
+
+function drawAllNumbers(){
+    listOfPoints.forEach(value => {
+       drawNumber(value);
+    });
+}
+
+function drawNumber(num){
     const txt = document.createElementNS(SVG_NS, "text");
-    txt.setAttribute("x", txtX);
-    txt.setAttribute("y", txtY + 6);
-    if (primes.includes(n)) {
+    txt.setAttribute("x", num.x);
+    txt.setAttribute("y", num.y + 6);
+    if (num.isPrime) {
         txt.classList.add("isPrime");
     }
 
-    txt.textContent = n.toString();
+    txt.textContent = num.n.toString();
     elContents.appendChild(txt);
 }
 
