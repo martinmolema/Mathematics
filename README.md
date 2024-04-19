@@ -6,12 +6,15 @@ from the University to a University of Applied Sciences (HBO in Dutch).
 However, now and then I see things 'out there' that I find fascinating that have their basis in Mathematics.
 In this repository I will add projects that I have created.
 
-There are currently two projects:
+The following projects are available:
 1. Mandelbrot fractal
 2. Rotating balls
 3. Burning ship fractal
 4. Lightswitch problem
 5. Chaos game (Sierpinski)
+6. Knight's Tour Chess problem
+7. Theorode's Spiral of integer square roots
+8. Archimedean Spiral using polar coordinates
 
 You can see the working code here: [http://wiskunde.molema.org](http://wiskunde.molema.org) and play with it
 yourself. 
