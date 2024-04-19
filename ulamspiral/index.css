@@ -6,7 +6,7 @@ text {
 
 line.connector {
   stroke:blue;
-  stroke-width: 0;
+  stroke-width: 0.5;
 }
 
 line.primeline {

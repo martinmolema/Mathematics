@@ -1,6 +1,6 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 
-let nrOfIterations = 15;
+let nrOfIterations = 500;
 let elSvgCanvas;
 let elContents;
 let elConnectors;
@@ -49,23 +49,24 @@ class PrimeLineList {
     }
 
     /**
-     *
+     * FIXME: detect if a line is possibly longer than an existing one! This can also be done by searching in the
+     * opposite direction in the recursive search! This is probably better!
      * @param newLine Array<Point>
      */
     checkIfExistsAndAdd(newLine) {
+        const uniqueValues = newLine;
+        //const uniqueValues = newLine.filter((value, index) => newLine.findIndex(p => p.n === value.n) === index);
         // reject non-lines: it should have at least two points!
-        if (newLine.length < 2) {
+        if (uniqueValues.length < 2) {
             return;
         }
         // collect the numbers in the given line
-        const numbersInOtherLine = newLine.map(p => p.n);
+        const numbersInOtherLine = uniqueValues.map(p => p.n);
 
         // check if the list of numbers in the given line match the given line exactly using the every()-iterator.
-        const alreadyExists = this.lines.find(line => line.every(p => numbersInOtherLine.includes(p.n)));
+        const alreadyExists = this.lines.find(line => line.every(p => numbersInOtherLine.includes(p.n))) !== undefined;
         if (!alreadyExists) {
-            // sort the given line so the drawing is done properly
-            newLine.sort((a, b) => a.n - b.n);
-            this.lines.push(newLine);
+            this.lines.push(uniqueValues);
         }
     }
 }
@@ -179,13 +180,21 @@ function createAllNumbers() {
 function findPrimeLines() {
     // collect possible lines in all directions; use only primes to start with
     listOfPoints.filter(n => n.isPrime).forEach(cell => {
-        // catch results in an array to add to the list of lines
+        // catch results in an array to add to the list of lines; make sure the points are ordered in the right direction
+        // so the line drawing can be done using the first and last item of the array.
         [
-            findPrimeLineFromXY(cell.col, cell.row, 1, 1, []),
-            findPrimeLineFromXY(cell.col, cell.row, 1, -1, []),
-            findPrimeLineFromXY(cell.col, cell.row, -1, 1, []),
-            findPrimeLineFromXY(cell.col, cell.row, -1, -1, []),
-
+            [
+                // reverse the order of the first list so the last one found indicates the start of the line to draw
+                ...findPrimeLineFromXY(cell.col-1, cell.row-1, -1, -1).reverse(),
+                cell,
+                ...findPrimeLineFromXY(cell.col+1, cell.row+1, 1, 1),
+            ],
+            [
+                // reverse the order of the first list so the last one found indicates the start of the line to draw
+                ...findPrimeLineFromXY(cell.col - 1, cell.row + 1, -1, 1).reverse(),
+                cell,
+                ...findPrimeLineFromXY(cell.col +1 , cell.row - 1, 1, -1),
+            ],
         ].forEach(line => listOfPrimelines.checkIfExistsAndAdd(line));
     });
 
@@ -235,11 +244,12 @@ function findValueAtColRow(col, row) {
  * @returns {Array<Point>}
  */
 
-function findPrimeLineFromXY(col, row, dx, dy, result) {
+function findPrimeLineFromXY(col, row, dx, dy) {
+    const result = [];
     const value = findValueAtColRow(col, row); // returns if undefined; convenient if (col, row) coords are out of range.
     if (value && value.isPrime) {
         result.push(value);
-        findPrimeLineFromXY(col + dx, row + dy, dx, dy, result);
+        result.push(...findPrimeLineFromXY(col + dx, row + dy, dx, dy));
     }
     return result;
 }
