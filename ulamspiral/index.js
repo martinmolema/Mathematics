@@ -6,6 +6,11 @@ let elContents;
 let elConnectors;
 let elPrimeLines;
 
+let cbxShowPrimeNumbers;
+let cbxShowNonPrimeNumbers;
+let cbxShowSpiral;
+let cbxShowPrimelines;
+
 // dimensions of the complete SVG
 let svgWidth;
 let svgHeight;
@@ -90,6 +95,14 @@ function setup() {
     elConnectors = document.getElementById("connectors");
     elPrimeLines = document.getElementById("primelines");
 
+    cbxShowNonPrimeNumbers = document.getElementById("cbxShowNonPrimeNumbers");
+    cbxShowPrimeNumbers = document.getElementById("cbxShowPrimeNumbers");
+    cbxShowSpiral = document.getElementById("cbxShowSpiralLines");
+    cbxShowPrimelines = document.getElementById("cbxShowPrimeLines");
+
+    document.getElementById("inputs").addEventListener("input", handleInputChanges);
+
+
     svgWidth = elSvgCanvas.width.baseVal.value - 2 * drawingSpaceMargin;
     svgHeight = elSvgCanvas.height.baseVal.value - 2 * drawingSpaceMargin;
 
@@ -97,8 +110,6 @@ function setup() {
     ORIGIN_Y = drawingSpaceMargin + svgHeight / 2;
 
     listOfPrimelines = new PrimeLineList();
-
-
 }
 
 function runSimulation() {
@@ -107,7 +118,6 @@ function runSimulation() {
     drawAllNumbers();
     drawConnectionPoints();
     findPrimeLines();
-
 }
 
 function getNextDirection(direction) {
@@ -122,6 +132,27 @@ function getNextDirection(direction) {
             return "R";
 
     }
+}
+
+function handleInputChanges(event) {
+    changeVisibility(".number:not(.isPrime)", cbxShowNonPrimeNumbers.checked)
+    changeVisibility(".number.isPrime", cbxShowPrimeNumbers.checked)
+    changeVisibility("#primelines line", cbxShowPrimelines.checked)
+    changeVisibility("#connectors line", cbxShowSpiral.checked)
+}
+/**
+ *
+ * @param querySelector {string} query selector for .querySelectorAll()-function
+ * @param state {boolean} TRUE => remove class "isInvisible"; FALSE => add class "isInvisible"
+ */
+function changeVisibility(querySelector, state) {
+    elSvgCanvas.querySelectorAll(querySelector).forEach(el => {
+        if (state) {
+            el.classList.remove("isInvisible");
+        }else{
+            el.classList.add("isInvisible");
+        }
+    });
 }
 
 function createAllNumbers() {
@@ -185,15 +216,15 @@ function findPrimeLines() {
         [
             [
                 // reverse the order of the first list so the last one found indicates the start of the line to draw
-                ...findPrimeLineFromXY(cell.col-1, cell.row-1, -1, -1).reverse(),
+                ...findPrimeLineFromXY(cell.col - 1, cell.row - 1, -1, -1).reverse(),
                 cell,
-                ...findPrimeLineFromXY(cell.col+1, cell.row+1, 1, 1),
+                ...findPrimeLineFromXY(cell.col + 1, cell.row + 1, 1, 1),
             ],
             [
                 // reverse the order of the first list so the last one found indicates the start of the line to draw
                 ...findPrimeLineFromXY(cell.col - 1, cell.row + 1, -1, 1).reverse(),
                 cell,
-                ...findPrimeLineFromXY(cell.col +1 , cell.row - 1, 1, -1),
+                ...findPrimeLineFromXY(cell.col + 1, cell.row - 1, 1, -1),
             ],
         ].forEach(line => listOfPrimelines.checkIfExistsAndAdd(line));
     });
@@ -308,6 +339,7 @@ function drawNumber(num) {
     const txt = document.createElementNS(SVG_NS, "text");
     txt.setAttribute("x", num.x);
     txt.setAttribute("y", num.y + 6);
+    txt.classList.add("number");
     if (num.isPrime) {
         txt.classList.add("isPrime");
     }
