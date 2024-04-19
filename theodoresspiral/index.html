@@ -12,8 +12,64 @@
         <section>
             <h1>Theodore's Spiral</h1>
             <P>
-                See <a href="https://www.youtube.com/watch?v=rwgsceV1cpg">this video</a>.
+                See <a href="https://www.youtube.com/watch?v=rwgsceV1cpg">this video</a> and <a
+                    href="https://en.wikipedia.org/wiki/Spiral_of_Theodorus">Wikipedia</a>. Extract from Wikipedia
+                below.
             </P>
+            <p>
+                In geometry, the spiral of Theodorus (also called the square root spiral, Pythagorean spiral, or
+                Pythagoras's snail) is a spiral composed of right triangles, placed edge-to-edge. It was named after
+                Theodorus of Cyrene.
+            <h3>Construction</h3>
+            The spiral is started with an isosceles right triangle, with each leg having unit length. Another right
+            triangle is formed, an automedian right triangle with one leg being the hypotenuse of the prior triangle
+            (with length the square root of 2) and the other leg having length of 1; the length of the hypotenuse of
+            this second triangle is the square root of 3. The process then repeats; the
+            <math>
+                <mi>n</mi>
+                <mtext>th</mtext>
+            </math>
+            triangle in the sequence is a right triangle with the side lengths
+            <math>
+                <mroot>
+                    <mi>n</mi>
+                    <mn>2</mn>
+                </mroot>
+            </math>
+            and
+            <math>
+                <mn>1</mn>
+            </math>
+            , and with hypotenuse
+            <math>
+                <mi>n</mi>
+                <mo>+</mo>
+                <mn>1</mn>
+            </math>
+            .
+            <br>
+            For example, the 16th triangle has sides measuring
+            <math>
+                <mn>4</mn>
+                <mo>=</mo>
+                <mroot>
+                    <mn>16</mn>
+                    <mn>2</mn>
+                </mroot>
+            </math>
+            ,
+            <math>
+                <mn>1</mn>
+            </math>
+            and hypotenuse of
+            <math>
+                <mroot>
+                    <mn>17</mn>
+                    <mn>2</mn>
+                </mroot>
+            </math>
+            .
+            </p>
             <p>This spiral is autoscaled depending on the number of iterations so it will always fit in the drawing
                 area</p>
             <p>With the inputs below the drawing process can be influenced.</p>
@@ -30,7 +86,8 @@
             <br>
             <label for="cbxFixedColor">Fixed color:</label><input type="checkbox" name="fixedColor" id="cbxFixedColor">
             <br>
-            <label for="cbxFillTriangles">Fill triangles:</label><input type="checkbox" name="fillTriangles" id="cbxFillTriangles">
+            <label for="cbxFillTriangles">Fill triangles:</label><input type="checkbox" name="fillTriangles"
+                                                                        id="cbxFillTriangles">
             <br>
             <label>Drawing order:</label>
             <label>Forward<input type="radio" name="drawingOrder" value="F" checked></label>

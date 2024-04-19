@@ -7,31 +7,54 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <main>
-      <article>
-          <H1>Prime spirals using Archimedean Spiral </H1>
-          <p>See this <a href="https://www.youtube.com/watch?v=EK32jo7i5LQ">video</a> and this article on <a href="https://en.wikipedia.org/wiki/Archimedean_spiral">Wikipedia</a>
-          </p>
-      </article>
-      <article>
-          <section id="inputs">
-              <label for="zoomValue">Zoom level:</label><input type="range" min="2" max="500" value="1" id="zoomValue">
-              <label for="cbxFixedColor">Fixed color:</label><input type="checkbox" name="fixedColor" id="cbxFixedColor">
-              <br>
-              <p>Showing <span id="nrOfPoints"></span> points of total primes <span id="nrOfPrimes"></span></p>
+<main>
+    <article>
+        <H1>Prime spirals using Archimedean Spiral </H1>
+        <p>See this <a href="https://www.youtube.com/watch?v=EK32jo7i5LQ">video</a> and this article on <a
+                href="https://en.wikipedia.org/wiki/Archimedean_spiral">Wikipedia</a>. Extract from Wikipedia below.
+        </p>
+        <p>
+            The Archimedean spiral (also known as the arithmetic spiral) is a spiral named after the 3rd-century BC
+            Greek mathematician Archimedes. It is the locus corresponding to the locations over time of a point moving
+            away from a fixed point with a constant speed along a line that rotates with constant angular velocity.
+            Equivalently, in polar coordinates (r, θ) it can be described by the equation<br>
+            <math>
+                <mi>r</mi>
+                <mo>=</mo>
+                <mi>b</mi>
+                <mo>⋅</mo>
+                <mi>θ</mi>
+            </math>
+            <br>
+            with real number <math><mi>b</mi></math>. Changing the parameter b controls the distance between loops.
 
-          </section>
-          <section>
-              <svg height="800" width="800" viewBox="0 0 800 800" id="canvas">
-                  <g id="background">
+            From the above equation, it can thus be stated: position of particle from point of start is proportional to
+            angle θ as time elapses.
 
-                  </g>
-                  <g id="contents" transform="translate(1,1)">
+            Archimedes described such a spiral in his book On Spirals. Conon of Samos was a friend of his and Pappus
+            states that this spiral was discovered by Conon.
 
-                  </g>
-              </svg>
-          </section>
-      </article>
-  </main>
+        </p>
+    </article>
+    <article>
+        <section id="inputs">
+            <label for="zoomValue">Zoom level:</label><input type="range" min="2" max="500" value="1" id="zoomValue">
+            <label for="cbxFixedColor">Fixed color:</label><input type="checkbox" name="fixedColor" id="cbxFixedColor">
+            <br>
+            <p>Showing <span id="nrOfPoints"></span> points of total primes <span id="nrOfPrimes"></span></p>
+
+        </section>
+        <section>
+            <svg height="800" width="800" viewBox="0 0 800 800" id="canvas">
+                <g id="background">
+
+                </g>
+                <g id="contents" transform="translate(1,1)">
+
+                </g>
+            </svg>
+        </section>
+    </article>
+</main>
 </body>
 </html>
