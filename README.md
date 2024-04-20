@@ -15,6 +15,7 @@ The following projects are available:
 6. Knight's Tour Chess problem
 7. Theorode's Spiral of integer square roots
 8. Archimedean Spiral using polar coordinates
+9. Fibonacci squares
 
 You can see the working code here: [http://wiskunde.molema.org](http://wiskunde.molema.org) and play with it
 yourself. 
