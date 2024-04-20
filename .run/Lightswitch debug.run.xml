@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Lightswitch debug" type="JavascriptDebugType" uri="http://localhost:63342/wiskunde/lightswitchproblem/index.html" useBuiltInWebServerPort="true">
+    <method v="2" />
+  </configuration>
+</component>
