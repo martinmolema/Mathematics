@@ -2,9 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Fibonacci visualisation</title>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1>Fibonacci Sequence</h1>
+            </header>
+            <p>See <a href="https://en.wikipedia.org/wiki/Fibonacci_sequence">Wikipedia</a>. Extract below.</p>
+            <p>
+                In mathematics, the Fibonacci sequence is a sequence in which each number is the sum of the two
+                preceding ones. Numbers that are part of the Fibonacci sequence are known as Fibonacci numbers, commonly
+                denoted
+                <math>
+                    <msub>
+                        <mi>F</mi>
+                        <mi>n</mi>
+                    </msub>
+                </math>
+                . The sequence commonly starts from 0 and 1, although some authors start the sequence from 1
+                and 1 or sometimes (as did Fibonacci) from 1 and 2. Starting from 0 and 1, the sequence begins
+            </p>
+            <p>
+                0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ....
+            </p>
+            <p>
+                The Fibonacci numbers were first described in Indian mathematics as early as 200 BC in work by Pingala
+                on enumerating possible patterns of Sanskrit poetry formed from syllables of two lengths.They
+                are named after the Italian mathematician Leonardo of Pisa, also known as Fibonacci, who introduced the
+                sequence to Western European mathematics in his 1202 book Liber Abaci.
+            </p>
+            <h2>Instructions</h2>
+            <p>Scroll or zoom out to see the spiral and the squares. The squares have sides that are equal to a number from the
+            sequence.</p>
+        </section>
+        <section>
+            <svg width="6000" height="4500" xmlns="http://www.w3.org/2000/svg" id="canvas">
+                <g id="blocks"></g>
+                <g id="spiral"></g>
+
+            </svg>
+        </section>
+    </article>
+</main>
 
 </body>
 </html>

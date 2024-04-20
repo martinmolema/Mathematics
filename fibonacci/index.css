@@ -1,0 +1,16 @@
+rect.block {
+  stroke: black;
+  stroke-width: 1;
+}
+
+path.spiral {
+  stroke: black;
+  stroke-width: 2;
+  fill:none;
+  stroke-opacity: 1;
+}
+
+text {
+  font-family: sans-serif;
+  text-anchor: middle;
+}
