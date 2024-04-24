@@ -11,7 +11,7 @@ let solution = [];
 
 let nrOfSolutions = 0;
 
-const MAX_NR_OF_SOLUTIONS = 10;
+const MAX_NR_OF_SOLUTIONS = 6;  //change to -1 to find all solutions (this takes a VERY VERY long time!)
 const EMPTY_CELL = -1;
 const SVG_NS = "http://www.w3.org/2000/svg";
 /*
@@ -75,9 +75,7 @@ function initBoard() {
 
 function searchTour(knightX, knightY, moveNr) {
     if (moveNr === boardWidth * boardWidth) {
-        console.log(`new solution : ${nrOfIterations} iterations`);
-        drawBoardConsole(board);
-        console.log(solution);
+        // drawBoardConsole(board);
         addNewBoardToHTML(board);
         nrOfSolutions++;
         return nrOfSolutions === MAX_NR_OF_SOLUTIONS;
@@ -216,7 +214,6 @@ function addNewBoardToHTML(board) {
 }
 
 function drawBoardConsole(board) {
-    console.error(`--------------------------`);
     for (let row = 0; row < boardWidth; row++) {
         const line = board[row].map(x => x.toString().padStart(4, ' ')).join(' ');
         console.error(line);
