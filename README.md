@@ -1,4 +1,4 @@
-# Martin´s Math Problem Page
+# Martin's Math Problem Page
 Let's be honest: no normal person really loves maths. However, when becoming a Software Engineer in the
 nineties I was forced to learn a lot of Math. This even made me loose interest in the subject so I switched
 from the University to a University of Applied Sciences (HBO in Dutch). 
