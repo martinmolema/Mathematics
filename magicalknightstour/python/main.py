@@ -14,8 +14,8 @@ def processJSON(data):
     rowsum = 0
     colnr = 0
     for col in row:
-      rowsum = rowsum + col
-      colsums[colnr] = colsums[colnr] + col
+      rowsum = rowsum + col +1
+      colsums[colnr] = colsums[colnr] + col +1
       colnr = colnr + 1
     rowsums[rownum] = rowsum
     rownum = rownum + 1
@@ -52,10 +52,10 @@ if __name__ == '__main__':
     if not line:
       break
     matrix, rowsums, colsums = processJSON(line)
-    print(f"{linenr}:{len(matrix)}x{len(matrix)}")
+    print(f"{linenr}:{len(matrix)}x{len(matrix)} => {rowsums[0]} ")
     linenr = linenr + 1
 
-    printBoard(matrix, rowsums, colsums)
+    # printBoard(matrix, rowsums, colsums)
     if allEqual(rowsums) and allEqual(colsums) and rowsums[0] == colsums[0]:
       print("------------------- MAGIC ---------------")
       printBoard(matrix)
