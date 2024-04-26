@@ -8,14 +8,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 let elCanvas;
 let elInputIterationNr;
 let elLines;
-let elDivider;
-let elDividerValue;
-let elRatioValue;
-let elRangeSliderRatio;
-
-let dividerValue;
 let nrOfIterationsRequested;
-let ratioValue;
 
 let svgWidth;
 let svgHeight;
@@ -24,7 +17,6 @@ let ORIGIN_X;
 let ORIGIN_Y;
 
 let refInterval = undefined;
-
 
 class Line {
     x1;
@@ -50,13 +42,6 @@ function setup() {
 
     document.getElementById("inputs").addEventListener("input", handleInputChanges);
     elInputIterationNr = document.querySelector("input[name='iteration']");
-    elDivider = document.querySelector("input[name='angle']");
-
-    elRangeSliderRatio = document.querySelector("input[name='baselineratio']");
-    elRatioValue = document.getElementById("ratioValue");
-
-    elLines = document.getElementById("lines");
-    elDividerValue = document.getElementById("dividerValue");
 
     getParameterValueFromInputs();
     updateParameterInfoOnScreen();
@@ -107,37 +92,25 @@ function splitLine(line) {
     const diffX = line.x2 - line.x1;
     const diffY = line.y2 - line.y1;
 
+    const lineDividerFactor = 7;
+
     const lineLength = Math.sqrt(diffX * diffX + diffY * diffY);
-
-    const segmentBaseDivider = ratioValue;
-    const segmentPeekDivider = 1 / (1 - 2 * ( 1 / segmentBaseDivider));
-
-    const segmentPeekBaseLength = lineLength / segmentPeekDivider;
+    const segmentLength = lineLength / 7;
 
     const currentAngle = Math.atan2(diffY, diffX);
 
-    const angleRequested = (Math.PI / dividerValue);
+    const angleForSegment = (60 / 360) * (Math.PI * 2); // angles are 60 degrees
 
-    const peekAngle = angleRequested - currentAngle;
-    const rightAngle = (90 / 180) * Math.PI;
-    const otherPeekAngle = Math.PI - rightAngle - angleRequested; // Right scalene triangle, angle B = 90 deg.
-    let radius;
 
-    if (Math.sin(otherPeekAngle) === 0) {
-        radius = Math.abs(segmentPeekBaseLength / 2);
-    } else {
-        radius = Math.abs(Math.sin(rightAngle) / Math.sin(otherPeekAngle) * Math.abs(segmentPeekBaseLength / 2));
-    }
-    const line1 = new Line(line.x1, line.y1, line.x1 + diffX / segmentBaseDivider, line.y1 + diffY / segmentBaseDivider);
-    const line4 = new Line(line.x2 - diffX / segmentBaseDivider, line.y2 - diffY / segmentBaseDivider, line.x2, line.y2);
+    const line1 = new Line(line.x1,line.y1,line.x1 + diffX / lineDividerFactor,line.y2 + diffY / lineDividerFactor);
+    const line2 = new Line(0,0,0,0);
+    const line3 = new Line(0,0,0,0);
+    const line4 = new Line(0,0,0,0);
+    const line5 = new Line(0,0,0,0);
+    const line6 = new Line(0,0,0,0);
+    const line7 = new Line(0,0,0,0);
 
-    const peekX = line1.x2 + Math.cos(peekAngle) * radius;
-    const peekY = line1.y2 - Math.sin(peekAngle) * radius;
-
-    const line2 = new Line(line1.x2, line1.y2, peekX, peekY);
-    const line3 = new Line(line2.x2, line2.y2, line4.x1, line4.y1);
-
-    return [line1, line2, line3, line4];
+    return [line1, line2, line3, line4, line5, line6, line7];
 }
 
 function updateParameterInfoOnScreen(){
