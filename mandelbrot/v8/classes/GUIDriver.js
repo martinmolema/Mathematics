@@ -175,7 +175,7 @@ export class GUIDriver {
             let w = parseInt(this.elmCanvasWidthSlider.value);
 
             this.canvasLargeMandelbrot.width = w;
-            localStorage.setItem("V8_CANVAS_WIDTH", w);
+            localStorage.setItem("V8_CANVAS_WIDTH", w.toString());
 
             this.clearHistory();
 
@@ -188,7 +188,7 @@ export class GUIDriver {
         this.elmCanvasHeightSlider.addEventListener("change", () => {
             let h = parseInt(this.elmCanvasHeightSlider.value);
             this.canvasLargeMandelbrot.height = h;
-            localStorage.setItem("V8_CANVAS_HEIGHT", h);
+            localStorage.setItem("V8_CANVAS_HEIGHT", h.toString());
 
             this.clearHistory();
 
@@ -355,7 +355,7 @@ export class GUIDriver {
 
         document.getElementById("btnExport").addEventListener("click", () => {
             // get the bounding box to be drawn using the main fractal boundingbox
-            var rect = this.constants.boundingbox;
+            const rect = this.constants.boundingbox;
 
             // update the off-screen canvas to reflect the current fractal size and bounding box
             this.constantsExportM.update(rect);
@@ -372,7 +372,7 @@ export class GUIDriver {
             this.drawerExport.draw();
 
             // open the result in new tab
-            var win = window.open();
+            const win = window.open();
             if (!win) {
                 alert("Browser will not allow new tab to be opened. Please give permission!");
             }else {
@@ -513,7 +513,7 @@ export class GUIDriver {
      * @param fractal_plane_height
      */
     adjustCanvasDimensions(fractal_plane_height) {
-        var ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
+        const ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
 
         const width = fractal_plane_height * ratio;
         let x1, x2, y1, y2, centerx, centery;

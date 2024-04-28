@@ -32,11 +32,11 @@ export class ComplexNumber {
      * @returns {string}
      */
     toString() {
-        var result = "";
+        let result = "";
         if (this.real !== 0) {
             result += this.real.toString();
         }
-        if (this.imaginary == 0) {
+        if (this.imaginary === 0) {
             // do nothing
         } else if (this.imaginary < 0) {
             result += " - " + (-1 * this.imaginary).toString() + "i";
@@ -107,9 +107,7 @@ export class ComplexNumber {
         const p1 = this.real - other.real;
         const p2 = this.imaginary - other.imaginary;
 
-        const distance = Math.sqrt(p1 * p1   + p2 * p2 );
-
-        return distance;
+        return Math.sqrt(p1 * p1 + p2 * p2);
     }// dinstance
 
     /**
@@ -127,8 +125,7 @@ export class ComplexNumber {
      * @returns {ComplexNumber}
      */
     clone(){
-        var newCN = new ComplexNumber(this.real, this.imaginary);
-        return newCN;
+        return new ComplexNumber(this.real, this.imaginary);
     }// clone
 
     /**

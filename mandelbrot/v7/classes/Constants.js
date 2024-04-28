@@ -64,14 +64,12 @@ export class Constants {
     }// update()
 
     createHistoryObject() {
-        var newObject = new Constants(this.canvas,
+        return new Constants(this.canvas,
             this.boundingbox.x1,
             this.boundingbox.y1,
             this.boundingbox.x2,
             this.boundingbox.y2
         );
-
-        return newObject;
     }
 
     restoreFromHistoryObject(otherObject) {

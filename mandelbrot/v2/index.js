@@ -28,18 +28,18 @@ visualizer.drawLines = true;
 visualizer.start();
 
 // install form event handlers
-var cbxMandelbrot = document.getElementById("cbxMandelbrot");
+const cbxMandelbrot = document.getElementById("cbxMandelbrot");
 cbxMandelbrot.addEventListener("change", () => {
     visualizer.drawMandelbrot = (cbxMandelbrot.checked == true) ? true : false;
 });
 
-var cbxJulia = document.getElementById("cbxJulia");
+const cbxJulia = document.getElementById("cbxJulia");
 cbxJulia.addEventListener("change", () => {
     visualizer.drawJulia = (cbxJulia.checked == true) ? true : false;
 });
 
-var paletStart = document.getElementById("rngPalet");
-var btnRedraw = document.getElementById("btnRedraw");
+const paletStart = document.getElementById("rngPalet");
+const btnRedraw = document.getElementById("btnRedraw");
 btnRedraw.addEventListener("click",() => {
     visualizer.paletStart = parseInt(paletStart.value);
     visualizer.drawMandelbrotFractal();

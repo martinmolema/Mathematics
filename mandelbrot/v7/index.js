@@ -8,7 +8,7 @@ window.onload = init;
 const MAX_ITERATIONS = 200;
 
 function init(){
-    var gui = new GUIDriver(MAX_ITERATIONS);
+    const gui = new GUIDriver(MAX_ITERATIONS);
 
 
 }

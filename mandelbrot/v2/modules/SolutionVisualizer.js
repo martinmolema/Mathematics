@@ -87,7 +87,7 @@ export class SolutionVisualizer {
      */
     drawUnitLineHorizontal(x1, x2, y, unit){
         this.svgBackdrop.drawSVGLine(x1,y,x2,y,"yellow",2);
-        for (var x = x1; x <= x2; x += unit){
+        for (let x = x1; x <= x2; x += unit){
             this.svgBackdrop.drawSVGLine(x, y-this.constants.SVG_LINE_MARKER_LENGTH/2, x, y+this.constants.SVG_LINE_MARKER_LENGTH/2, "yellow",1);
         }
     }// drawUnitLineHorizontal
@@ -101,7 +101,7 @@ export class SolutionVisualizer {
      */
      drawUnitLineVertical(y1, y2, x, unit){
          this.svgBackdrop.drawSVGLine(x,y1,x,y2,"yellow",2);
-        for (var y = y1; y <= y2; y += unit){
+        for (let y = y1; y <= y2; y += unit){
             this.svgBackdrop.drawSVGLine(x-this.constants.SVG_LINE_MARKER_LENGTH/2, y, x+this.constants.SVG_LINE_MARKER_LENGTH/2, y, "black",1);
         }
     }// drawUnitLineVertical
@@ -111,8 +111,8 @@ export class SolutionVisualizer {
      * @param complexNr
      */
      drawCircleForComplexCoordinate(complexNr) {
-        var cx = this.complexCanvasCalculator.translateXtoCanvas(complexNr.real);
-        var cy = this.complexCanvasCalculator.translateYtoCanvas(complexNr.imaginary);
+        const cx = this.complexCanvasCalculator.translateXtoCanvas(complexNr.real);
+        const cy = this.complexCanvasCalculator.translateYtoCanvas(complexNr.imaginary);
 
         this.svgVisualiser.drawSVGCircle(cx, cy, 4, "red", 1,"yellow");
     }
@@ -124,18 +124,16 @@ export class SolutionVisualizer {
      */
      drawConnectingLine(complexNr1, complexNr2) {
 
-        var x1 = this.complexCanvasCalculator.translateXtoCanvas(complexNr1.real);
-        var y1 = this.complexCanvasCalculator.translateYtoCanvas(complexNr1.imaginary);
-        var x2 = this.complexCanvasCalculator.translateXtoCanvas(complexNr2.real);
-        var y2 = this.complexCanvasCalculator.translateYtoCanvas(complexNr2.imaginary);
+        const x1 = this.complexCanvasCalculator.translateXtoCanvas(complexNr1.real);
+        const y1 = this.complexCanvasCalculator.translateYtoCanvas(complexNr1.imaginary);
+        const x2 = this.complexCanvasCalculator.translateXtoCanvas(complexNr2.real);
+        const y2 = this.complexCanvasCalculator.translateYtoCanvas(complexNr2.imaginary);
 
         this.svgVisualiser.drawSVGLine(x1,y1,x2, y2,"blue", 1);
     }
 
     /**
      * calculateAndVisualiseIterations
-     * @param drawLines
-     * @param drawDots
      */
     calculateAndVisualiseIterations() {
         while (this.elmVisualiser.firstChild) this.elmVisualiser.removeChild(this.elmVisualiser.firstChild);
@@ -143,16 +141,16 @@ export class SolutionVisualizer {
         this.elmTextConstant.textContent    = this.complex_constant.toString();
         this.elmTextStartNumber.textContent = this.complex_start.toString();
 
-        var prev = this.complex_start.clone();
-        var m1   = this.complex_start.clone();
-        var zero = new ComplexNumber(0,0);
+        const prev = this.complex_start.clone();
+        const m1 = this.complex_start.clone();
+        const zero = new ComplexNumber(0, 0);
 
         let iterations = 0;
-        var distance;
-        var isDeterministic = true;
-        var hasConverged = false;
-        var hasDiverged = false;
-        var needsMoreIterations = false;
+        let distance;
+        let isDeterministic = true;
+        let hasConverged = false;
+        const hasDiverged = false;
+        let needsMoreIterations = false;
 
         do {
             if (this.drawLines) this.drawCircleForComplexCoordinate(m1);
@@ -206,20 +204,20 @@ export class SolutionVisualizer {
         context2d.strokeStyle="none";
         context2d.clearRect(0, 0, canvas.width, canvas.height);
 
-        var zero = new ComplexNumber(0,0);
+        const zero = new ComplexNumber(0, 0);
 
-        var realBegin =  2;
-        var imagBegin =  2;
-        var realEnd   = -2;
-        var imagEnd   = -2;
-        var step=0.005;
+        const realBegin = 2;
+        const imagBegin = 2;
+        const realEnd = -2;
+        const imagEnd = -2;
+        const step = 0.005;
 
         const prev      = new ComplexNumber(0,0);
         const iterator  = new ComplexNumber(0,0);
         const constant  = new ComplexNumber(0,0);
 
-        for (var real=realBegin;real> realEnd;real -= step){
-            for(var imag=imagBegin;imag>imagEnd;imag -= step){
+        for (let real=realBegin; real> realEnd; real -= step){
+            for(let imag=imagBegin; imag>imagEnd; imag -= step){
                 // The Iterator represents the CONSTANT in het plane of the canvas
                 // The calculations are done using ZERO (0,0) as the starting point of the iterations
 
@@ -230,11 +228,11 @@ export class SolutionVisualizer {
                 // check if the iterator is in the circle with radius(2)
                 if (constant.distance(zero) < 2)  {
                     let iterations = 0;
-                    var distance2;
-                    var isDeterministic = true;
-                    var hasConverged = false;
-                    var hasDiverged = false;
-                    var needsMoreIterations = false;
+                    let distance2;
+                    let isDeterministic = true;
+                    let hasConverged = false;
+                    const hasDiverged = false;
+                    let needsMoreIterations = false;
 
                     do {
                         // increase iterations
@@ -284,21 +282,21 @@ export class SolutionVisualizer {
         context2d.strokeStyle="none";
         context2d.clearRect(0, 0, canvas.width, canvas.height);
 
-        var zero = new ComplexNumber(0,0);
+        const zero = new ComplexNumber(0, 0);
 
-        var realBegin =  2;
-        var imagBegin =  2;
-        var realEnd   = -2;
-        var imagEnd   = -2;
-        var step=0.005;
+        const realBegin = 2;
+        const imagBegin = 2;
+        const realEnd = -2;
+        const imagEnd = -2;
+        const step = 0.005;
 
         const prev      = new ComplexNumber(0,0);
         const iterator  = new ComplexNumber(0,0);
         const constant  = this.complex_start.clone();
         const start     = new ComplexNumber(0,0);
 
-        for (var real=realBegin;real> realEnd;real -= step){
-            for(var imag=imagBegin;imag>imagEnd;imag -= step){
+        for (let real=realBegin; real> realEnd; real -= step){
+            for(let imag=imagBegin; imag>imagEnd; imag -= step){
                 // The Iterator represents the CONSTANT in het plane of the canvas
                 // The calculations are done using ZERO (0,0) as the starting point of the iterations
 
@@ -309,11 +307,11 @@ export class SolutionVisualizer {
                 // check if the iterator is in the circle with radius(2)
                 if (iterator.distance(zero) < 2)  {
                     let iterations = 0;
-                    var distance2;
-                    var isDeterministic = true;
-                    var hasConverged = false;
-                    var hasDiverged = false;
-                    var needsMoreIterations = false;
+                    let distance2;
+                    let isDeterministic = true;
+                    let hasConverged = false;
+                    const hasDiverged = false;
+                    let needsMoreIterations = false;
 
                     do {
                         // increase iterations
@@ -401,23 +399,23 @@ export class SolutionVisualizer {
          console.log(evt.currentTarget);
          const that = this;
 
-         var dragging = true;
+         const dragging = true;
 
          evt.stopPropagation();
          evt.preventDefault();
 
-        var endDrag = function (evtEndDrag) {
-            dragging = false;
+         const endDrag = function (evtEndDrag) {
+             dragging = false;
 
-            evtEndDrag.preventDefault();
-            evtEndDrag.stopPropagation();
+             evtEndDrag.preventDefault();
+             evtEndDrag.stopPropagation();
 
-            window.removeEventListener("mouseup", endDrag);
-            that.elmVisualiser.removeEventListener("blur", endDrag);
-            window.removeEventListener("mousemove", moveHandler);
-        };
+             window.removeEventListener("mouseup", endDrag);
+             that.elmVisualiser.removeEventListener("blur", endDrag);
+             window.removeEventListener("mousemove", moveHandler);
+         };
 
-        var moveHandler = function (evtMove) {
+         var moveHandler = function (evtMove) {
             if (dragging) {
                 evtMove.preventDefault();
                 evtMove.stopPropagation();
@@ -427,8 +425,8 @@ export class SolutionVisualizer {
                 that.elmConstantCircle.setAttribute("cx", cx);
                 that.elmConstantCircle.setAttribute("cy", cy);
 
-                var real      = that.complexCanvasCalculator.translateXfromCanvas(cx);
-                var imaginary = that.complexCanvasCalculator.translateYfromCanvas(cy);
+                const real = that.complexCanvasCalculator.translateXfromCanvas(cx);
+                const imaginary = that.complexCanvasCalculator.translateYfromCanvas(cy);
 
                 that.complex_constant.set(real, imaginary);
 
@@ -443,10 +441,10 @@ export class SolutionVisualizer {
     }//handleConstantDrag
 
      placeSVGCircleFromComplexNumber(svg, complexNr){
-        var cx = this.complexCanvasCalculator.translateXtoCanvas(complexNr.real);
-        var cy = this.complexCanvasCalculator.translateYtoCanvas(complexNr.imaginary);
+         const cx = this.complexCanvasCalculator.translateXtoCanvas(complexNr.real);
+         const cy = this.complexCanvasCalculator.translateYtoCanvas(complexNr.imaginary);
 
-        svg.setAttribute("cx", cx);
+         svg.setAttribute("cx", cx);
         svg.setAttribute("cy", cy);
     }//placeSVGCircleFromComplexNumber
 

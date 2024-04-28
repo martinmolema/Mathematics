@@ -27,8 +27,8 @@ export class IterationLines {
     }
 
     updateSVGSize(svgElement){
-        var w = svgElement.parentElement.clientWidth;
-        var h = svgElement.parentElement.clientHeight;
+        const w = svgElement.parentElement.clientWidth;
+        const h = svgElement.parentElement.clientHeight;
 
         this.svgPlane.w = w;
         this.svgPlane.h = h;
@@ -70,7 +70,7 @@ export class IterationLines {
         let hasConverged = false;
 
         do {
-            var px,py, ppx, ppy;
+            let px, py, ppx, ppy;
 
             // first square (startx, starty)
             let xy = this.multiply(startx, starty, startx, starty);

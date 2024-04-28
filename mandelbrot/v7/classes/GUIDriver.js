@@ -1,4 +1,4 @@
-import { PaletteCollection } from "./Palette.js";
+import {PaletteCollection} from "./Palette.js";
 import {ConstantsWithPixels} from "./ConstantsWithPixels.js";
 import {HistoryList} from "./HistoryList.js";
 import {Zoombox} from "./Zoombox.js";
@@ -147,9 +147,7 @@ export class GUIDriver {
     }
 
     redrawMainFractal(){
-        let value = this.draw(this.constants);
-
-        this.elmDrawtime.textContent = value;
+        this.elmDrawtime.textContent = this.draw(this.constants);
         this.showBoundingBoxInfo(this.constants);
     }
 
@@ -168,7 +166,7 @@ export class GUIDriver {
             let w = parseInt(this.elmCanvasWidthSlider.value);
 
             this.canvasLargeMandelbrot.width = w;
-            localStorage.setItem("V7_CANVAS_WIDTH", w);
+            localStorage.setItem("V7_CANVAS_WIDTH", w.toString());
 
             this.clearHistory();
 
@@ -181,7 +179,7 @@ export class GUIDriver {
         this.elmCanvasHeightSlider.addEventListener("change", () => {
             let h = parseInt(this.elmCanvasHeightSlider.value);
             this.canvasLargeMandelbrot.height = h;
-            localStorage.setItem("V7_CANVAS_HEIGHT", h);
+            localStorage.setItem("V7_CANVAS_HEIGHT", h.toString());
 
             this.clearHistory();
 
@@ -347,7 +345,7 @@ export class GUIDriver {
 
         document.getElementById("btnExport").addEventListener("click", () => {
             // get the bounding box to be drawn using the main fractal boundingbox
-            var rect = this.constants.boundingbox;
+            const rect = this.constants.boundingbox;
 
             // update the off-screen canvas to reflect the current fractal size and bounding box
             this.constantsExport.update(rect);
@@ -364,7 +362,7 @@ export class GUIDriver {
             this.draw(this.constantsExport);
 
             // open the result in new tab
-            var win = window.open();
+            const win = window.open();
             if (!win) {
                 alert("Browser will not allow new tab to be opened. Please give permission!");
             }else {
@@ -372,8 +370,7 @@ export class GUIDriver {
                 // ObjectURL containing an image that can be used as an image-source, or as we do here:
                 // set the URL of the new window to the image.
                 this.canvasExportM.toBlob(function (blob) {
-                    var url = URL.createObjectURL(blob);
-                    win.document.location = url;
+                    win.document.location = URL.createObjectURL(blob);
                 });
             }//if/then window opened
         });
@@ -461,13 +458,13 @@ export class GUIDriver {
      * @returns {number}
      */
     draw(localConst) {
-        var time_start = Date.now();
+        const time_start = Date.now();
 
         const pixels = localConst.pixels;
         const hasFeedback = localConst.hasFeedbackElement();
         // (CX, CY) represents the constant (as a complex number) used in the Mandelbrot calculations
-        for (var cx = localConst.boundingbox.x1; cx < localConst.boundingbox.x2; cx += localConst.one_pixel_x) {
-            for (var cy = localConst.boundingbox.y1; cy > localConst.boundingbox.y2; cy -= localConst.one_pixel_y) {
+        for (let cx = localConst.boundingbox.x1; cx < localConst.boundingbox.x2; cx += localConst.one_pixel_x) {
+            for (let cy = localConst.boundingbox.y1; cy > localConst.boundingbox.y2; cy -= localConst.one_pixel_y) {
 
                 let px = Math.round((Math.abs(cx - localConst.boundingbox.x1) / localConst.boundingbox.dimensions.w) * localConst.canvas_dimensions.w);
                 let py = Math.round((Math.abs(localConst.boundingbox.y1 - cy) / localConst.boundingbox.dimensions.h) * localConst.canvas_dimensions.h);
@@ -521,7 +518,7 @@ export class GUIDriver {
 
         this.redrawUsingPalette(localConst);
 
-        var time_end = Date.now();
+        const time_end = Date.now();
 
         return time_end - time_start;
     } // draw()
@@ -535,21 +532,21 @@ export class GUIDriver {
      */
     redrawUsingPalette(localConstants) {
 
-        var pixels = localConstants.pixels;
-        var canvas = localConstants.canvas;
-        var palette = this.palettes.getActive();
+        const pixels = localConstants.pixels;
+        const canvas = localConstants.canvas;
+        const palette = this.palettes.getActive();
 
         // now put the image that is in memory only, on the canvas
-        var context = canvas.getContext('2d');
+        const context = canvas.getContext('2d');
         context.fillStyle = "black";
         context.fillRect(0, 0, localConstants.canvas_dimensions.w, localConstants.canvas_dimensions.h);
-        var completeImage = context.createImageData(localConstants.canvas_dimensions.w, localConstants.canvas_dimensions.h);
-        var imageRGBValues = completeImage.data;
+        const completeImage = context.createImageData(localConstants.canvas_dimensions.w, localConstants.canvas_dimensions.h);
+        const imageRGBValues = completeImage.data;
 
         const COLOR_BLACK = {RGB_R: 0, RGB_G: 0, RGB_B: 0};
 
-        for (var x = 0; x < localConstants.canvas_dimensions.w; x++) {
-            for (var y = 0; y < localConstants.canvas_dimensions.h; y++) {
+        for (let x = 0; x < localConstants.canvas_dimensions.w; x++) {
+            for (let y = 0; y < localConstants.canvas_dimensions.h; y++) {
                 let pixel = pixels[y * localConstants.canvas_dimensions.w + x];
 
                 if (pixel) {
@@ -642,7 +639,7 @@ export class GUIDriver {
      * @param fractal_plane_height
      */
     adjustCanvasDimensions(fractal_plane_height) {
-        var ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
+        const ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
 
         const width = fractal_plane_height * ratio;
         let x1, x2, y1, y2, centerx, centery;

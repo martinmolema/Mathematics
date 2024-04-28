@@ -24,8 +24,8 @@ export class JuliaFractalDrawer extends FractalDrawer {
         let op_y  = this.constants.one_pixel_y;
         let can_w = this.constants.canvas_dimensions.w;
 
-        for (var x = x1; x < x2; x +=  op_x) {
-            for (var y = y1; y > y2; y -= op_y) {
+        for (let x = x1; x < x2; x +=  op_x) {
+            for (let y = y1; y > y2; y -= op_y) {
                 let qx = x*x;
                 let qy = y*y;
 

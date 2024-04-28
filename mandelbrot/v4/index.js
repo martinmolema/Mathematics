@@ -2,18 +2,18 @@ window.onload = init;
 
 const MAX_ITERATIONS = 200;
 const EPSILON = 0.00003;
-var ZOOMBOX_WIDTH_PERCENTAGE = 5; //5% of the horizontal plane
-var ZOOMBOX_HEIGHT_PERCENTAGE = 5; //5% of the vertical plane
-var zbox_h, zbox_w;
+let ZOOMBOX_WIDTH_PERCENTAGE = 5; //5% of the horizontal plane
+let ZOOMBOX_HEIGHT_PERCENTAGE = 5; //5% of the vertical plane
+let zbox_h, zbox_w;
 
-var elmX1, elmX2, elmY1, elmY2;
-var elmCursorX, elmCursorY;
-var zoombox_x1, zoombox_y1, zoombox_x2, zoombox_y2;
-var elmZoombox, elmDrawtime, elmLivePreview, elmZoomHistoryInfo;
+let elmX1, elmX2, elmY1, elmY2;
+let elmCursorX, elmCursorY;
+let zoombox_x1, zoombox_y1, zoombox_x2, zoombox_y2;
+let elmZoombox, elmDrawtime, elmLivePreview, elmZoomHistoryInfo;
 
-var mouseX, mouseY;
+let mouseX, mouseY;
 
-var zoomhistory;
+let zoomhistory;
 
 /**
  * Start the preparations and draw the fractal
@@ -42,21 +42,21 @@ function init() {
     elmCursorY = document.getElementById('cursorY');
 
     // zoombox information
-    elmZoomX1 = document.getElementById('zoomx1');
-    elmZoomX2 = document.getElementById('zoomx2');
-    elmZoomY1 = document.getElementById('zoomy1');
-    elmZoomY2 = document.getElementById('zoomy2');
+    const elmZoomX1 = document.getElementById('zoomx1');
+    const elmZoomX2 = document.getElementById('zoomx2');
+    const elmZoomY1 = document.getElementById('zoomy1');
+    const elmZoomY2 = document.getElementById('zoomy2');
 
     elmZoombox         = document.getElementById('zoombox');
     elmLivePreview     = document.getElementById("livepreview");
     elmDrawtime        = document.getElementById("drawtime");
     elmZoomHistoryInfo = document.getElementById("zoomhistoryinfo");
 
-    var eventcatcher = document.getElementById("eventcatcher");
+    const eventcatcher = document.getElementById("eventcatcher");
 
-    var palette = setupPalette(0);
+    let palette = setupPalette(0);
 
-    var constants = prepareconstants(canvas, -2.0, 2.0, 2.0, -2.0);
+    let constants = prepareconstants(canvas, -2.0, 2.0, 2.0, -2.0);
     constants.colorpalette = palette;
     setupZoombox(constants);
 
@@ -147,7 +147,7 @@ function init() {
         return false;
     });
 
-    var lastclick = null;
+    let lastclick = null;
 
     eventcatcher.addEventListener("click", (evt) => {
         evt.preventDefault();
@@ -207,7 +207,7 @@ function AddToHistory(constants){
 
 function GetFromHistory(){
     if (zoomhistory.length == 0) return NULL;
-    var result = zoomhistory.pop();
+    const result = zoomhistory.pop();
     elmZoomHistoryInfo.textContent = zoomhistory.length;
     return result;
 }
@@ -221,13 +221,13 @@ function showBoundingBoxInfo(constants){
 }
 
 function setupPalette(color_offset){
-    var palette = [];
+    const palette = [];
     let RGB_FILTER_R = (255 << 16);
     let RGB_FILTER_G = (255 << 8);
     let RGB_FILTER_B = (255);
     const maxRange = 255 * 255 * 255; /* 3 bytes colorcode */
 
-    for (var c = 0; c <= 200; c++) {
+    for (let c = 0; c <= 200; c++) {
         const ratio = c / MAX_ITERATIONS;
         let ratedRatio = Math.ceil(ratio * maxRange); // integer needed!
         ratedRatio += color_offset;
@@ -260,7 +260,7 @@ function setupZoombox(constants){
  * @returns {{boundingBoxX2: *, boundingBoxX1: *, boundingBoxY2: *, canvas_width: number, canvas_height: number, palet_start: number, boundingBoxY1: *}}
  */
 function prepareconstants(cnvs, x1, y1, x2, y2) {
-    var lc = {
+    const lc = {
         boundingBoxX1: x1,
         boundingBoxY1: y1,
         boundingBoxX2: x2,
@@ -281,17 +281,17 @@ function prepareconstants(cnvs, x1, y1, x2, y2) {
 
 
 function draw(canvas, constants) {
-    var time_start = Date.now();
+    const time_start = Date.now();
 
-    var context        = canvas.getContext('2d');
-    var completeImage  = context.createImageData(constants.canvas_width, constants.canvas_height);
-    var imageRGBValues = completeImage.data;
+    const context = canvas.getContext('2d');
+    const completeImage = context.createImageData(constants.canvas_width, constants.canvas_height);
+    const imageRGBValues = completeImage.data;
 
     COLOR_BLACK = { RGB_R:0, RGB_G:0, RGB_B:0};
 
     // (CX, CY) represents the constant (as a complex number) used in the Mandelbrot calculations
-    for (var cx = constants.boundingBoxX1; cx < constants.boundingBoxX2; cx += constants.one_pixel_x) {
-        for (var cy = constants.boundingBoxY1; cy > constants.boundingBoxY2; cy -= constants.one_pixel_y) {
+    for (let cx = constants.boundingBoxX1; cx < constants.boundingBoxX2; cx += constants.one_pixel_x) {
+        for (let cy = constants.boundingBoxY1; cy > constants.boundingBoxY2; cy -= constants.one_pixel_y) {
             if (calcDistance(0, 0, cx, cy) < 2) {
                 let startx = 0;
                 let starty = 0;
@@ -345,7 +345,7 @@ function draw(canvas, constants) {
     // now put the image that is in memory only, on the canvas
     context.putImageData(completeImage,0,0, 0, 0, constants.canvas_width, constants.canvas_height);
 
-    var time_end = Date.now();
+    const time_end = Date.now();
 
     return time_end - time_start;
 }
@@ -371,6 +371,7 @@ function multiply(x1, y1, x2, y2) {
 /**
  * Calculates an HTML colorcode based on the number of iterations
  * @param iterations
+ * @param color_offset
  * @returns {string}
  */
 function getColorcode(iterations, color_offset) {

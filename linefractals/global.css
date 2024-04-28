@@ -3,6 +3,15 @@ main {
   flex-direction: row;
 }
 
+main article:first-of-type {
+  width:40%;
+  height:100vh;
+  overflow: auto;
+}
+
+main article:last-of-type {
+}
+
 article + article {
   margin-left: 30px;
 }

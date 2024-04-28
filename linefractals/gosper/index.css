@@ -3,6 +3,7 @@ svg line {
   stroke-width: 1;
 }
 
+svg .iteration0 { stroke: red; stroke-width: 3; }
 svg .iteration1 { stroke: black; }
 svg .iteration2 { stroke: red; }
 svg .iteration3 { stroke: blue; }

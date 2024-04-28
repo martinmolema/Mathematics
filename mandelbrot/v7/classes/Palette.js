@@ -58,7 +58,7 @@ export class PaletteRGB extends Palette {
      */
     calculate() {
         super.calculate();
-        for (var j = 0; j <= this.maxIterations; j++) {
+        for (let j = 0; j <= this.maxIterations; j++) {
             const ratio = j / this.maxIterations;
             let ratedRatio = Math.ceil(ratio * this.maxRange); // integer needed!
             ratedRatio += (this.offset / 100) * this.maxRange;
@@ -91,7 +91,7 @@ export class PaletteHSL extends Palette {
     }
 
     createHistoryObject() {
-        var base = super.createHistoryObject();
+        const base = super.createHistoryObject();
         base.lightness = this._lightness * 100;
         base.saturation = this._saturation * 100;
 
@@ -143,21 +143,19 @@ export class PaletteHSL extends Palette {
      */
     calculate() {
         super.calculate();
-        for (var j = 0; j <= this.maxIterations; j++) {
+        for (let j = 0; j <= this.maxIterations; j++) {
             let hue = (((this.offset / 100) + (j / this.maxIterations)) * 360) % 360;
             let saturation = this._saturation;
             let lightness = this._lightness;
 
-            let color = this.hslToRgb(hue, saturation, lightness);
-
-            this.colors[j] = color;
+            this.colors[j] = this.hslToRgb(hue, saturation, lightness);
         }
 
         return this;
     }
 
     hslToRgb(hue, sat, light) {
-        var t1, t2, r, g, b;
+        let t1, t2, r, g, b;
         hue = hue / 60;
         if (light <= 0.5) {
             t2 = light * (sat + 1);
@@ -241,10 +239,10 @@ export class PaletteCollection {
      * @returns {{currentName: string, items: []}}
      */
     createHistoryObject() {
-        var hist = {
+        const hist = {
             items: [],
             currentName: this.currentName,
-        }
+        };
         for (let i = 0; i < this.names.length; i++) {
             let name = this.names[i];
             let localPalet = this.get(name);
@@ -262,7 +260,7 @@ export class PaletteCollection {
 
     restoreFromHistoryObject(historyObject) {
 
-        for (var i = 0; i < historyObject.items.length; i++) {
+        for (let i = 0; i < historyObject.items.length; i++) {
             let item = historyObject.items[i];
             let palet = this.palettes[item.name];
             palet.restoreFromHistoryObject(item.palette);

@@ -11,7 +11,7 @@ export class HistoryList {
     constructor(storagekey) {
 
         this.key = storagekey;
-        var items = localStorage.getItem(this.key);
+        const items = localStorage.getItem(this.key);
 
         if (items === null) {
             this.historyitems = [];
@@ -37,10 +37,10 @@ export class HistoryList {
 
     /**
      * Removes one item from the history and returns this item
-     * @returns {|NULL}
+     * @returns {History|null}
      */
     pop(){
-        if (this.historyitems.length == 0) return null;
+        if (this.historyitems.length === 0) return null;
         const result = this.historyitems.pop();
 
         this.save();
@@ -53,7 +53,7 @@ export class HistoryList {
      * @returns {null | Object}
      */
     peek(){
-        if (this.historyitems.length == 0) return null;
+        if (this.historyitems.length === 0) return null;
 
         return this.historyitems[this.historyitems.length - 1];
     }// peek()

@@ -7,32 +7,32 @@ body {
 #boxinfo {
     display: none;
 }
-#juliapreview
-#fractalLargeMandelbrot{
+#juliapreview,
+#fractalLargeMandelbrot {
     float:left;
 }
 #overlay {
     position: absolute;
-    top: 0px;
-    left: 0px
+    top: 0;
+    left: 0
 }
 
 fieldset.preview {
     position: absolute;
-    top: 0px;
-    right:0px;
+    top: 0;
+    right:0;
     background-color: black;
 }
 
 fieldset p {
-    margin-top:0px;
+    margin-top:0;
     margin-bottom:2px;
 }
 
 #generalinfo {
     position: absolute;
-    bottom: 0px;
-    right:0px;
+    bottom: 0;
+    right:0;
 }
 
 div.canvasdimensions label {

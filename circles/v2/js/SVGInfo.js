@@ -16,6 +16,22 @@ export class SVGInfo {
      *
      * @param svgWidth
      * @param svgHeight
+     * @param globalSVG
+     * @param svgGroupVirtualLines
+     * @param svgGroupCollections
+     * @param svgGroupOuterballs
+     * @param globalSVG
+     * @param svgGroupVirtualLines
+     * @param svgGroupCollections
+     * @param svgGroupOuterballs
+     * @param globalSVG
+     * @param svgGroupVirtualLines
+     * @param svgGroupCollections
+     * @param svgGroupOuterballs
+     * @param globalSVG
+     * @param svgGroupVirtualLines
+     * @param svgGroupCollections
+     * @param svgGroupOuterballs
      */
     constructor(/*Number*/ svgWidth,
                 /*Number*/ svgHeight,

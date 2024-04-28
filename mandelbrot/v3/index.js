@@ -2,16 +2,16 @@ window.onload = init;
 
 const MAX_ITERATIONS = 200;
 const EPSILON = 0.00003;
-var ZOOMBOX_WIDTH_PERCENTAGE = 5; //5% of the horizontal plane
-var ZOOMBOX_HEIGHT_PERCENTAGE = 5; //5% of the vertical plane
-var zbox_h, zbox_w;
+let ZOOMBOX_WIDTH_PERCENTAGE = 5; //5% of the horizontal plane
+let ZOOMBOX_HEIGHT_PERCENTAGE = 5; //5% of the vertical plane
+let zbox_h, zbox_w;
 
-var elmX1, elmX2, elmY1, elmY2;
-var elmCursorX, elmCursorY;
-var zoombox_x1, zoombox_y1, zoombox_x2, zoombox_y2;
-var elmZoombox;
+let elmX1, elmX2, elmY1, elmY2;
+let elmCursorX, elmCursorY;
+let zoombox_x1, zoombox_y1, zoombox_x2, zoombox_y2;
+let elmZoombox;
 
-var mouseX, mouseY;
+let mouseX, mouseY;
 
 
 /**
@@ -22,8 +22,8 @@ var mouseX, mouseY;
  */
 function init() {
     canvas = document.getElementById('fractal');
-    canvasPreview = document.getElementById('zoompreview');
-    paletStart = document.getElementById("rngPalet");
+    let canvasPreview = document.getElementById('zoompreview');
+    let paletStart = document.getElementById("rngPalet");
 
     /*
     Get references to important elements in the DOM
@@ -39,16 +39,16 @@ function init() {
     elmCursorY = document.getElementById('cursorY');
 
     // zoombox information
-    elmZoomX1 = document.getElementById('zoomx1');
-    elmZoomX2 = document.getElementById('zoomx2');
-    elmZoomY1 = document.getElementById('zoomy1');
-    elmZoomY2 = document.getElementById('zoomy2');
+    const elmZoomX1 = document.getElementById('zoomx1');
+    const elmZoomX2 = document.getElementById('zoomx2');
+    const elmZoomY1 = document.getElementById('zoomy1');
+    const elmZoomY2 = document.getElementById('zoomy2');
 
     elmZoombox = document.getElementById('zoombox');
 
-    var eventcatcher = document.getElementById("eventcatcher");
+    const eventcatcher = document.getElementById("eventcatcher");
 
-    var constants = prepareconstants(canvas, -2.0, 2.0, 2.0, -2.0);
+    let constants = prepareconstants(canvas, -2.0, 2.0, 2.0, -2.0);
 
     setupZoombox(constants);
 
@@ -129,7 +129,7 @@ function init() {
         draw(canvas, constants);
     });
 
-    var lastclick = null;
+    let lastclick = null;
 
     eventcatcher.addEventListener("click", (evt) => {
         let tempConstants = prepareconstants(canvasPreview, zoombox_x1, zoombox_y1, zoombox_x2, zoombox_y2);
@@ -178,7 +178,7 @@ function setupZoombox(constants){
  * @returns {{boundingBoxX2: *, boundingBoxX1: *, boundingBoxY2: *, canvas_width: number, canvas_height: number, palet_start: number, boundingBoxY1: *}}
  */
 function prepareconstants(cnvs, x1, y1, x2, y2) {
-    var lc = {
+    const lc = {
         boundingBoxX1: x1,
         boundingBoxY1: y1,
         boundingBoxX2: x2,
@@ -199,13 +199,13 @@ function prepareconstants(cnvs, x1, y1, x2, y2) {
 
 
 function draw(canvas, constants) {
-    var context = canvas.getContext('2d');
+    const context = canvas.getContext('2d');
     context.clearRect(0, 0, constants.canvas_width, constants.canvas_height);
 
     let pixelsDrawn = 0;
     // (CX, CY) represents the constant (as a complex number) used in the Mandelbrot calculations
-    for (var cx = constants.boundingBoxX1; cx < constants.boundingBoxX2; cx += constants.one_pixel_x) {
-        for (var cy = constants.boundingBoxY1; cy > constants.boundingBoxY2; cy -= constants.one_pixel_y) {
+    for (let cx = constants.boundingBoxX1; cx < constants.boundingBoxX2; cx += constants.one_pixel_x) {
+        for (let cy = constants.boundingBoxY1; cy > constants.boundingBoxY2; cy -= constants.one_pixel_y) {
             if (calcDistance(0, 0, cx, cy) < 2) {
                 let startx = 0;
                 let starty = 0;
@@ -277,6 +277,7 @@ function multiply(x1, y1, x2, y2) {
 /**
  * Calculates an HTML colorcode based on the number of iterations
  * @param iterations
+ * @param color_offset
  * @returns {string}
  */
 function getColorcode(iterations, color_offset) {

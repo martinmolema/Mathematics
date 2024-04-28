@@ -51,7 +51,7 @@ class Line {
 window.onload = () => {
     setup();
     baseLine = drawHexagons();
-    draw(1);
+    draw(nrOfIterationsRequested);
 }
 
 function setup() {
@@ -67,7 +67,7 @@ function setup() {
     elHexagons = document.getElementById("hexagons");
     elCbxShowHexagons = document.querySelector("input[name='cbxShowHexagons']");
 
-    elCbxShowHexagons.addEventListener("input", ()=>{
+    elCbxShowHexagons.addEventListener("input", () => {
         elHexagons.querySelectorAll("polyline").forEach(el => {
             el.classList.toggle("visible");
         })
@@ -97,25 +97,29 @@ function draw(nrOfIterationsToDraw) {
     let listOfLines = [new Line(x1, y1, x2, y2, 0)];
     let currentIteration = 1;
 
-    refInterval = window.setInterval(() => {
-        /**
-         * @type {Line[]}
-         */
-        const newListOfItems = [];
-        listOfLines.forEach(oneLine => {
-            newListOfItems.push(...splitLine(oneLine, currentIteration));
-        });
-        nrOfSegments = newListOfItems.length;
-        updateParameterInfoOnScreen();
-        drawLines(newListOfItems);
+    drawLines(listOfLines);
+    if (nrOfIterationsRequested > 0) {
 
-        listOfLines = newListOfItems;
-        currentIteration++;
-        if (currentIteration > nrOfIterationsToDraw) {
-            clearInterval(refInterval);
-            refInterval = undefined;
-        }
-    }, 500);
+        refInterval = window.setInterval(() => {
+            /**
+             * @type {Line[]}
+             */
+            const newListOfItems = [];
+            listOfLines.forEach(oneLine => {
+                newListOfItems.push(...splitLine(oneLine, currentIteration));
+            });
+            nrOfSegments = newListOfItems.length;
+            updateParameterInfoOnScreen();
+            drawLines(newListOfItems);
+
+            listOfLines = newListOfItems;
+            currentIteration++;
+            if (currentIteration > nrOfIterationsToDraw) {
+                clearInterval(refInterval);
+                refInterval = undefined;
+            }
+        }, 500);
+    }
 
 }
 
@@ -189,16 +193,16 @@ function getParameterValueFromInputs() {
     showHexagons = elCbxShowHexagons.checked;
 
     if (elInputIterationNr.value === "") {
-        nrOfIterationsRequested = 1;
+        nrOfIterationsRequested = 0;
         return;
     }
     nrOfIterationsRequested = parseInt(elInputIterationNr.value);
 
-    if (nrOfIterationsRequested === NaN) {
-        nrOfIterationsRequested = 1;
+    if (isNaN(nrOfIterationsRequested)) {
+        nrOfIterationsRequested = 0;
     }
-    if (nrOfIterationsRequested < 1) {
-        nrOfIterationsRequested = 1;
+    if (nrOfIterationsRequested < 0) {
+        nrOfIterationsRequested = 0;
     }
     if (nrOfIterationsRequested > 7) {
         nrOfIterationsRequested = 7;
@@ -230,21 +234,21 @@ function drawLines(listOfLines) {
 
 /**
  *
- * @returns {Point}
+ * @returns {Line}
  */
 function drawHexagons() {
 
-    const h1 = drawHexagon(1,ORIGIN_X - svgWidth / 2 + 100, ORIGIN_Y, 0);
-    const h7 = drawHexagon(7,h1[4].x, h1[4].y,0);
+    const h1 = drawHexagon(1, ORIGIN_X - svgWidth / 2 + 100, ORIGIN_Y, 0);
+    const h7 = drawHexagon(7, h1[4].x, h1[4].y, 0);
 
-    const h2 = drawHexagon(2, h1[2].x, h1[2].y,0);
-    const h3 = drawHexagon(3, h2[4].x, h2[4].y,0);
-    const h4 = drawHexagon(4, h7[4].x, h7[4].y,0);
+    const h2 = drawHexagon(2, h1[2].x, h1[2].y, 0);
+    const h3 = drawHexagon(3, h2[4].x, h2[4].y, 0);
+    const h4 = drawHexagon(4, h7[4].x, h7[4].y, 0);
 
     const h5 = drawHexagon(5, h7[5].x, h7[5].y, 1);
     const h6 = drawHexagon(6, h1[5].x, h1[5].y, 1);
 
-    return new Line(h1[0].x, h1[0].y, h5[3].x,h5[3].y);
+    return new Line(h1[0].x, h1[0].y, h5[3].x, h5[3].y);
 }
 
 function drawHexagon(hexagonNr, x, y, startAtPoint) {

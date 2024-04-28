@@ -215,12 +215,12 @@ export class PaletteFromMap extends Palette {
 
     readFromString(rgb_values_string){
         this.colors = [];
-        var lines = rgb_values_string.split(/\r?\n/);
+        const lines = rgb_values_string.split(/\r?\n/);
         console.log(lines);
-        var pattern = new RegExp("");
+        const pattern = new RegExp("");
 
-        for (var line of lines){
-            var parts = line.match(/([0-9]{1,3})/g);
+        for (let line of lines){
+            const parts = line.match(/([0-9]{1,3})/g);
             if (parts !== null && parts.length == 3) this.colors.push({
                 r: parseInt(parts[0]),
                 g: parseInt(parts[1]),

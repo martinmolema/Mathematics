@@ -183,7 +183,7 @@ export class GUIDriver {
             this.canvasLargeMandelbrot.width = w;
             this.canvasJuliaLarge.width      = w;
 
-            localStorage.setItem("V9_CANVAS_WIDTH", w);
+            localStorage.setItem("V9_CANVAS_WIDTH", w.toString());
 
             this.clearHistory();
 
@@ -198,7 +198,7 @@ export class GUIDriver {
             this.canvasLargeMandelbrot.height = h;
             this.canvasJuliaLarge.height = h;
 
-            localStorage.setItem("V9_CANVAS_HEIGHT", h);
+            localStorage.setItem("V9_CANVAS_HEIGHT", h.toString());
 
             this.clearHistory();
 
@@ -395,14 +395,14 @@ export class GUIDriver {
             // do the actual drawing
             if (do_exportMandel){
                 this.drawerExportMandelbrot.draw();
-                var windowMandelbrot = window.open();
+                const windowMandelbrot = window.open();
                 this.canvasExportM.toBlob(function (blob1) {
                     windowMandelbrot.document.location = URL.createObjectURL(blob1);
                 });
             }
             if (do_exportJulia) {
                 this.drawerExportJulia.draw();
-                var windowJulia = window.open();
+                const windowJulia = window.open();
                 this.canvasExportJ.toBlob(function (blob2) {
                     windowJulia.document.location = URL.createObjectURL(blob2);
                 });
@@ -538,7 +538,7 @@ export class GUIDriver {
      * @param fractal_plane_height
      */
     adjustCanvasDimensions(fractal_plane_height) {
-        var ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
+        const ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
 
         const width = fractal_plane_height * ratio;
         let x1, x2, y1, y2, centerx, centery;

@@ -1,7 +1,9 @@
 
-svg line {
+svg path {
   stroke:black;
   stroke-width: 1;
+  stroke-linejoin: arcs;
+  stroke-linecap: round;
 }
 
 label {

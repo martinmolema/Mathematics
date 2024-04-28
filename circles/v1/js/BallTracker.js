@@ -22,6 +22,7 @@ export class BallTracker {
      *
      * @param angleInDegrees angleInDegrees in degrees (0 - 360) . will internally be converted to radians
      * @param svgInfo
+     * @param extraClass
      */
     constructor(/* Number */ angleInDegrees, /* SVGInfo */ svgInfo, extraClass) {
         // 2π rad = 360° ; Math.cos & Math.sin need radians

@@ -385,7 +385,7 @@ export class GUIDriver {
             // do the actual drawing
             if (do_exportMandel){
                 this.drawerExportMandelbrot.draw();
-                var windowMandelbrot = window.open();
+                const windowMandelbrot = window.open();
                 this.canvasExportM.toBlob(function (blob1) {
                     windowMandelbrot.document.location = URL.createObjectURL(blob1);
                 });
@@ -518,7 +518,7 @@ export class GUIDriver {
      * @param fractal_plane_height
      */
     adjustCanvasDimensions(fractal_plane_height) {
-        var ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
+        const ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
 
         const width = fractal_plane_height * ratio;
         let x1, x2, y1, y2, centerx, centery;

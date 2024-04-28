@@ -18,7 +18,6 @@ const RGB_FILTER_B = (255);        // right most byte : 0000 0000 0000 0000 1111
 /**
  * Calculates one color using an iteration-count and an offset
  * @param iterations a number between 0 to MAX_ITERATIONS
- * @param offset a number between 0-100 indicating the percentage the palet colors should be shifted
  * @returns {{RGB_G: number, RGB_R: number, RGB_B: number}}
  */
 function createColorFromIterations(iterations){
@@ -54,10 +53,11 @@ function initRandomIterations(iterations, width, height){
 
 function createPalette(){
     // create the array for the palette
-    palette = new Array(MAX_ITERATIONS + 1);
-    for (var j = 0;j <= MAX_ITERATIONS; j++) {
+    const palette = new Array(MAX_ITERATIONS + 1);
+    for (let j = 0; j <= MAX_ITERATIONS; j++) {
         palette[j]= createColorFromIterations(j);
     }
+    return palette;
 }
 
 //-----------------------------------------------------------------
@@ -68,19 +68,20 @@ function createPalette(){
  * This function is used to build the page upon Window load
  */
 function InitPage(){
-    var canvas  = document.getElementById("mycanvas");
-    var w = canvas.width;
-    var h = canvas.height;
+    const canvas = document.getElementById("mycanvas");
+    const w = canvas.width;
+    const h = canvas.height;
 
-    var iterations = Array(w*h);
+    const iterations = Array(w * h);
     initRandomIterations(iterations, w, h);
 
-    var palette = createPalette();
+    const palette = createPalette();
     draw(canvas, iterations, 0);
 
-    var slider = document.getElementById("paletslider");
+    const slider = document.getElementById("paletslider");
     slider.addEventListener("input", (evt)=>{
-        offset = parseInt( slider.value);
+        let offset;
+        offset = parseInt(slider.value);
         draw(canvas, iterations, offset);
     });
 }
@@ -93,23 +94,23 @@ function InitPage(){
  * @param offset
  */
 function draw(canvas, iterations, offset){
-    var w = canvas.width;
-    var h = canvas.height;
-    var context = canvas.getContext('2d');
-    var completeImage = context.createImageData(w, h);
-    var imageRGBValues = completeImage.data;
+    const w = canvas.width;
+    const h = canvas.height;
+    const context = canvas.getContext('2d');
+    const completeImage = context.createImageData(w, h);
+    const imageRGBValues = completeImage.data;
 
 
-    for (var x=0; x < w; x++){
-        for(var y=0; y < h; y++){
+    for (let x=0; x < w; x++){
+        for(let y=0; y < h; y++){
             // calculate the index in the iterations array and get its value
-            var index = (y * w) + x;
-            var iter = iterations[index];
+            const index = (y * w) + x;
+            const iter = iterations[index];
 
             // simply use an index for the palette instead of calling a function each time.
             const realOffset = Math.ceil((offset / 100.0) * MAX_ITERATIONS);
-            var paletteIndex = (realOffset + iter) % MAX_ITERATIONS;
-            var color = palette[paletteIndex]
+            const paletteIndex = (realOffset + iter) % MAX_ITERATIONS;
+            const color = palette[paletteIndex];
 
             // calculate the index in the ImageData array
             let array_index = (y * w * 4 + x * 4);

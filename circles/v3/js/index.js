@@ -83,7 +83,7 @@ export class Runner {
         const nrOfNamesInPalette = pal.getNumberOfItemsInList();
         for(let i=0;i<nrOfNamesInPalette; i++) {
             const option = document.createElement("option");
-            option.value = i;
+            option.value = i.toString();
             option.innerText = pal.getPaletteName(i);
 
             selectElement.appendChild(option);
@@ -205,10 +205,8 @@ export class Runner {
 
     setValueOfRadioButtonGroup(radiobuttons) {
         for(const radiobutton of radiobuttons) {
-            radiobutton.checked = false;
-            if (radiobutton.value === this.options.ballColorType) {
-                radiobutton.checked = true;
-            }
+
+            radiobutton.checked = radiobutton.value === this.options.ballColorType;
         }
     }// setValueOfRadioButtonGroup
 
@@ -351,8 +349,7 @@ export class Runner {
             const x = evt.offsetX;
             const w = this.elHSLColorpicker.clientWidth;
             const colorNumber = 360 * (x/w);
-            const color = `hsl(${colorNumber}, 100%, 50%)`;
-            this.options.selectedSingleHSLColor = color;
+            this.options.selectedSingleHSLColor = `hsl(${colorNumber}, 100%, 50%)`;
             this.syncControls();
             this.init();
         });
@@ -415,10 +412,10 @@ export class Runner {
     exportToDownloadableFile(/* string */ json) {
         const filename = 'circles.configurations.json';
         // Set up the link
-        var link = document.createElement("a");
+        const link = document.createElement("a");
         link.setAttribute("target","_blank");
         if(Blob !== undefined) {
-            var blob = new Blob([json], {type: "text/plain"});
+            const blob = new Blob([json], {type: "text/plain"});
             link.setAttribute("href", URL.createObjectURL(blob));
         } else {
             link.setAttribute("href","data:text/plain," + encodeURIComponent(text));
@@ -475,7 +472,7 @@ export class Runner {
      * Saves the current configuration (the GUI-elements selected) to a new or existing configuration.
      * @param existingID
      */
-    saveCurrentGUIConfiguration(/* GUID */ existingID = "") {
+    saveCurrentGUIConfiguration(/* GUID | "" */ existingID = "") {
         if (existingID === "") {
             const name = prompt("What is the name of this configuration");
             if (name !== null) {

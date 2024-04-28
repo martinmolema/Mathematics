@@ -95,6 +95,10 @@ export class SavedConfigs {
      * Loads a set of configurations from the given parameter and then saves it to localstorage. first clears the current
      * set of
      * @param json
+     * @param clearCurrentset
+     * @param saveAfterLoadCompleted
+     * @param clearCurrentset
+     * @param saveAfterLoadCompleted
      */
     loadJSON(/* string */ json, /* boolean */ clearCurrentset=true, /* boolean */ saveAfterLoadCompleted = false) {
         if (clearCurrentset) {

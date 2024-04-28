@@ -48,7 +48,7 @@ class Constants {
         let RGB_FILTER_B = (255);
         const maxRange = 255 * 255 * 255; /* 3 bytes colorcode */
 
-        for (var c = 0; c <= 200; c++) {
+        for (let c = 0; c <= 200; c++) {
             const ratio = c / MAX_ITERATIONS;
             let ratedRatio = Math.ceil(ratio * maxRange); // integer needed!
             ratedRatio += offset;
@@ -75,7 +75,7 @@ class Constants {
     }// update()
 
     createHistoryObject(){
-        var newObject = new Constants(this.canvas,
+        const newObject = new Constants(this.canvas,
             this.boundingbox.x1,
             this.boundingbox.y1,
             this.boundingbox.x2,
@@ -158,14 +158,14 @@ class Zoombox {
 
 const MAX_ITERATIONS = 200;
 const EPSILON = 0.00003;
-var ZOOMBOX_WIDTH_PERCENTAGE = 5; //5% of the horizontal plane
-var ZOOMBOX_HEIGHT_PERCENTAGE = 5; //5% of the vertical plane
+let ZOOMBOX_WIDTH_PERCENTAGE = 5; //5% of the horizontal plane
+let ZOOMBOX_HEIGHT_PERCENTAGE = 5; //5% of the vertical plane
 
-var elmX1, elmX2, elmY1, elmY2;
-var elmCursorX, elmCursorY;
-var elmDrawtime, elmLivePreview, elmZoomHistoryInfo;
+let elmX1, elmX2, elmY1, elmY2;
+let elmCursorX, elmCursorY;
+let elmDrawtime, elmLivePreview, elmZoomHistoryInfo;
 
-var zoomhistory;
+let zoomhistory;
 
 /**
  * Start the preparations and draw the fractal
@@ -177,8 +177,8 @@ function init() {
     const canvas        = document.getElementById('fractal');
     const canvasPreview = document.getElementById('zoompreview');
 
-    var constants     = new ConstantsWithPixels(canvas, -2.0, 2.0, 2.0, -2.0);
-    var prevConstants = new ConstantsWithPixels(canvasPreview, -2.0, 2.0, 2.0, -2.0);
+    let constants = new ConstantsWithPixels(canvas, -2.0, 2.0, 2.0, -2.0);
+    const prevConstants = new ConstantsWithPixels(canvasPreview, -2.0, 2.0, 2.0, -2.0);
 
 
     zoomhistory = [];
@@ -203,11 +203,11 @@ function init() {
     elmZoomHistoryInfo = document.getElementById("zoomhistoryinfo");
 
     // palet slider
-    var paletStart = document.getElementById("rngPalet");
+    const paletStart = document.getElementById("rngPalet");
 
-    var eventcatcher = document.getElementById("eventcatcher");
+    const eventcatcher = document.getElementById("eventcatcher");
 
-    var zoombox = new Zoombox(constants, ZOOMBOX_WIDTH_PERCENTAGE, ZOOMBOX_HEIGHT_PERCENTAGE);
+    const zoombox = new Zoombox(constants, ZOOMBOX_WIDTH_PERCENTAGE, ZOOMBOX_HEIGHT_PERCENTAGE);
 
     AddToHistory(constants);
 
@@ -342,7 +342,7 @@ function AddToHistory(constants) {
 
 function GetFromHistory() {
     if (zoomhistory.length == 0) return NULL;
-    var result = zoomhistory.pop();
+    const result = zoomhistory.pop();
     elmZoomHistoryInfo.textContent = zoomhistory.length;
     return result;
 }
@@ -363,14 +363,14 @@ function showBoundingBoxInfo(constants) {
  * @returns {number}
  */
 function draw(localConst) {
-    var time_start = Date.now();
+    const time_start = Date.now();
 
     const pixels      = localConst.pixels;
     const localCanvas = localConst.canvas;
 
     // (CX, CY) represents the constant (as a complex number) used in the Mandelbrot calculations
-    for (var cx = localConst.boundingbox.x1; cx < localConst.boundingbox.x2; cx += localConst.one_pixel_x) {
-        for (var cy = localConst.boundingbox.y1; cy > localConst.boundingbox.y2; cy -= localConst.one_pixel_y) {
+    for (let cx = localConst.boundingbox.x1; cx < localConst.boundingbox.x2; cx += localConst.one_pixel_x) {
+        for (let cy = localConst.boundingbox.y1; cy > localConst.boundingbox.y2; cy -= localConst.one_pixel_y) {
 
             let px = Math.round((Math.abs(cx - localConst.boundingbox.x1) / localConst.boundingbox.dimensions.w) * localConst.canvas_dimensions.w);
             let py = Math.round((Math.abs(localConst.boundingbox.y1 - cy) / localConst.boundingbox.dimensions.h) * localConst.canvas_dimensions.h);
@@ -423,7 +423,7 @@ function draw(localConst) {
 
     redrawUsingPalette(localConst);
 
-    var time_end = Date.now();
+    const time_end = Date.now();
 
     return time_end - time_start;
 } // draw()
@@ -437,20 +437,20 @@ function draw(localConst) {
  */
 function redrawUsingPalette(localConstants) {
 
-    var pixels = localConstants.pixels;
-    var canvas = localConstants.canvas;
+    const pixels = localConstants.pixels;
+    const canvas = localConstants.canvas;
 
     // now put the image that is in memory only, on the canvas
-    var context = canvas.getContext('2d');
+    const context = canvas.getContext('2d');
     context.fillStyle="black";
     context.fillRect(0,0,localConstants.canvas_dimensions.w, localConstants.canvas_dimensions.h);
-    var completeImage = context.createImageData(localConstants.canvas_dimensions.w, localConstants.canvas_dimensions.h);
-    var imageRGBValues = completeImage.data;
+    const completeImage = context.createImageData(localConstants.canvas_dimensions.w, localConstants.canvas_dimensions.h);
+    const imageRGBValues = completeImage.data;
 
     const COLOR_BLACK = {RGB_R: 0, RGB_G: 0, RGB_B: 0};
 
-    for (var x = 0; x < localConstants.canvas_dimensions.w; x++) {
-        for (var y = 0; y < localConstants.canvas_dimensions.h; y++) {
+    for (let x = 0; x < localConstants.canvas_dimensions.w; x++) {
+        for (let y = 0; y < localConstants.canvas_dimensions.h; y++) {
             let pixel = pixels[y * localConstants.canvas_dimensions.w + x];
 
             if (pixel) {

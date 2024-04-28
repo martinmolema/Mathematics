@@ -12,10 +12,12 @@ let elDivider;
 let elDividerValue;
 let elRatioValue;
 let elRangeSliderRatio;
+let elStartReversed;
 
 let dividerValue;
 let nrOfIterationsRequested;
 let ratioValue;
+let startReversed = false;
 
 let svgWidth;
 let svgHeight;
@@ -33,6 +35,15 @@ class Line {
         this.x2 = x2;
         this.y2 = y2;
     }
+
+    swapBeginEnd(){
+        const tx = this.x2;
+        const ty = this.y2;
+        this.x2 = this.x1;
+        this.y2 = this.y1;
+        this.x1 = tx;
+        this.y1 = ty;
+    }
 }
 
 function setup() {
@@ -43,6 +54,7 @@ function setup() {
     document.getElementById("inputs").addEventListener("input", handleInputChanges);
     elInputIterationNr = document.querySelector("input[name='iteration']");
     elDivider = document.querySelector("input[name='angle']");
+    elStartReversed = document.querySelector("input[name='startReversed']");
 
     elRangeSliderRatio = document.querySelector("input[name='baselineratio']");
     elRatioValue = document.getElementById("ratioValue");
@@ -60,11 +72,6 @@ function draw(nrOfIterationsToDraw) {
         return;
     }
 
-    /**
-     *
-     * @type {Line[]}
-     */
-
     const margin = 150;
 
     // note that the direction of the line is important so the iterations all point outward!
@@ -72,6 +79,12 @@ function draw(nrOfIterationsToDraw) {
     const line2 = new Line(svgWidth / 2 , margin / 2, line1.x1, line1.y1); // left
     const line3 = new Line(line1.x2, line1.y2, line2.x1, line2.y1); // right
 
+
+    if (startReversed) {
+        line1.swapBeginEnd();
+        line2.swapBeginEnd();
+        line3.swapBeginEnd();
+    }
 
     let listOfLines = [
         line1, line2, line3
@@ -153,6 +166,7 @@ function getParameterValueFromInputs(){
     nrOfIterationsRequested = parseInt(elInputIterationNr.value);
     dividerValue = parseInt(elDivider.value) / 10;
     ratioValue = parseInt(elRangeSliderRatio.value) / 10;
+    startReversed = elStartReversed.checked;
 }
 
 function handleInputChanges(event) {
@@ -163,7 +177,7 @@ function handleInputChanges(event) {
 
 function drawLines(listOfLines) {
     elLines.innerHTML = '';
-    listOfLines.forEach(line => {
+/*    listOfLines.forEach(line => {
         const svgLine = document.createElementNS(SVG_NS, 'line');
 
         svgLine.setAttribute('x1', line.x1);
@@ -172,6 +186,12 @@ function drawLines(listOfLines) {
         svgLine.setAttribute('y2', line.y2);
         svgLine.classList.add("segment");
         elLines.appendChild(svgLine);
-    });
+    });*/
+
+    const path = listOfLines.map(p => `M ${p.x1},${p.y1} L ${p.x2},${p.y2}`).join(' ');
+    const svgPolyline = document.createElementNS(SVG_NS, 'path');
+    svgPolyline.setAttribute('d', path);
+    elLines.appendChild(svgPolyline);
+    return path;
 
 }

@@ -21,8 +21,8 @@ export class MandelbrotFractalDrawer extends FractalDrawer {
         let can_w = this.constants.canvas_dimensions.w;
 
         // FIXME: loop through the (x,y) plane of the canvas and calculate the value for the fractalplane instead
-        for (var cx = x1; cx < x2; cx +=  op_x) {
-            for (var cy = y1; cy > y2; cy -= op_y) {
+        for (let cx = x1; cx < x2; cx +=  op_x) {
+            for (let cy = y1; cy > y2; cy -= op_y) {
                 if (this.calculateDistanceSquared(0, 0, cx, cy) < (2 * 2)) {
                     let startx = 0;
                     let starty = 0;

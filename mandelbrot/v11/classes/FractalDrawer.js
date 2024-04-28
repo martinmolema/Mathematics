@@ -27,22 +27,22 @@ export class FractalDrawer {
      */
     redrawUsingPalette() {
 
-        var pixels  = this.constants.pixels;
-        var canvas  = this.constants.canvas;
-        var palette = this.palettes.getActive();
+        const pixels = this.constants.pixels;
+        const canvas = this.constants.canvas;
+        const palette = this.palettes.getActive();
 
         // now put the image that is in memory only, on the canvas
-        var context = canvas.getContext('2d');
+        const context = canvas.getContext('2d');
         context.fillStyle = "black";
         context.fillRect(0, 0, this.constants.canvas_dimensions.w, this.constants.canvas_dimensions.h);
 
-        var completeImage = context.createImageData(this.constants.canvas_dimensions.w, this.constants.canvas_dimensions.h);
-        var imageRGBValues = completeImage.data;
+        const completeImage = context.createImageData(this.constants.canvas_dimensions.w, this.constants.canvas_dimensions.h);
+        const imageRGBValues = completeImage.data;
 
         const COLOR_BLACK = {RGB_R: 0, RGB_G: 0, RGB_B: 0};
 
-        for (var x = 0; x < this.constants.canvas_dimensions.w; x++) {
-            for (var y = 0; y < this.constants.canvas_dimensions.h; y++) {
+        for (let x = 0; x < this.constants.canvas_dimensions.w; x++) {
+            for (let y = 0; y < this.constants.canvas_dimensions.h; y++) {
                 let pixel = pixels[y * this.constants.canvas_dimensions.w + x];
 
                 if (pixel) {

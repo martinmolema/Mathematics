@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Gosper" type="JavascriptDebugType" uri="http://localhost:63342/wiskunde/gosper/index.html" useBuiltInWebServerPort="true">
+  <configuration default="false" name="Gosper" type="JavascriptDebugType" uri="http://localhost:63342/wiskunde/linefractals/gosper/index.html" useBuiltInWebServerPort="true">
     <method v="2" />
   </configuration>
 </component>

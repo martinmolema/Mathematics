@@ -67,9 +67,9 @@
                 <input type="range" min="0" max="100" value="0" name="paletstart" id="rngPalet">
             </div>
             <div class="palettetype">
-                <label>RGB</label>
+                <label for="paletteRGB">RGB</label>
                 <input type="radio" name="palettetype" value="RGB" checked id="paletteRGB">
-                <label>HSL</label>
+                <label for="paletteHSL">HSL</label>
                 <input type="radio" name="palettetype" value="HSL" id="paletteHSL">
                 <div class="hslinfo invisible" id="hslinfo">
                     <label for="hslLightness">Lightness</label>
@@ -94,7 +94,7 @@
         <legend>Export</legend>
         <button id="btnExport">Export</button>
         <br>
-        <label for="hslSaturation">Width</label>
+        <label for="sliderExportWidth">Width</label>
         <input type="range" min="400" max="8000" value="1000" step="100" name="exportwidth" id="sliderExportWidth">
         <span id="exportWidthValue"></span>px
     </fieldset>

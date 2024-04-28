@@ -28,9 +28,9 @@ export class JuliaAlternateFractalDrawer extends FractalDrawer {
         let y1 = this.constants.boundingbox.y1;
 
         let zx = x1;
-        for (var x = 0; x < w; x++) {
+        for (let x = 0; x < w; x++) {
             let zy = y1;
-            for (var y = 0; y< h;y++) {
+            for (let y = 0; y< h; y++) {
                 let qx = zx*zx;
                 let qy = zy*zy;
 

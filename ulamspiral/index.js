@@ -271,7 +271,6 @@ function findValueAtColRow(col, row) {
  * @param row {number} starting cell(y)
  * @param dx {number} direction to look for other prime (x-direction)
  * @param dy {number} direction to look for other prime (y-direction)
- * @param result {Array<Point>}
  * @returns {Array<Point>}
  */
 

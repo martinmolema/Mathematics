@@ -150,7 +150,7 @@ export class GUIDriver {
         this.elmExportWidthText = document.getElementById("exportWidthValue");
         this.elmExportWidthText.textContent = this.elmSliderExportWidth.value;
 
-        var req = new XMLHttpRequest();
+        const req = new XMLHttpRequest();
         req.open("get","../maps/maps.lst");
         req.send();
         req.onload = function(evt) {
@@ -158,7 +158,7 @@ export class GUIDriver {
             let contents = req.response;
             let items = contents.split(/\r?\n/);
             let options=document.getElementById("mapOptions");
-            for(var item of items){
+            for(let item of items){
                 let fparts = item.split(/\./);
                 let element = document.createElement("option");
                 element.label = fparts[0];
@@ -410,17 +410,17 @@ export class GUIDriver {
             // do the actual drawing
             if (do_exportMandel){
                 this.drawerExportMandelbrot.draw();
-                var windowMandelbrot = window.open();
+                const windowMandelbrot = window.open();
                 this.canvasExportM.toBlob(function (blob1) {
                     windowMandelbrot.document.location = URL.createObjectURL(blob1);
                 });
             }
         });
         document.getElementById("loadPalette").addEventListener("click", evt =>{
-            var filename = document.getElementById("mapOptions").value + ".map";
-            var that = this;
+            const filename = document.getElementById("mapOptions").value + ".map";
+            const that = this;
 
-            var req = new XMLHttpRequest();
+            const req = new XMLHttpRequest();
             req.open("get","../maps/" + filename);
             req.send();
             req.onload = function(evt) {
@@ -571,7 +571,7 @@ export class GUIDriver {
      * @param fractal_plane_height
      */
     adjustCanvasDimensions(fractal_plane_height) {
-        var ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
+        const ratio = this.canvasLargeMandelbrot.clientWidth / this.canvasLargeMandelbrot.clientHeight;
 
         const width = fractal_plane_height * ratio;
         let x1, x2, y1, y2, centerx, centery;
