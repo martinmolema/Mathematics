@@ -21,6 +21,7 @@ The following projects are available:
   * Dragon curve
   * Gosper curve
   * Snowflake
+  * Barnsley fern
 
 You can see the working code here: [http://math.molema.org](http://wiskunde.molema.org) and play with it
 yourself. 
