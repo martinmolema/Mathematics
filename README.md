@@ -16,7 +16,12 @@ The following projects are available:
 7. Theorode's Spiral of integer square roots
 8. Archimedean Spiral using polar coordinates
 9. Fibonacci squares
+10. Line fractals
+  * Canopy fractal
+  * Dragon curve
+  * Gosper curve
+  * Snowflake
 
-You can see the working code here: [http://wiskunde.molema.org](http://wiskunde.molema.org) and play with it
+You can see the working code here: [http://math.molema.org](http://wiskunde.molema.org) and play with it
 yourself. 
 

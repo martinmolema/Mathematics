@@ -1,0 +1,13 @@
+main {
+  display: flex;
+  flex-direction: row;
+}
+
+article + article {
+  margin-left: 30px;
+}
+
+
+svg {
+  border: 1px solid darkgray;
+}

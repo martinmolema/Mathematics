@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gosper fractal</title>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../global.css">
+</head>
+<body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1>Gosper line fractal!</h1>
+            </header>
+            <p>Have a look at these locations: <a
+                    href="https://larryriddle.agnesscott.org/ifs/ksnow/flowsnake.htm">[1]</a>
+                and <a href="https://larryriddle.agnesscott.org/ifs/ksnow/IFSdetailsFlowsnake.htm">[2]</a>. The <a
+                        href="https://en.wikipedia.org/wiki/Gosper_curve">Wikipedia</a> page
+                has more information. Extract below.
+            </p>
+            <p>
+                The Gosper curve, named after Bill Gosper, also known as the Peano-Gosper Curve and the flowsnake (a
+                spoonerism of snowflake), is a space-filling curve whose limit set is rep-7. It is a fractal curve
+                similar in its construction to the dragon curve and the Hilbert curve.
+                <br>
+                The Gosper curve can also be used for efficient hierarchical hexagonal clustering and indexing.
+            </p>
+            <p>
+                Changing the number of iterations will kick-off an timed animation showing you all the steps. So
+                please be patient until the animation is finished before changing the number again.
+            </p>
+        </section>
+        <section id="inputs">
+            <label for="iterationNr">Iteration:</label>
+            <input name="iteration" value="1" min="1" max="7" id="iterationNr" type="number">
+            <span>Number of segments:</span> <span id="linecount"></span>
+            <br>
+            <label for="showHexagons">Show hexagons</label>
+            <input name="cbxShowHexagons" type="checkbox" checked id="showHexagons">
+        </section>
+    </article>
+    <article>
+        <section>
+            <svg width="800" height="800" id="canvas">
+                <g id="hexagons"></g>
+                <g id="lines"></g>
+            </svg>
+        </section>
+    </article>
+</main>
+
+</body>
+</html>

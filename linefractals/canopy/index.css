@@ -1,0 +1,13 @@
+
+svg line {
+  stroke-width: 1;
+}
+
+label {
+  display: inline-block;
+  width: 10em;
+}
+
+#inputs math {
+  font-size:16pt;
+}

@@ -2,7 +2,7 @@
 
 window.onload = () => {
     setup();
-    draw(1);
+    draw(0);
 }
 const SVG_NS = "http://www.w3.org/2000/svg";
 let elCanvas;
@@ -20,12 +20,7 @@ let ratioValue;
 let svgWidth;
 let svgHeight;
 
-let ORIGIN_X;
-let ORIGIN_Y;
-
 let refInterval = undefined;
-
-
 class Line {
     x1;
     y1;
@@ -45,9 +40,6 @@ function setup() {
     svgWidth = elCanvas.width.baseVal.value;
     svgHeight = elCanvas.height.baseVal.value;
 
-    ORIGIN_X = svgWidth / 2;
-    ORIGIN_Y = svgHeight / 2;
-
     document.getElementById("inputs").addEventListener("input", handleInputChanges);
     elInputIterationNr = document.querySelector("input[name='iteration']");
     elDivider = document.querySelector("input[name='angle']");
@@ -63,10 +55,6 @@ function setup() {
 }
 
 function draw(nrOfIterationsToDraw) {
-    let x1 = ORIGIN_X - svgWidth / 2;
-    let x2 = ORIGIN_X + svgWidth / 2;
-    let y1 = ORIGIN_Y;
-    let y2 = ORIGIN_Y;
 
     if (refInterval !== undefined) {
         return;
@@ -76,27 +64,43 @@ function draw(nrOfIterationsToDraw) {
      *
      * @type {Line[]}
      */
-    let listOfLines = [new Line(x1, y1, x2, y2)];
+
+    const margin = 150;
+
+    // note that the direction of the line is important so the iterations all point outward!
+    const line1 = new Line(svgWidth - margin, svgHeight - margin, margin , svgHeight - margin); // base
+    const line2 = new Line(svgWidth / 2 , margin / 2, line1.x1, line1.y1); // left
+    const line3 = new Line(line1.x2, line1.y2, line2.x1, line2.y1); // right
+
+
+    let listOfLines = [
+        line1, line2, line3
+    ];
+
     let currentIteration = 1;
+    drawLines(listOfLines);
 
-    refInterval = window.setInterval(() => {
-        /**
-         * @type {Line[]}
-         */
-        const newListOfItems = [];
-        listOfLines.forEach(oneLine => {
-            newListOfItems.push(...splitLine(oneLine));
-        });
-        drawLines(newListOfItems);
+    if (nrOfIterationsToDraw >0){
+        refInterval = window.setInterval(() => {
+            /**
+             * @type {Line[]}
+             */
+            const newListOfItems = [];
+            listOfLines.forEach(oneLine => {
+                newListOfItems.push(...splitLine(oneLine));
+            });
+            drawLines(newListOfItems);
 
-        listOfLines = newListOfItems;
-        currentIteration++;
-        if (currentIteration > nrOfIterationsToDraw) {
-            clearInterval(refInterval);
-            refInterval = undefined;
-        }
-    }, 500);
+            listOfLines = newListOfItems;
+            currentIteration++;
+            if (currentIteration > nrOfIterationsToDraw) {
+                clearInterval(refInterval);
+                refInterval = undefined;
+            }
+        }, 500);
 
+
+    }
 }
 
 /**

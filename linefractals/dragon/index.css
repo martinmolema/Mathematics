@@ -1,7 +1,13 @@
 
 svg line {
-  stroke:black;
   stroke-width: 1;
+  stroke:black;
+}
+
+svg path {
+  stroke: black;
+  stroke-width: 1;
+  fill:none;
 }
 
 label {

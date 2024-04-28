@@ -1,0 +1,33 @@
+
+svg line {
+  stroke-width: 1;
+}
+
+svg .iteration1 { stroke: black; }
+svg .iteration2 { stroke: red; }
+svg .iteration3 { stroke: blue; }
+svg .iteration4 { stroke: green; }
+svg .iteration5 { stroke: orange; }
+svg .iteration6 { stroke: darkgray; }
+svg .iteration7 { stroke: brown; }
+svg .iteration8 { stroke: yellow; }
+
+label {
+  display: inline-block;
+  width: 10em;
+}
+
+input[type="range"] {
+  width:200px;
+  display: inline-block;
+}
+
+svg polyline.hexagon {
+  stroke-width: 1;
+  fill:none;
+  stroke-opacity: 0.7;
+}
+
+svg polyline.hexagon:not(.visible) {
+  visibility: hidden;
+}
