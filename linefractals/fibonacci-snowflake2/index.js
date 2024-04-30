@@ -127,9 +127,14 @@ function draw(iterations) {
 
     const polyline = document.createElementNS(SVG_NS, 'polyline');
     const pointsStr = points.map(l => `${l.x},${l.y}`).join(' ');
+    nrOfLineSegments = setOfLines.length;
     polyline.setAttribute('points', pointsStr);
 
-    nrOfLineSegments = setOfLines.length;
+/*
+    const strokeWidth = nrOfIterationsRequested;
+    polyline.setAttribute('stroke-width', strokeWidth);
+*/
+
     updateParameterInfoOnScreen();
 
     elLines.appendChild(polyline);
@@ -147,6 +152,8 @@ function draw(iterations) {
 
 function createLine(x1, y1, x2, y2) {
     const line = document.createElementNS(SVG_NS, 'line');
+
+
     line.setAttribute('x1', x1);
     line.setAttribute('y1', y1);
     line.setAttribute('x2', x2);

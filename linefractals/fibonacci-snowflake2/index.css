@@ -4,6 +4,7 @@ svg polyline {
   stroke-width: 1;
   stroke-linecap: square;
   stroke-linejoin: miter;
+  vector-effect:non-scaling-stroke; /*https://stackoverflow.com/questions/78407562/when-zooming-out-of-svg-the-colors-fade/78409844#78409844 */
 }
 
 svg line {
