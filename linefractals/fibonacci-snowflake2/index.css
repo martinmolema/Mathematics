@@ -1,0 +1,19 @@
+svg polyline {
+  stroke:black;
+  fill: none;
+  stroke-width: 1;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+svg line {
+  stroke-width: 1;
+  stroke:black;
+}
+
+#theword {
+  width: 1200px  ;
+  word-break: break-all;
+  overflow: hidden;
+
+}

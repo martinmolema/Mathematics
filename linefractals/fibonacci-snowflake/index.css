@@ -1,0 +1,17 @@
+svg line {
+  stroke:black;
+  stroke-width: 1;
+}
+
+svg rect {
+  stroke-width: 1;
+}
+
+.iteration0 { stroke: black;       fill: black;}
+.iteration1 { stroke: red;         fill: red}
+.iteration2 { stroke: blue;        fill:blue ;}
+.iteration3 { stroke: blueviolet; fill: blueviolet;}
+.iteration4 { stroke: green; fill: green;}
+.iteration5 { stroke: fuchsia; fill: fuchsia;}
+.iteration6 { stroke: darkgray; fill:darkgray;}
+.iteration7 { stroke: lightcoral; fill:lightcoral;}
