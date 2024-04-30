@@ -11,9 +11,13 @@ let elSliderLineLengthDivider;
 let elSliderRandomness;
 let elUseColoring;
 let elFadeColors;
+let elSliderNrOfBranches;
+let elNrOfBranchesValue;
+let elNrOfLineSegments
 
 let elLineLengthValue;
 let elRandomnessValue;
+let nrOfBranches;
 
 let nrOfIterationsRequested;
 let angleRequested;
@@ -64,6 +68,8 @@ function setup() {
     elAngleInDegrees = document.getElementById("angleInDegrees");
     elLineLengthValue = document.getElementById("lineLengthValue");
     elRandomnessValue = document.getElementById("randomnessValue");
+    elNrOfBranchesValue = document.getElementById("valueNrOfBranches");
+    elNrOfLineSegments = document.getElementById("nrOfLineSegments");
 
     elInputIterationNr = document.querySelector("input[name='iteration']");
     elSliderAngle = document.querySelector("input[name='iterationAngle']");
@@ -71,6 +77,7 @@ function setup() {
     elSliderRandomness = document.querySelector("input[name='randomness']");
     elUseColoring = document.querySelector("input[name='useColoring']");
     elFadeColors = document.querySelector("input[name='fadeColors']");
+    elSliderNrOfBranches = document.querySelector("input[name='branches']");
 
     document.getElementById("inputs").addEventListener("input", handleInputChanges);
 
@@ -79,6 +86,9 @@ function setup() {
 }
 
 function draw(nrOfIterationsToDraw) {
+
+    clearCanvas();
+
     let x1 = ORIGIN_X;
     let x2 = x1;
     let y1 = ORIGIN_Y;
@@ -94,6 +104,9 @@ function draw(nrOfIterationsToDraw) {
      */
     let listOfLines = [new Line(x1, y1, x2, y2, 0)];
     let lastCreatedItems = [...listOfLines];
+    let nrOfLinesDrawn = 1;
+
+    drawLines(listOfLines);
 
     for (let i = 0; i < nrOfIterationsToDraw; i++) {
         // create an empty list to keep track of newly created items; it is not allowed to add to an array in the for-each
@@ -103,15 +116,20 @@ function draw(nrOfIterationsToDraw) {
         lastCreatedItems.forEach(oneLine => {
             newlyCreatedItems.push(...createNewLines(oneLine, i));
         });
+        nrOfLinesDrawn += newlyCreatedItems.length;
+        drawLines(newlyCreatedItems);
 
         // add the newly created items to the total list of items
-        listOfLines.push(...newlyCreatedItems);
+        // listOfLines.push(...newlyCreatedItems);
 
         // set the list for next iteration
         lastCreatedItems = newlyCreatedItems;
     }
-    drawLines(listOfLines);
+    elNrOfLineSegments.textContent =  nrOfLinesDrawn.toLocaleString();
+
+    // drawLines(listOfLines);
 }
+
 function getRandomNumber() {
     return (-randomnessRange / 2) + Math.floor(Math.random() * randomnessRange);
 }
@@ -120,32 +138,29 @@ function createNewLines(line, iterationNr) {
     const diffX = line.x2 - line.x1;
     const diffY = line.y2 - line.y1;
     const lineLength = Math.sqrt(diffX * diffX + diffY * diffY);
-    const lineSegmentLength = lineLength *  (1/lengthDividerRequested);
+    const lineSegmentLength = lineLength * (1 / lengthDividerRequested);
 
-    const randomDevation1 = getRandomNumber();
-    const newAngle1 = angleRequested - randomDevation1 / 2;
-    const randomDevation2 = getRandomNumber();
-    const newAngle2 = angleRequested - randomDevation2 / 2;
+    const anglePerBrancheDegrees = angleRequested / (nrOfBranches - 1);
+    const startAngleDegrees = -angleRequested / 2;
 
-    const angle1 = (newAngle1 / 360) * (Math.PI * 2);
-    const angle2 = (newAngle2 / 360) * (Math.PI * 2);
+    const twoPi = Math.PI * 2;
+    const currentAngleRadians = -Math.atan2(diffY, diffX);
 
-    const currentAngle = -Math.atan2(diffY, diffX);
-
-    const angleLine1 = currentAngle + angle1;
-    const angleLine2 = currentAngle - angle2;
-
-    const line1 = new Line(line.x2, line.y2, line.x2 + Math.cos(angleLine1) * lineSegmentLength, line.y2 - Math.sin(angleLine1) * lineSegmentLength, iterationNr);
-    const line2 = new Line(line.x2, line.y2, line.x2 + Math.cos(angleLine2) * lineSegmentLength, line.y2 - Math.sin(angleLine2) * lineSegmentLength, iterationNr);
-
-    // return both the given line and the newly created lines
-    return [line1, line2];
+    const lines = [];
+    for (let i = 0; i < nrOfBranches; i++) {
+        const randomDevation = getRandomNumber();
+        const angleDegrees = startAngleDegrees + anglePerBrancheDegrees * i - randomDevation / 2;
+        const angleRadians = currentAngleRadians + (angleDegrees / 360) * twoPi;
+        lines.push(new Line(line.x2, line.y2, line.x2 + Math.cos(angleRadians) * lineSegmentLength, line.y2 - Math.sin(angleRadians) * lineSegmentLength, iterationNr));
+    }
+    return lines;
 }
 
 function updateParameterInfoOnScreen() {
     elAngleInDegrees.textContent = angleRequested.toString();
     elLineLengthValue.textContent = lengthDividerRequested.toString();
     elRandomnessValue.textContent = randomnessRange.toString();
+    elNrOfBranchesValue.textContent = nrOfBranches.toString();
 }
 
 function getParameterValueFromInputs() {
@@ -170,6 +185,7 @@ function getParameterValueFromInputs() {
     randomnessRange = elSliderRandomness.value;
     useColoring = elUseColoring.checked;
     fadeColors = elFadeColors.checked;
+    nrOfBranches = parseInt(elSliderNrOfBranches.value);
 }
 
 function handleInputChanges(event) {
@@ -178,14 +194,18 @@ function handleInputChanges(event) {
     draw(nrOfIterationsRequested);
 }
 
-function drawLines(listOfLines) {
+function clearCanvas(){
     elLines.innerHTML = '';
+}
+
+function drawLines(listOfLines) {
+
     const nrOfElements = listOfLines.length;
     let currentElementNr = 0;
     listOfLines.forEach(line => {
         const svgLine = document.createElementNS(SVG_NS, 'line');
         const hslColor = (line.iterationSetNr / nrOfIterationsRequested) * 360;
-        const color = useColoring ? `hsl(${hslColor}deg 80% 40%)`  : 'black';
+        const color = useColoring ? `hsl(${hslColor}deg 80% 40%)` : 'black';
 
         svgLine.setAttribute('x1', line.x1);
         svgLine.setAttribute('y1', line.y1);
@@ -193,6 +213,8 @@ function drawLines(listOfLines) {
         svgLine.setAttribute('y2', line.y2);
         svgLine.classList.add("segment");
         svgLine.setAttribute('stroke', color);
+        // the line thickness could be influenced based on the iteration number.
+        // svgLine.setAttribute('stroke-width', nrOfIterationsRequested - line.iterationSetNr) ;
         if (fadeColors) {
             svgLine.setAttribute('stroke-opacity', (1 - line.iterationSetNr / nrOfIterationsRequested).toFixed(3));
         }
