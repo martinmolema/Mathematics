@@ -1,6 +1,13 @@
+
+html {
+  font-size: 100%;
+}
+
 main {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  font-family: sans-serif;
 }
 
 main article:first-of-type {
@@ -19,4 +26,39 @@ article + article {
 
 svg {
   border: 1px solid darkgray;
+}
+
+@media screen and (max-width: 1200px) {
+ html {
+   font-size: 1.2rem;
+ }
+
+  main article:first-of-type {
+    width:100%;
+    height:auto;
+  }
+  input, label, span {
+   font-size:1.4rem;
+  }
+
+  input {
+    height: 1.2rem;
+    line-height: 1.5rem;
+  }
+
+  input[type="checkbox"], input[type="radio"] {
+    width: 30px;
+    height: 30px;
+  }
+
+  input[type="range"]::-moz-range-track,
+  input[type="range"]::-webkit-slider-runnable-track  {
+    height:40px;
+    background: red;
+  }
+
+  math {
+    font-size: 2rem !important;
+  }
+
 }

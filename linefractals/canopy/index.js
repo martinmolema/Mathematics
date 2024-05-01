@@ -102,11 +102,10 @@ function draw(nrOfIterationsToDraw) {
      *
      * @type {Line[]}
      */
-    let listOfLines = [new Line(x1, y1, x2, y2, 0)];
-    let lastCreatedItems = [...listOfLines];
+    let lastCreatedItems = [new Line(x1, y1, x2, y2, 0)];
     let nrOfLinesDrawn = 1;
 
-    drawLines(listOfLines);
+    drawLines(lastCreatedItems);
 
     for (let i = 0; i < nrOfIterationsToDraw; i++) {
         // create an empty list to keep track of newly created items; it is not allowed to add to an array in the for-each
@@ -114,20 +113,17 @@ function draw(nrOfIterationsToDraw) {
 
         // loop through the list of the last iteration and create new lines
         lastCreatedItems.forEach(oneLine => {
-            newlyCreatedItems.push(...createNewLines(oneLine, i));
+            const newItems = createNewLines(oneLine, i);
+            newlyCreatedItems.push(...newItems);
+            drawLines(newItems);
         });
         nrOfLinesDrawn += newlyCreatedItems.length;
-        drawLines(newlyCreatedItems);
-
-        // add the newly created items to the total list of items
-        // listOfLines.push(...newlyCreatedItems);
 
         // set the list for next iteration
         lastCreatedItems = newlyCreatedItems;
     }
     elNrOfLineSegments.textContent =  nrOfLinesDrawn.toLocaleString();
 
-    // drawLines(listOfLines);
 }
 
 function getRandomNumber() {

@@ -30,8 +30,12 @@
 
                 <math>
                     <mfrac>
-                        <mrow><mn>5</mn></mrow>
-                        <mrow><mn>8</mn></mrow>
+                        <mrow>
+                            <mn>5</mn>
+                        </mrow>
+                        <mrow>
+                            <mn>8</mn>
+                        </mrow>
                     </mfrac>
                 </math>
                 times the area of the original triangle, while the perimeters of the successive stages increase without
@@ -48,40 +52,45 @@
             </p>
         </section>
         <section id="inputs">
-            <label for="iterationNr">Iteration:</label>
-            <input name="iteration" value="0" id="iterationNr" type="number" min="0" max="12">
-            <br>
-            <label for="angleslider">Angle:</label>
-            <input type="range" id="angleslider" min="21" max="100" step="1" name="angle" value="30"> &rightarrow;
-            <math>
-                <mfrac>
-                    <mrow>
-                        <mi>&Pi;</mi>
-                    </mrow>
-                    <mrow>
-                        <mn id="dividerValue"></mn>
-                    </mrow>
-                </mfrac>
-            </math>
-            <span>(Larger values will yield blunt triangles)</span>
-            <br>
-            <label for="baselineratio">Ratio of base line:</label>
-            <input type="range" id="baselineratio" min="21" max="100" step="1" name="baselineratio" value="30">
-            &rightarrow;
-            <math style="font-size:large">
-                <mfrac>
-                    <mrow>
-                        <mn>1</mn>
-                    </mrow>
-                    <mrow>
-                        <mn><span id="ratioValue"></span></mn>
-                    </mrow>
-                </mfrac>
-            </math>
-            <span>(The amount of space of the base line not used for the new iteration)</span>
-            <br>
-            <label for="cbxReverseStart">Reverse start/end points on 1st iteration</label>
-            <input type="checkbox" name="startReversed" id="cbxReverseStart">
+            <p>
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="0" id="iterationNr" type="number" min="0" max="12">
+            </p>
+            <p>
+                <label for="angleslider">Angle:</label>
+                <input type="range" id="angleslider" min="21" max="100" step="1" name="angle" value="30"> &rightarrow;
+                <math>
+                    <mfrac>
+                        <mrow>
+                            <mi>&Pi;</mi>
+                        </mrow>
+                        <mrow>
+                            <mn id="dividerValue"></mn>
+                        </mrow>
+                    </mfrac>
+                </math>
+                <span>(Larger values will yield blunt triangles)</span>
+            </p>
+            <p>
+                <label for="baselineratio">Ratio of base line:</label>
+                <input type="range" id="baselineratio" min="21" max="100" step="1" name="baselineratio" value="30">
+                &rightarrow;
+                <math style="font-size:large">
+                    <mfrac>
+                        <mrow>
+                            <mn>1</mn>
+                        </mrow>
+                        <mrow>
+                            <mn><span id="ratioValue"></span></mn>
+                        </mrow>
+                    </mfrac>
+                </math>
+                <span>(The amount of space of the base line not used for the new iteration)</span>
+            </p>
+            <p>
+                <label for="cbxReverseStart">Reverse start/end points on 1st iteration</label>
+                <input type="checkbox" name="startReversed" id="cbxReverseStart">
+            </p>
         </section>
     </article>
     <article>

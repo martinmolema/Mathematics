@@ -8,26 +8,27 @@
     <script src="index.js"></script>
 </head>
 <body>
-  <main>
-      <article>
-          <section>
-              <header>
-                  <h1>Fibonacci snowflake</h1>
-              </header>
-          </section>
-          <section id="inputs">
-              <label for="iterationNr">Iteration:</label>
-              <input name="iteration" value="0" min="0" max="10" id="iterationNr" type="number">
+<main>
+    <article>
+        <section>
+            <header>
+                <h1>Fibonacci snowflake</h1>
+            </header>
+        </section>
+        <section id="inputs">
+            <p>x
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="0" min="0" max="10" id="iterationNr" type="number">
+            </p>
+        </section>
+    </article>
+    <article>
+        <svg width="800" height="800" id="canvas">
+            <g id="lines">
 
-          </section>
-      </article>
-      <article>
-          <svg width="800" height="800" id="canvas">
-              <g id="lines">
-
-              </g>
-          </svg>
-      </article>
-  </main>
+            </g>
+        </svg>
+    </article>
+</main>
 </body>
 </html>

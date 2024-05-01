@@ -13,69 +13,75 @@
         <section>
             <header>
                 <h1>Tree fractal</h1>
-                <p>
-                    See <a href="https://en.wikipedia.org/wiki/Fractal_canopy">Wikipedia</a> for the Canopy Fractal.
-                    Extract below
-                </p>
-                <p>
-                    In geometry, a fractal canopy, a type of fractal tree, is one of the easiest-to-create types of
-                    fractals. Each canopy is created by splitting a line segment into two smaller segments at the end
-                    (symmetric binary tree), and then splitting the two smaller segments as well, and so on,
-                    infinitely.Canopies are distinguished by the angle between concurrent adjacent segments
-                    and ratio between lengths of successive segments.
 
-                    A fractal canopy must have the following three properties:
-                </p>
-                <ol>
-                    <lI> The angle between any two neighboring line segments is the same throughout the fractal.
-                    </lI>
-                    <lI>The ratio of lengths of any two consecutive line segments is constant.</lI>
-                    <lI>Points all the way at the end of the smallest line segments are interconnected, which is to say
-                        the entire figure is a connected graph.
-                    </lI>
-                </ol>
-                <p>
-                    The pulmonary system used by humans to breathe resembles a fractal canopy, as do trees, blood
-                    vessels, viscous fingering, electrical breakdown, and crystals with appropriately adjusted growth
-                    velocity from seed.
-                </p>
-                <p>
-                    Play around with the parameters of the drawing with the controls below. Please be aware that the browser
-                    may freeze or crash when large amounts of line segments are requested (typically more than
-                    <math>
-                        <msup>
-                            <mn>2</mn>
-                            <mn>16</mn>
-                        </msup>
-                        <mo>=</mo>
-                        <mn>65.536</mn>
-                    </math>
-                    segments
-                    )
-                </p>
             </header>
+            <p>
+                See <a href="https://en.wikipedia.org/wiki/Fractal_canopy">Wikipedia</a> for the Canopy Fractal.
+                Extract below
+            </p>
+            <p>
+                In geometry, a fractal canopy, a type of fractal tree, is one of the easiest-to-create types of
+                fractals. Each canopy is created by splitting a line segment into two smaller segments at the end
+                (symmetric binary tree), and then splitting the two smaller segments as well, and so on,
+                infinitely.Canopies are distinguished by the angle between concurrent adjacent segments
+                and ratio between lengths of successive segments.
+
+                A fractal canopy must have the following three properties:
+            </p>
+            <ol>
+                <lI> The angle between any two neighboring line segments is the same throughout the fractal.
+                </lI>
+                <lI>The ratio of lengths of any two consecutive line segments is constant.</lI>
+                <lI>Points all the way at the end of the smallest line segments are interconnected, which is to say
+                    the entire figure is a connected graph.
+                </lI>
+            </ol>
+            <p>
+                The pulmonary system used by humans to breathe resembles a fractal canopy, as do trees, blood
+                vessels, viscous fingering, electrical breakdown, and crystals with appropriately adjusted growth
+                velocity from seed.
+            </p>
+            <p>
+                Play around with the parameters of the drawing with the controls below. Please be aware that the browser
+                may freeze or crash when large amounts of line segments are requested (typically more than
+                <math>
+                    <msup>
+                        <mn>2</mn>
+                        <mn>16</mn>
+                    </msup>
+                    <mo>=</mo>
+                    <mn>65.536</mn>
+                </math>
+                segments
+                )
+            </p>
         </section>
         <section id="inputs">
-            <label for="iterationNr">Iteration:</label>
-            <input name="iteration" value="1" min="1" max="15" id="iterationNr" type="number">
-            <span id="nrOfLineSegments"></span> <span>line segments</span>
-            <br>
-            <label for="nrOfBranches">Branches:</label>
-            <input name="branches" value="2" min="2" max="10" id="nrOfBranches" type="range">
-            <span id="valueNrOfBranches"></span>
-            <br>
-            <label for="sliderAngle">Angle</label>
-            <input name="iterationAngle" id="sliderAngle" min="1" max="180" value="90" type="range">
-            <span id="angleInDegrees"></span>
-            <br>
-            <label for="sliderRandomness">Randomness</label>
-            <input name="randomness" id="sliderRandomness" min="0" max="90" value="0" type="range">
-            <span id="randomnessValue"></span>
-            <span>(The angle in relation to the base line)</span>
-            <br>
-            <label for="sliderLength">Line length</label>
-            <input name="lineLength" id="sliderLength" min="1" max="5" value="1.5" step="0.1" type="range">
-            <span>
+            <p>
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="1" min="1" max="15" id="iterationNr" type="number">
+                <span id="nrOfLineSegments"></span> <span>line segments</span>
+            </p>
+            <p>
+                <label for="nrOfBranches">Branches:</label>
+                <input name="branches" value="2" min="2" max="10" id="nrOfBranches" type="range">
+                <span id="valueNrOfBranches"></span>
+            </p>
+            <p>
+                <label for="sliderAngle">Angle</label>
+                <input name="iterationAngle" id="sliderAngle" min="1" max="180" value="90" type="range">
+                <span id="angleInDegrees"></span>
+            </p>
+            <p>
+                <label for="sliderRandomness">Randomness</label>
+                <input name="randomness" id="sliderRandomness" min="0" max="90" value="0" type="range">
+                <span id="randomnessValue"></span>
+                <span>(The angle in relation to the base line)</span>
+            </p>
+            <p>
+                <label for="sliderLength">Line length</label>
+                <input name="lineLength" id="sliderLength" min="1" max="5" value="1.5" step="0.1" type="range">
+                <span>
                 <math>
                     <mfrac>
                         <mrow>
@@ -87,15 +93,16 @@
                     </mfrac>
                 </math>
             </span>
-            <span>(Higher values generate smaller lines in iterations)</span>
-            <br>
-            <label for="cbxHSLColoring">Use HSL coloring</label>
-            <input type="checkbox" checked id="cbxHSLColoring" name="useColoring">
-
-            <br>
-            <label for="cbxFadeAlpha">Fade colors</label>
-            <input type="checkbox" checked id="cbxFadeAlpha" name="fadeColors">
-
+                <span>(Higher values generate smaller lines in iterations)</span>
+            </p>
+            <p>
+                <label for="cbxHSLColoring">Use HSL coloring</label>
+                <input type="checkbox" checked id="cbxHSLColoring" name="useColoring">
+            </p>
+            <p>
+                <label for="cbxFadeAlpha">Fade colors</label>
+                <input type="checkbox" checked id="cbxFadeAlpha" name="fadeColors">
+            </p>
 
         </section>
     </article>
