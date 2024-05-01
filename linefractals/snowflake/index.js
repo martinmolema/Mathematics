@@ -131,11 +131,17 @@ function splitLine(line) {
 
     const segmentPeekBaseLength = lineLength / segmentPeekDivider;
 
+    // calculate how the given line is oriented
     const currentAngle = Math.atan2(diffY, diffX);
 
+    // calculate the angle requested by the user
     const angleRequested = (Math.PI / dividerValue);
 
+    // calculate what is the angle of the peek relative to the current angle
     const peekAngle = angleRequested - currentAngle;
+
+    // now create a right scalene triangle, with B having an angle of 90 degrees. Angle A is the requested angle
+    // remains to calculate the other angle (C) . Now we have 3 angles and we can calculate the radius (c)
     const rightAngle = (90 / 180) * Math.PI;
     const otherPeekAngle = Math.PI - rightAngle - angleRequested; // Right scalene triangle, angle B = 90 deg.
     let radius;
@@ -145,6 +151,7 @@ function splitLine(line) {
     } else {
         radius = Math.abs(Math.sin(rightAngle) / Math.sin(otherPeekAngle) * Math.abs(segmentPeekBaseLength / 2));
     }
+
     const line1 = new Line(line.x1, line.y1, line.x1 + diffX / segmentBaseDivider, line.y1 + diffY / segmentBaseDivider);
     const line4 = new Line(line.x2 - diffX / segmentBaseDivider, line.y2 - diffY / segmentBaseDivider, line.x2, line.y2);
 

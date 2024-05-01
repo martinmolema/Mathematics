@@ -19,16 +19,18 @@
                     of as the shape that is generated from repeatedly folding a strip of paper in half, although there
                     are other curves that are called dragon curves that are generated differently.
                 </p>
-                <p>
-                    Changing the number of iterations will kick-off an timed animation showing you all the steps. So
-                    please be patient until the animation is finished before changing the number again.
-                </p>
+
             </header>
         </section>
         <section id="inputs">
             <p>
                 <label for="iterationNr">Iteration:</label>
-                <input name="iteration" value="1" min="1" max="30" id="iterationNr" type="number">
+                <input name="iteration" value="0" min="0" max="30" id="iterationNr" type="number">
+            </p>
+            <p>
+                <label for="sliderAngle">Angle:</label>
+                <input name="angle" value="45" min="1" max="90" id="sliderAngle" type="range">
+                <span id="elAngleValue"></span>
             </p>
         </section>
     </article>
