@@ -22,6 +22,9 @@ The following projects are available:
   * Gosper curve
   * Snowflake
   * Barnsley fern
+  * Peano curve
+  * Fibonacci spiral
+  * Fibonacci snowflake 
 
 You can see the working code here: [http://math.molema.org](http://wiskunde.molema.org) and play with it
 yourself. 
