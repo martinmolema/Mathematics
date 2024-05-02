@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Peano's space filling curve</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../global.css">
+    <script src="index.js"></script>
+</head>
+<body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1>Peano curve</h1>
+            </header>
+            <p>See <a href="https://en.wikipedia.org/wiki/Peano_curve">Wikipedia</a>. Extract below</p>
+            <p>
+                In geometry, the Peano curve is the first example of a space-filling curve to be discovered, by Giuseppe
+                Peano in 1890. Peano's curve is a surjective, continuous function from the unit interval onto the
+                unit square, however it is not injective. Peano was motivated by an earlier result of Georg Cantor that
+                these two sets have the same cardinality. Because of this example, some authors use the phrase "Peano
+                curve" to refer more generally to any space-filling curve
+            </p>
+            <h2>Construction</h2>
+            <p>
+                Peano's curve may be constructed by a sequence of steps, where the
+                <math>
+                    <mi>i</mi>
+                </math>
+                th step constructs a
+                set
+                <math>
+                    <msub>
+                        <mi>S</mi>
+                        <mi>i</mi>
+                    </msub>
+                </math>
+                of
+                squares, and a sequence
+                <math>
+                    <msub>
+                        <mi>P</mi>
+                        <mi>i</mi>
+                    </msub>
+                </math>
+                of the centers of the squares, from the set and sequence constructed in the
+                previous step. As a base case, S0 consists of the single unit square, and P0 is the one-element sequence
+                consisting of its center point.
+
+                In step i, each square s of <math><msub><mi>S</mi><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow></msub></math>
+                is partitioned into nine smaller equal squares, and its center point
+                c is replaced by a contiguous subsequence of the centers of these nine smaller squares. This subsequence
+                is formed by grouping the nine smaller squares into three columns, ordering the centers contiguously
+                within each column, and then ordering the columns from one side of the square to the other, in such a
+                way that the distance between each consecutive pair of points in the subsequence equals the side length
+                of the small squares. There are four such orderings possible:
+            </p>
+            <ul>
+                <li>Left three centers bottom to top, middle three centers top to bottom, and right three centers bottom
+                    to top
+                <li>Right three centers bottom to top, middle three centers top to bottom, and left three centers bottom
+                    to top
+                <li>Left three centers top to bottom, middle three centers bottom to top, and right three centers top to
+                    bottom
+                <li> Right three centers top to bottom, middle three centers bottom to top, and left three centers top
+                    to bottom
+            </ul>
+            <p>
+                Among these four orderings, the one for s is chosen in such a way that the distance between the first
+                point of the ordering and its predecessor in Pi also equals the side length of the small squares. If c
+                was the first point in its ordering, then the first of these four orderings is chosen for the nine
+                centers that replace c.[3]
+
+                The Peano curve itself is the limit of the curves through the sequences of square centers, as i goes to
+                infinity.
+
+            </p>
+        </section>
+        <section id="inputs">
+            <p>
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="1" id="iterationNr" type="number" min="1" max="6">
+            </p>
+        </section>
+    </article>
+    <article>
+        <section>
+            <svg id="canvas" width="800" height="800">
+                <g id="lines">
+                </g>
+            </svg>
+        </section>
+    </article>
+</main>
+
+</body>
+</html>
