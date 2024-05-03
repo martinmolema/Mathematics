@@ -24,7 +24,7 @@ line.connector {
 }
 
 line.connector.differentColor {
-  stroke:green;
+  stroke:red;
 }
 
 line.connector.invisible {
