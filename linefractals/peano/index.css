@@ -42,3 +42,16 @@ circle.dot.start {
 circle.dot.end {
   fill:red;
 }
+
+svg rect.cell {
+  fill:none;
+  stroke: lightgray;
+  stroke-width: 1;
+}
+
+svg rect.boundary {
+  fill: none;
+  stroke:blue;
+  stroke-width: 1;
+  stroke-opacity: 0.8;
+}

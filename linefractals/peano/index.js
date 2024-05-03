@@ -11,12 +11,14 @@ let elCbxUseAnimatedPath;
 let elCbxUseDifferentColorForConnectors;
 let elCbxShowConnectors;
 let elCbxShowDots
+let elCbxShowRectangles;
 
 let nrOfIterationsRequested;
 let showConnectors = true;
 let differentColorForConnectors = true;
 let useAnimatedPath = false;
 let showDots = false;
+let showRectangles = false;
 
 let svgWidth;
 let svgHeight;
@@ -45,11 +47,13 @@ function setup() {
     elCbxUseDifferentColorForConnectors = document.getElementById("cbxConnectorDifferentColor");
     elCbxShowConnectors = document.getElementById("cbxShowConnectors");
     elCbxShowDots = document.getElementById("cbxShowStartEndPoints");
+    elCbxShowRectangles = document.getElementById("cbxShowRectangles");
 
     elCbxShowConnectors.checked = showConnectors;
     elCbxUseDifferentColorForConnectors.checked = differentColorForConnectors;
     elCbxUseAnimatedPath.checked = useAnimatedPath;
     elCbxShowDots.checked = showDots;
+    elCbxShowRectangles.checked = showRectangles;
 
     document.getElementById("inputs").addEventListener("input", handleInputChanges);
 
@@ -89,6 +93,7 @@ function getParameterValueFromInputs() {
     differentColorForConnectors = elCbxUseDifferentColorForConnectors.checked;
     showConnectors = elCbxShowConnectors.checked;
     showDots = elCbxShowDots.checked;
+    showRectangles = elCbxShowRectangles.checked;
 
     elCbxUseDifferentColorForConnectors.disabled = useAnimatedPath;
     elCbxShowConnectors.disabled = useAnimatedPath;
@@ -168,8 +173,23 @@ function draw(nrOfIterationsRequested) {
         direction = (direction === DIRECTION_DOWN) ? DIRECTION_UP : DIRECTION_DOWN;
     }
 
+    if (showRectangles) {
+        drawRectangles(curves);
+    }
+
     if (useAnimatedPath) {
         createAndAddAnimatedPolyline(curves);
+    }
+}
+
+function drawRectangles(curves){
+    if (showRectangles){
+        curves.forEach(curve => {
+            curve.cells.forEach(cell => {
+                elLines.appendChild(createRectangle(cell.x, cell.y, cell.w, cell.h, "cell"));
+            });
+            elLines.appendChild(createRectangle(curve.cells[0].x, curve.cells[0].y, curve.cells[0].w * 3, curve.cells[0].w * 3, "boundary"));
+        });
     }
 }
 
@@ -209,6 +229,26 @@ function drawCurve(curve) {
     }
 }
 
+/**
+ *
+ * @param x {number}
+ * @param y {number}
+ * @param w {number}
+ * @param h {number}
+ * @param className {string}
+ * @return {SVGRectElement}
+ */
+function createRectangle(x, y, w, h, className) {
+
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('x', x);
+    rect.setAttribute('y', y);
+    rect.setAttribute('width', w);
+    rect.setAttribute('height', h);
+    rect.classList.add(className);
+    return rect;
+}
+
 function createDot(point, className) {
     const dot = document.createElementNS(SVG_NS, "circle");
 
@@ -216,7 +256,7 @@ function createDot(point, className) {
     dot.setAttribute('cy', toStringFixed(point.y));
     dot.setAttribute('r', '3');
     dot.classList.add('dot');
-    if (className !== undefined){
+    if (className !== undefined) {
         dot.classList.add(className);
     }
 
