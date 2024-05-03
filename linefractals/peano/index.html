@@ -5,7 +5,7 @@
     <title>Peano's space filling curve</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="../global.css">
-    <script src="index.js"></script>
+    <script src="index.js" type="module"></script>
 </head>
 <body>
 <main>
@@ -45,10 +45,19 @@
                     </msub>
                 </math>
                 of the centers of the squares, from the set and sequence constructed in the
-                previous step. As a base case, S0 consists of the single unit square, and P0 is the one-element sequence
-                consisting of its center point.
-
-                In step i, each square s of <math><msub><mi>S</mi><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow></msub></math>
+                previous step. As a base case, <math><msub><mi>P</mi><mn>0</mn></msub></math> consists of the single
+                unit square, and <math><msub><mi>P</mi><mn>0</mn></msub></math> is the one-element sequence consisting
+                of its center point. In step <math><mi>i</mi></math>, each square <math><mi>S</mi></math> of
+                <math>
+                    <msub>
+                        <mi>S</mi>
+                        <mrow>
+                            <mi>i</mi>
+                            <mo>-</mo>
+                            <mn>1</mn>
+                        </mrow>
+                    </msub>
+                </math>
                 is partitioned into nine smaller equal squares, and its center point
                 c is replaced by a contiguous subsequence of the centers of these nine smaller squares. This subsequence
                 is formed by grouping the nine smaller squares into three columns, ordering the centers contiguously
@@ -67,20 +76,47 @@
                     to bottom
             </ul>
             <p>
-                Among these four orderings, the one for s is chosen in such a way that the distance between the first
-                point of the ordering and its predecessor in Pi also equals the side length of the small squares. If c
+                Among these four orderings, the one for
+                <math>
+                    <mi>S</mi>
+                </math>
+                is chosen in such a way that the distance between the first
+                point of the ordering and its predecessor in
+                <math><msub><mi>P</mi><mi>i</mi></msub></math>
+                also equals the side length of the small squares. If <math><mi>c</mi></math>
                 was the first point in its ordering, then the first of these four orderings is chosen for the nine
-                centers that replace c.[3]
+                centers that replace <math><mi>c</mi></math>.
+                <br>
 
-                The Peano curve itself is the limit of the curves through the sequences of square centers, as i goes to
-                infinity.
+                The Peano curve itself is the limit of the curves through the sequences of square centers, as
+                <math>
+                    <mi>i</mi>
+                </math>
+                goes to infinity.
 
             </p>
         </section>
+        <hr>
         <section id="inputs">
             <p>
                 <label for="iterationNr">Iteration:</label>
-                <input name="iteration" value="1" id="iterationNr" type="number" min="1" max="6">
+                <input name="iteration" value="0" id="iterationNr" type="number" min="0" max="6">
+            </p>
+            <p>
+                <label for="cbxUseAnimatedPath">Use animated path</label>
+                <input type="checkbox" name="useAnimatedPath" id="cbxUseAnimatedPath">
+            </p>
+            <p>
+                <label for="cbxConnectorDifferentColor">Show connectors in different color</label>
+                <input type="checkbox" name="connectorsDifferentColor" id="cbxConnectorDifferentColor">
+            </p>
+            <p>
+                <label for="cbxShowConnectors">Show connectors</label>
+                <input type="checkbox" name="showConnectors" id="cbxShowConnectors">
+            </p>
+            <p>
+                <label for="cbxShowStartEndPoints">Show start/end points</label>
+                <input type="checkbox" name="showDots" id="cbxShowStartEndPoints">
             </p>
         </section>
     </article>

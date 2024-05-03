@@ -1,6 +1,6 @@
 svg polyline {
   stroke:black;
-  stroke-width: 1;
+  stroke-width: 2;
   fill: none;
   animation: dash 2s linear forwards;
 }
@@ -9,4 +9,36 @@ svg polyline {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+svg line {
+  stroke-width: 2;
+}
+
+line.shape {
+  stroke:black;
+}
+
+line.connector {
+  stroke: black;
+}
+
+line.connector.differentColor {
+  stroke:green;
+}
+
+line.connector.invisible {
+  visibility: hidden;
+}
+
+svg circle.dot {
+  stroke: none;
+}
+
+circle.dot.start {
+  fill:green;
+}
+
+circle.dot.end {
+  fill:red;
 }
