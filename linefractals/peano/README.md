@@ -1,10 +1,14 @@
 # The Peano Curve
 
+Working example can be viewed [here](https://math.molema.org/linefractals/peano/).
+
 ## Introduction
+
 I was looking at this curve and tried to discover how the iterations were built. This was a bit of a mystery. I saw
 approximately where the similarities were, but the sizes didn't add up. This is best seen using images.
 
 ## The shape repeats
+
 The image below shows the starting situation ("iteration zero").
 
 ![peano-iteration-0.png](images/peano-iteration-0.png)
@@ -76,6 +80,7 @@ $ f(n) = 3^n $
 So for iteration 4 we calculate the fourth power of 3 = 3*3*3*3 = 81 rectangles. 
 
 ## The algorithm
+
 Now we understand how the shapes must be layed out, we can construct an algorithm in pseudo code:
 ```text
   divide the given plane in rectangles
@@ -98,5 +103,33 @@ Now we understand how the shapes must be layed out, we can construct an algorith
 The trick is to follow the path:
 > up -> right -> down -> right -> up -> right -> down -> right -> up
 
-etcetera. Have a look at the function `draw` in the file `index.js`. There is some clutter there due to all the drawing
+etcetera. When looking closely at the shapes that need to be drawn in this order, the variant is changing every time from right oriented
+to left oriented. This simplifies our algorithm as we only need to switch to the other variant for every next shape. 
+The direction needs to change if there is no more room going in that direction. Because we know the dimensions of our
+plane (calculated in the number of rectangles vertically and horizontally) we can also use a simple `for` loop here. 
+However, we need to setup this loop to go either forward or back depending on the loop having to go up or down.  
+
+## Drawing the shape and definition of rows & columns
+
+The drawing of the curve can be done using the given direction (up/down) and variant (left/right orientation). To actually
+draw a shape it is best to split the given rectangle again in 9 rectangles, get the center of each rectangle and calculate
+the 6 points. 
+
+So the definition of a row and column is 
+> the rows and columns are defined so that each cell defined by (column, row) can hold one shape.
+
+For the first iteration there is therefore only one row and one column. For the second iteration there are 3 rows and
+3 columns. 
+
+
+See the example of the first iteration below.
+
+![definition-rows-and-columns.png](images/definition-rows-and-columns.png)
+
+The blue rectangles define the rows and columns. The light gray rectangles are the support rectangles to be able to draw 
+the shape. 
+
+## The source code
+
+Have a look at the function `draw` in the file `index.js`. There is some clutter there due to all the drawing
 options, but the basics are clearly visible.
