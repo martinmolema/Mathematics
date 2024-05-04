@@ -127,7 +127,7 @@ For iteration zero there is therefore only one row and one column. For the first
 * $f\left(1\right) = \left(3^1\right)^2 = \left(3\right)^2 = 3^2 = 9$
 * $f\left(2\right) = \left(3^2\right)^2 = \left(3 * 3\right)^2 = 9^2 = 81$
 * $f\left(3\right) = \left(3^3\right)^2 = \left(3 * 3 * 3\right)^2 = 27^2 = 729$
-* $f\left(4\right) = \left(3^4\right)^2 = \left(3 * 3 * 3 * 3\right)^2 = 81^2 = 53,1441$
+* $f\left(4\right) = \left(3^4\right)^2 = \left(3 * 3 * 3 * 3\right)^2 = 81^2 = 6,561$
 
 
 See the example of the first iteration below.
