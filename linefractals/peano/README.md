@@ -1,11 +1,16 @@
 # The Peano Curve
+In geometry, the Peano curve is the first example of a space-filling curve to be discovered, by Giuseppe
+Peano in 1890. Peano's curve is a surjective, continuous function from the unit interval onto the
+unit square, however it is not injective. Peano was motivated by an earlier result of Georg Cantor that
+these two sets have the same cardinality. Because of this example, some authors use the phrase "Peano
+curve" to refer more generally to any space-filling curve
 
 Working example can be viewed [here](https://math.molema.org/linefractals/peano/).
 
 ## Introduction
 
 I was looking at this curve and tried to discover how the iterations were built. This was a bit of a mystery. I saw
-approximately where the similarities were, but the sizes didn't add up. This is best seen using images.
+approximately where the similarities were, but the sizes didn't add up. This is best seen using images. 
 
 ## The shape repeats
 
