@@ -23,6 +23,11 @@ article + article {
   margin-left: 30px;
 }
 
+#inputs p+p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 
 svg {
   border: 1px solid darkgray;

@@ -75,9 +75,11 @@ yellow rectangles:
 
 So to calculate how many rectangles need to be calculated the following formula is used:
 
-$ f(n) = 3^n $
+$f\left(n\right) = \left(3^2\right)^2$
 
-So for iteration 4 we calculate the fourth power of 3 = 3*3*3*3 = 81 rectangles. 
+So for iteration 4 we calculate the fourth power of 3 =>
+$f\left(4\right) = \left(3^4\right)^2 = \left(3 * 3 * 3 * 3\right)^2 = 81^2 = 6561$ 
+rectangles. (81 rows x 81 columns).
 
 ## The algorithm
 
@@ -118,8 +120,14 @@ the 6 points.
 So the definition of a row and column is 
 > the rows and columns are defined so that each cell defined by (column, row) can hold one shape.
 
-For the first iteration there is therefore only one row and one column. For the second iteration there are 3 rows and
-3 columns. 
+For iteration zero there is therefore only one row and one column. For the first iteration there are 3 rows and
+3 columns. This quickly amounts to los of rectangles! See the calculations below. 
+
+* $f\left(0\right) = \left(3^0\right)^2 = \left(0\right)^2 = 1^2 = 1$
+* $f\left(1\right) = \left(3^1\right)^2 = \left(3\right)^2 = 3^2 = 9$
+* $f\left(2\right) = \left(3^2\right)^2 = \left(3 * 3\right)^2 = 9^2 = 81$
+* $f\left(3\right) = \left(3^3\right)^2 = \left(3 * 3 * 3\right)^2 = 27^2 = 729$
+* $f\left(4\right) = \left(3^4\right)^2 = \left(3 * 3 * 3 * 3\right)^2 = 81^2 = 53,1441$
 
 
 See the example of the first iteration below.
