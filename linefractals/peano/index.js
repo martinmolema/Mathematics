@@ -7,6 +7,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 let elCanvas;
 let elInputIterationNr;
 let elLines;
+let elRectangles;
 let elCbxUseAnimatedPath;
 let elCbxUseDifferentColorForConnectors;
 let elCbxShowConnectors;
@@ -41,6 +42,8 @@ function setup() {
     ORIGIN_Y = svgHeight / 2;
 
     elLines = document.getElementById("lines");
+    elRectangles = document.getElementById("rectangles");
+
     elInputIterationNr = document.querySelector("input[name='iteration']");
 
     elCbxUseAnimatedPath = document.getElementById("cbxUseAnimatedPath");
@@ -186,9 +189,9 @@ function drawRectangles(curves){
     if (showRectangles){
         curves.forEach(curve => {
             curve.cells.forEach(cell => {
-                elLines.appendChild(createRectangle(cell.x, cell.y, cell.w, cell.h, "cell"));
+                elRectangles.appendChild(createRectangle(cell.x, cell.y, cell.w, cell.h, "cell"));
             });
-            elLines.appendChild(createRectangle(curve.cells[0].x, curve.cells[0].y, curve.cells[0].w * 3, curve.cells[0].w * 3, "boundary"));
+            elRectangles.appendChild(createRectangle(curve.cells[0].x, curve.cells[0].y, curve.cells[0].w * 3, curve.cells[0].w * 3, "boundary"));
         });
     }
 }
