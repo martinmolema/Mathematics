@@ -2,9 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Plasma Cloud</title>
+    <link rel="stylesheet" href="../global.css">
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1>Plasma cloud or Diamond-square algorithm</h1>
+            </header>
+            <p>
+                See <a href="https://en.wikipedia.org/wiki/Diamond-square_algorithm">Wikipedia</a>. Extract below.
+            </p>
+            <p>
+                The diamond-square algorithm is a method for generating heightmaps for computer graphics. It is a
+                slightly better algorithm than the three-dimensional implementation of the midpoint displacement
+                algorithm, which produces two-dimensional landscapes. It is also known as the random midpoint
+                displacement fractal, the cloud fractal or the plasma fractal, because of the plasma effect produced
+                when applied.
 
+                The idea was first introduced by Fournier, Fussell and Carpenter at SIGGRAPH in 1982.
+
+                The diamond-square algorithm starts with a two-dimensional grid, then randomly generates terrain height
+                from four seed values arranged in a grid of points so that the entire plane is covered in squares.
+            </p>
+            <p>The resulting fractal takes quite some time to generate as it is a recursive algorithm. So please be patient!</p>
+            <p>Making the drawing area bigger results in much longer calculating time!</p>
+        </section>
+        <section id="inputs">
+            <label>Color cycling</label>
+            <input type="range" min="0" max="100" value="0" id="sliderColorOffset" name="colornr">
+        </section>
+    </article>
+    <article>
+        <section>
+            <canvas width="600" height="600" id="canvas"></canvas>
+        </section>
+    </article>
+</main>
 </body>
 </html>
