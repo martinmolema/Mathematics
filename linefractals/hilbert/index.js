@@ -1,7 +1,6 @@
 "use strict";
 
 import {Rectangle, SVG_NS} from "./rectangle.js";
-import {Point} from "./point.js";
 
 const MIN_NR_OF_ITERATIONS = 0;
 const MAX_NR_OF_ITERATIONS = 10;
@@ -12,10 +11,14 @@ let elInputIterationNr;
 let elNrOfSegments;
 let elCbxUseAnimatedPath;
 let elCbxUseColoring;
+let elCbxAddTypeIndicator;
+let elCbxShowConnectors;
 
 let nrOfIterationsRequested;
 let useAnimatedPath = false;
 let useColoring = false;
+let addTypeIndicator = false;
+let showConnectors = true;
 
 let svgWidth;
 let svgHeight;
@@ -34,7 +37,9 @@ function setup() {
     elCanvas = document.getElementById('canvas');
     elNrOfSegments = document.getElementById('nrOfSegments');
     elCbxUseAnimatedPath = document.getElementById('cbxUseAnimatedPath');
+    elCbxAddTypeIndicator = document.getElementById('cbxAddTypeIndicators');
     elCbxUseColoring = document.getElementById('cbxUseColoring');
+    elCbxShowConnectors = document.getElementById('cbxShowConnectors');
 
     elInputIterationNr = document.querySelector("input[name='iteration']");
     elInputIterationNr.max = MAX_NR_OF_ITERATIONS.toString();
@@ -51,6 +56,8 @@ function setup() {
 
     elCbxUseAnimatedPath.checked = useAnimatedPath;
     elCbxUseColoring.checked = useColoring;
+    elCbxAddTypeIndicator.checked = addTypeIndicator;
+    elCbxShowConnectors.checked = showConnectors;
 
     getParameterValueFromInputs();
     updateParameterInfoOnScreen();
@@ -61,7 +68,7 @@ function draw(nrOfIterationsRequested) {
     const rect = new Rectangle(10, 10, svgWidth - 20, "A", 0);
 
     if (nrOfIterationsRequested === 0) {
-        rect.draw(elLines, useColoring);
+        rect.draw(elLines, useColoring, addTypeIndicator);
         return;
     }
     let rects = [rect];
@@ -93,7 +100,7 @@ function draw(nrOfIterationsRequested) {
              * If the path must be animated DO NOTHING! The points of the shapes will automatically be connected
              * because the polyline will just see a list of consecutive points.
              */
-            if (!useAnimatedPath) {
+            if (!useAnimatedPath && showConnectors) {
                 const line = createLine(p1x, p1y, p2x, p2y, `connector`);
                 if (useColoring) {
                     line.classList.add(`${rect.typeIndicator}-${prev.typeIndicator}`);
@@ -108,6 +115,17 @@ function draw(nrOfIterationsRequested) {
     elNrOfSegments.textContent = (rects.length * 3 + nrOfConnectors).toLocaleString();
     if (useAnimatedPath) {
         elLines.appendChild(createPolyline(points));
+    }
+    if (addTypeIndicator) {
+        rects.forEach(rect => {
+            const txt = document.createElementNS(SVG_NS, "text");
+            txt.textContent = rect.typeIndicator;
+            txt.setAttribute("x", rect.center().x);
+            txt.setAttribute("y", rect.center().y + 4);
+            txt.style.fontSize = `${15 - rect.iterationNr * 2}pt`;
+            txt.classList.add("type-indicator");
+            elLines.appendChild(txt);
+        });
     }
 }
 
@@ -149,6 +167,8 @@ function createLine(x1, y1, x2, y2, className) {
 
 
 function updateParameterInfoOnScreen() {
+    elCbxShowConnectors.disabled = useAnimatedPath;
+    elCbxUseColoring.disabled = useAnimatedPath;
 }
 
 function handleInputChanges(event) {
@@ -178,4 +198,6 @@ function getParameterValueFromInputs() {
 
     useAnimatedPath = elCbxUseAnimatedPath.checked;
     useColoring = elCbxUseColoring.checked;
+    addTypeIndicator = elCbxAddTypeIndicator.checked;
+    showConnectors = elCbxShowConnectors.checked;
 }

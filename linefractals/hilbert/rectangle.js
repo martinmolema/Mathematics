@@ -109,7 +109,8 @@ export class Rectangle {
 
     /**
      * See https://en.wikipedia.org/wiki/Hilbert_curve#/media/File:Hilbert_curve_production_rules!.svg
-     * @param elParent
+     * @param elParent {SVGElement}
+     * @param useColoring {boolean}
      */
     draw(elParent, useColoring) {
         this.determinePointsOfShape();
@@ -123,6 +124,7 @@ export class Rectangle {
         }
         polyline.classList.add(`iteration-${this.iterationNr}`);
         elParent.appendChild(polyline);
+
     }
 
     determinePointsOfShape() {

@@ -28,3 +28,10 @@ svg line.connector {
     stroke-dashoffset: 0;
   }
 }
+
+
+text.type-indicator {
+  text-anchor: middle;
+  stroke-width: 0;
+  fill: black;
+}
