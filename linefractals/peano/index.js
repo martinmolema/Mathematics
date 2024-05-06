@@ -110,13 +110,8 @@ function draw(nrOfIterationsRequested) {
 
     const matrix = new Matrix(nrOfRows, nrOfColumns, svgWidth)
 
-    let cell = matrix.getPosition(matrix.lastRowNumber(), matrix.firstColumnNumber());
-
     let direction = DIRECTION_UP;
     let variant = VARIANT_DRAW_RIGHT;
-
-    let infiniteLoopProtection = 999;
-    let roomForMoreShapes = true;
 
     // clear the canvas
     elLines.innerHTML = '';

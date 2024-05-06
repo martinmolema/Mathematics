@@ -1,0 +1,30 @@
+svg polyline.shape {
+  stroke:black;
+  stroke-width: 1;
+  fill:none;
+}
+
+label {
+  display: inline-block;
+  width: 12em;
+}
+
+svg polyline.shape.type-A { stroke: blue;}
+svg polyline.shape.type-B { stroke: fuchsia;}
+svg polyline.shape.type-C { stroke: blue;}
+svg polyline.shape.type-D { stroke: green;}
+
+svg line.connector {
+  stroke-width: 1;
+  stroke:black;
+}
+
+.animated {
+  animation: dash 2s linear forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

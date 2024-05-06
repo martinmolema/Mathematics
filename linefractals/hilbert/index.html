@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hilbert's Curve</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" type="module"></script>
+    <link rel="stylesheet" href="../../global.css">
+</head>
+<body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1>Hilbert's Curve</h1>
+            </header>
+            <p>See <a href="https://en.wikipedia.org/wiki/Hilbert_curve">Wikipedia</a>
+                and <a href="https://www.kerrymitchellart.com/tutorials/hilbert/hilbert-tutorial.html">Kerry Mitchell's
+                    explanation</a>.
+            </p>
+            <p>
+                The Hilbert curve (also known as the Hilbert space-filling curve) is a continuous fractal space-filling
+                curve first described by the German mathematician David Hilbert in 1891, as a variant of the
+                space-filling Peano curves discovered by Giuseppe Peano in 1890.
+
+                Because it is space-filling, its Hausdorff dimension is 2 (precisely, its image is the unit square,
+                whose dimension is 2 in any definition of dimension; its graph is a compact set homeomorphic to the
+                closed unit interval, with Hausdorff dimension 2).
+
+                The Hilbert curve is constructed as a limit of piecewise linear curves. The length of the
+                <math><mi>n</mi></math>th curve is
+                <math>
+                    <msup>
+                        <mn>2</mn>
+                        <mi>n</mi>
+                    </msup>
+                    <mo>-</mo>
+                    <mfrac>
+                        <mrow>
+                            <mn>1</mn>
+                        </mrow>
+                        <mrow>
+                            <msup>
+                                <mn>2</mn>
+                                <mi>n</mi>
+                            </msup>
+                        </mrow>
+                    </mfrac>
+                </math>
+                 i.e., the length grows exponentially with <math><mi>n</mi></math>, even though each curve is contained in a square
+                with area <math><mn>1</mn></math>
+            </p>
+        </section>
+        <section id="inputs">
+            <p>
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="0" id="iterationNr" type="number">
+                <span id="nrOfSegments"></span> <span>segments</span>
+            </p>
+            <p>
+                <label for="cbxUseAnimatedPath">Use animated path</label>
+                <input type="checkbox" name="useAnimatedPath" id="cbxUseAnimatedPath">
+            </p>
+            <p>
+                <label for="cbxUseColoring">Use coloring</label>
+                <input type="checkbox" name="useColoring" id="cbxUseColoring">
+            </p>
+
+        </section>
+    </article>
+    <article>
+        <section>
+            <svg width="800" height="800" id="canvas">
+                <g id="lines"></g>
+            </svg>
+        </section>
+    </article>
+</main>
+</body>
+</html>
