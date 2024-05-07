@@ -4,23 +4,60 @@ svg polyline.shape {
   fill:none;
 }
 
+svg  {
+
+  g#lines.colored {
+    polyline.shape.type-A { stroke: blue;}
+    polyline.shape.type-B { stroke: fuchsia;}
+    polyline.shape.type-C { stroke: blue;}
+    polyline.shape.type-D { stroke: green;}
+
+  }
+
+  g#fills {
+    .type-A {fill: blue;    }
+    .type-B {fill: fuchsia;}
+    .type-C {fill: blue;}
+    .type-D {fill: green;}
+  }
+
+  g#letters {
+    text {
+      text-anchor: middle;
+      stroke-width: 0;
+      fill: black;
+      font-family: sans-serif;
+      font-weight: bold;
+    }
+  }
+
+  /*
+  if the fills are enabled, make sure the text remains visible. The letters are in their own <G>-element.
+  By adding the class 'colored' to the group, we can easily change the fill-color using only CSS instead of cycling
+  through all <text>-elements in the DOM!
+  */
+  g#letters.colored {
+    .type-A {fill: white;}
+    .type-B {fill: black;}
+    .type-C {fill: white;}
+    .type-D {fill: white;}
+
+  }
+
+  line.connector {
+    stroke-width: 1;
+    stroke:black;
+  }
+
+  polyline.shape.animated {
+    animation: dash 2s linear forwards;
+  }
+
+}
+
 label {
   display: inline-block;
   width: 12em;
-}
-
-svg polyline.shape.type-A { stroke: blue;}
-svg polyline.shape.type-B { stroke: fuchsia;}
-svg polyline.shape.type-C { stroke: blue;}
-svg polyline.shape.type-D { stroke: green;}
-
-svg line.connector {
-  stroke-width: 1;
-  stroke:black;
-}
-
-.animated {
-  animation: dash 2s linear forwards;
 }
 
 @keyframes dash {
@@ -29,9 +66,3 @@ svg line.connector {
   }
 }
 
-
-text.type-indicator {
-  text-anchor: middle;
-  stroke-width: 0;
-  fill: black;
-}

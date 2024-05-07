@@ -112,19 +112,18 @@ export class Rectangle {
      * @param elParent {SVGElement}
      * @param useColoring {boolean}
      */
-    draw(elParent, useColoring) {
+    drawShape(elParent, useColoring) {
         this.determinePointsOfShape();
-
         const polyline = document.createElementNS(SVG_NS, "polyline");
         const strPoints = this.points.map(p => `${p.x},${p.y}`).join(' ');
         polyline.setAttribute('points', strPoints);
         polyline.classList.add("shape");
+        polyline.classList.add(`type-${this.typeIndicator}`);
         if (useColoring) {
-            polyline.classList.add(`type-${this.typeIndicator}`);
+            polyline.classList.add(`colored`);
         }
         polyline.classList.add(`iteration-${this.iterationNr}`);
         elParent.appendChild(polyline);
-
     }
 
     determinePointsOfShape() {

@@ -58,11 +58,15 @@
                 <span id="nrOfSegments"></span> <span>segments</span>
             </p>
             <p>
+                <label for="cbxShowShapes">Show shapes</label>
+                <input type="checkbox" name="showShapes" id="cbxShowShapes">
+            </p>
+            <p>
                 <label for="cbxUseAnimatedPath">Use animated path</label>
                 <input type="checkbox" name="useAnimatedPath" id="cbxUseAnimatedPath">
             </p>
             <p>
-                <label for="cbxUseColoring">Use coloring</label>
+                <label for="cbxUseColoring">Use colored shape lines</label>
                 <input type="checkbox" name="useColoring" id="cbxUseColoring">
             </p>
             <p>
@@ -73,12 +77,19 @@
                 <label for="cbxShowConnectors">Show connectors</label>
                 <input type="checkbox" name="showConnectors" id="cbxShowConnectors">
             </p>
+            <p>
+                <label for="cbxFillRectangles">Fill shapes</label>
+                <input type="checkbox" name="fillRectangles" id="cbxFillRectangles">
+            </p>
 
         </section>
     </article>
     <article>
         <section>
             <svg width="800" height="800" id="canvas">
+                <g id="fills"></g>
+                <g id="letters"></g>
+                <g id="connectors"></g>
                 <g id="lines"></g>
             </svg>
         </section>
