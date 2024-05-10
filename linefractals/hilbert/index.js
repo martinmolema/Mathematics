@@ -66,6 +66,7 @@ function setup() {
     elInputIterationNr.max = MAX_NR_OF_ITERATIONS.toString();
     elInputIterationNr.min = MIN_NR_OF_ITERATIONS.toString();
 
+
     svgWidth = elCanvas.width.baseVal.value;
     svgHeight = elCanvas.height.baseVal.value;
 
