@@ -105,6 +105,7 @@ function turn(rotation) {
     angle = angle + rotation;
 }
 
+// TO-DO: only create a new point so the line can be drawn using a <polyline>
 function drawLineWithAngle(angle, length, letter) {
     const newx = lastPosition.x + Math.cos((angle / 180) * Math.PI) * length;
     const newy = lastPosition.y + Math.sin((angle / 180) * Math.PI) * length;

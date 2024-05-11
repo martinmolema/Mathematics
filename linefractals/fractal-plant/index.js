@@ -7,21 +7,37 @@ let elCanvas;
 let elInputIterationNr;
 let elLines;
 let lastPosition;
-let points = [];
+let stack = [];
 
-const MIN_NR_OF_ITERATIONS = 2;
+const MIN_NR_OF_ITERATIONS = 1;
 const MAX_NR_OF_ITERATIONS = 10;
 let nrOfIterationsRequested = MIN_NR_OF_ITERATIONS;
-const rotationAngle = 45;
-const startLengthF = 300;
-const startLengthG = 500;
-
+const rotationAngle = 25;
+const startLength = 80;
+const startAngle = 60;
+const lengthDivider = 0.6;
+let word = '';
 
 let svgWidth;
 let svgHeight;
 
 let ORIGIN_X;
 let ORIGIN_Y;
+
+class StackItem {
+    angle;
+    position;
+
+    /**
+     *
+     * @param angle {number} in degrees
+     * @param position {Point}
+     */
+    constructor(angle, position) {
+        this.angle = angle;
+        this.position = new Point(position.x, position.y);
+    }
+}
 
 
 window.onload = () => {
@@ -35,7 +51,7 @@ function setup() {
     svgHeight = elCanvas.height.baseVal.value;
 
     ORIGIN_X = 10;
-    ORIGIN_Y = 10;
+    ORIGIN_Y = 0;
 
     elLines = document.getElementById("lines");
 
@@ -59,100 +75,71 @@ let angle = 0;
  * @param nrOfIterations {number}
  */
 function draw(nrOfIterations) {
-    lastPosition = new Point(ORIGIN_X,ORIGIN_Y + 50);
-    points = [];
-    points.push(lastPosition);
-    angle = rotationAngle;
-    const divider = Math.pow(nrOfIterations, 2.5);
-    axiom(nrOfIterations, startLengthF / divider, startLengthG / divider);
-    plot();
-}
-
-function plot(){
     clearCanvas();
-    const polyline = document.createElementNS(SVG_NS,"polyline");
-    const pointsAsString = points.map(p => `${p.x},${p.y}`).join(' ');
-    polyline.setAttribute("points", pointsAsString);
-    polyline.classList.add('shape');
-    elLines.appendChild(polyline);
+    word = '';
+    lastPosition = new Point(ORIGIN_X,ORIGIN_Y);
+    stack = [];
+    angle = startAngle;
+    const divider = Math.pow(nrOfIterations, 2.5);
+    axiom(nrOfIterations);
+
+    console.log(word)
 }
 
 /**
- *     Alphabet: F, G, X
- *     Constants: F, G, +, −
- *     Axiom: F−−XF−−F−−XF
- *     Production rules:
- *         X → XF+G+XF−−F−−XF+G+X
- *             XF+F+XF--F--XF+F+X
- *     Angle: 45
  * @param iterationNr
- * @param lengthF
- * @param lengthG
  */
-function axiom(iterationNr, lengthF, lengthG) {
-    const formula = "F--XF--F--XF";
-    executeFormula(formula, iterationNr, lengthF, lengthG);
+function axiom(iterationNr) {
+    curveX(iterationNr, startLength)
 }
 
 /**
- *     Alphabet: F, G, X
- *     Constants: F, G, +, −
- *     Axiom: F−−XF−−F−−XF
- *     Production rules:
- *         X → XF+G+XF−−F−−XF+G+X
- *             XF+F+XF--F--XF+F+X
- *     Angle: 45
- * @param iterationNr
- * @param lengthF
- * @param lengthG
+ * @param iterationNr {number}
+ * @param length {number}
  */
-function curveX(iterationNr, lengthF, lengthG) {
+function curveX(iterationNr, length) {
     if (iterationNr === 0) {
         return;
     }
-    const formula = "XF+G+XF--F--XF+G+X";
-    //const formula = "XF+F+XF--F--XF+F+X";
-    executeFormula(formula, iterationNr, lengthF, lengthG);
+    const formula = "F+[[X]-X]-F[-FX]+X";
+    executeFormula(formula, iterationNr, length);
 }
 
 /**
  *
- * @param iterationNr {number}
+ * @param iteration {number}
  * @param length {number}
  */
-function lineF(iterationNr, length) {
-    drawLineWithAngle(angle, length, "F", iterationNr);
+function curveF(iteration, length){
+    drawLineWithAngle(angle, length, "F", iteration);
+    drawLineWithAngle(angle, length, "F", iteration);
 }
-
-/**
- *
- * @param iterationNr {number}
- * @param length {number}
- */
-function lineG(iterationNr, length) {
-    drawLineWithAngle(angle, length, "G", iterationNr);
-}
-
 
 /**
  *
  * @param formula {string}
  * @param iterationNr {number}
- * @param lengthF {number}
- * @param lengthG {number}
+ * @param length
  */
-function executeFormula(formula, iterationNr, lengthF, lengthG) {
+function executeFormula(formula, iterationNr, length) {
     for (let i = 0; i < formula.length; i++) {
         const letter = formula.substring(i, i + 1);
+        word += letter;
         switch (letter) {
             case "X":
-                curveX(iterationNr - 1, lengthF , lengthG );
+                curveX(iterationNr - 1, length * lengthDivider );
                 break;
             case "F":
-                lineF(iterationNr, lengthF );
+                curveF(iterationNr, length)
                 break;
-            case "G":
-                lineG(iterationNr, lengthG);
+            case "[":
+                stack.push(new StackItem(angle, lastPosition))
+                break;
+            case "]":
+                const item = stack.pop();
+                lastPosition.x = item.position.x;
+                lastPosition.y = item.position.y;
+                angle = item.angle;
                 break;
             case "+":
                 turn(rotationAngle);
@@ -170,12 +157,22 @@ function turn(rotation) {
     angle = angle + rotation;
 }
 
-// TO-DO: only create a new point so the line can be drawn using a <polyline>
 function drawLineWithAngle(angle, length, letter, iterationNr) {
     const newx = lastPosition.x + Math.cos((angle / 180) * Math.PI) * length;
-    const newy = lastPosition.y - Math.sin((angle / 180) * Math.PI) * length;
+    const newy = lastPosition.y + Math.sin((angle / 180) * Math.PI) * length;
 
-    points.push(new Point(newx,newy));
+    const line = document.createElementNS(SVG_NS, "line");
+    line.setAttribute("x1", lastPosition.x);
+    line.setAttribute("y1", lastPosition.y);
+    line.setAttribute("x2", newx);
+    line.setAttribute("y2", newy);
+    line.setAttribute("stroke-opacity", (iterationNr / nrOfIterationsRequested).toString());
+
+    line.classList.add("shape");
+    line.classList.add(`letter-${letter}`);
+    line.classList.add(`iteration-${iterationNr}`);
+
+    elLines.appendChild(line);
 
     lastPosition.x = newx;
     lastPosition.y = newy;

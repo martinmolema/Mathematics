@@ -4,15 +4,9 @@ svg {
     stroke-width: 1;
     fill:none;
   }
-  line.shape {
-    stroke:black;
-    stroke-width: 1;
-    fill: none;
-  }
-  /*
 
-  line.shape.letter-A  {stroke: green; }
-  line.shape.letter-B  {stroke: Blue; }
-  */
+}
 
+math {
+  font-size: large;
 }

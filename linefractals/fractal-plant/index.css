@@ -1,8 +1,7 @@
 svg {
-  polyline.shape {
-    stroke: black;
+  line.shape {
+    stroke: green;
     stroke-width: 1;
-    fill:none;
   }
 
 }
