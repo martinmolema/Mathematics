@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sierpiński arrowhead curve</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" type="module"></script>
+</head>
+<body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1></h1>
+            </header>
+            <p>
+                See <a href="https://en.wikipedia.org/wiki/Sierpi%C5%84ski_curve">Wikipedia</a>.
+            </p>
+            <P>
+                The Sierpiński arrowhead curve is a fractal curve similar in appearance and identical in limit to the
+                Sierpiński triangle.
+                Evolution of Sierpiński arrowhead curve
+
+                The Sierpiński arrowhead curve draws an equilateral triangle with triangular holes at equal intervals.
+                It can be described with two substituting production rules: (A → B-A-B) and (B → A+B+A). A and B recur
+                and at the bottom do the same thing — draw a line. Plus and minus (+ and -) mean turn 60 degrees either
+                left or right. The terminating point of the Sierpiński arrowhead curve is always the same provided you
+                recur an even number of times and you halve the length of the line at each recursion. If you recur to an
+                odd depth (order is odd) then you end up turned 60 degrees, at a different point in the triangle.
+
+                An alternate constriction is given in the article on the de Rham curve: one uses the same technique as
+                the de Rham curves, but instead of using a binary (base-2) expansion, one uses a ternary (base-3)
+                expansion.
+            </P>
+            <p>
+                This is the first line fractal I created using the production rules above. I learned that:
+            </p>
+            <ul>
+                <li>The angle must be globally administrated.</li>
+                <li>The current point of drawing must be globally administered.</li>
+            </ul>
+            <p>Then the starting point must be set and the two simple recursive procedures were implemented.
+            </p>
+        </section>
+        <section id="inputs">
+            <p>
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="0" id="iterationNr" type="number">
+            </p>
+        </section>
+    </article>
+    <article>
+        <svg width="800" height="800" id="canvas">
+            <g id="lines" transform="translate(400,400) scale(1,-1)"></g>
+        </svg>
+    </article>
+</main>
+</body>
+</html>

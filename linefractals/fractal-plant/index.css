@@ -1,0 +1,12 @@
+svg {
+  polyline.shape {
+    stroke: black;
+    stroke-width: 1;
+    fill:none;
+  }
+
+}
+
+math {
+  font-size: large;
+}

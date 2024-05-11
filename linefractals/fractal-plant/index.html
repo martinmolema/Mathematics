@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sierpiński arrowhead curve</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" type="module"></script>
+</head>
+<body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1></h1>
+            </header>
+            <p>
+                See <a href="https://en.wikipedia.org/wiki/Sierpi%C5%84ski_curve">Wikipedia</a>.
+            </p>
+            <P>
+                Sierpiński curves are a recursively defined sequence of continuous closed plane fractal curves
+                discovered by Wacław Sierpiński, which in the limit
+                <math><mi>n</mi><mo> →</mo> <mn>∞</mn></math>
+                completely fill
+                the unit square: thus their limit curve, also called the Sierpiński curve, is an example of a
+                space-filling curve.
+
+                Because the Sierpiński curve is space-filling, its Hausdorff dimension (in the limit <math><mi>n</mi><mo> →</mo> <mn>∞</mn></math>
+                 is <math><mn>2</mn></math>
+            </P>
+            <p>
+                The Euclidean length of the <math><mi>n</mi></math>th iteration curve
+                <math><msub><mi>S</mi><mi>n</mi></msub></math>
+                is
+            </p>
+            <p>
+                <math>
+                    <msub>
+                        <mi>l</mi>
+                        <mi>n</mi>
+                    </msub>
+                    <mo>=</mo>
+                    <mfrac>
+                        <mn>2</mn>
+                        <mn>3</mn>
+                    </mfrac>
+                    <mrow>
+                        <mo>(</mo>
+                        <mn>1</mn>
+                        <mo>+</mo>
+                        <msqrt>
+                            <mn>2</mn>
+                        </msqrt>
+                        <mo>)</mo>
+                    </mrow>
+                    <msup>
+                        <mn>2</mn>
+                        <mn>n</mn>
+                    </msup>
+                    <mo>-</mo>
+                    <mfrac>
+                        <mn>1</mn>
+                        <mn>3</mn>
+                    </mfrac>
+                    <mrow>
+                        <mo>(</mo>
+                        <mn>2</mn>
+                        <mo>-</mo>
+                        <msqrt>
+                            <mn>2</mn>
+                        </msqrt>
+                        <mo>)</mo>
+                    </mrow>
+                    <mfrac>
+                        <mn>1</mn>
+                        <msup>
+                            <mn>2</mn>
+                            <mi>n</mi>
+                        </msup>
+                    </mfrac>
+                </math>
+                </p>
+            <p>
+                i.e., it grows exponentially with <math><mi>n</mi></math>  beyond any limit, whereas the limit for
+                <math><mi>n</mi><mo> →</mo> <mn>∞</mn></math> of the area enclosed by <math><msub><mi>S</mi><mi>n</mi></msub></math>
+                is <math><mfrac><mn>5</mn><mn>12</mn></mfrac></math>
+                that of the square (in Euclidean metric).
+            </P>
+            <p>
+                This is the second line fractal I created using the production rules. I created a function that can
+                be passed a formula to execute. See <a href="https://en.wikipedia.org/wiki/Rewriting">Rewriting</a> and
+                <a href="https://en.wikipedia.org/wiki/L-system">L-system</a>.
+            </p>
+            <p>The production rules for this curve is: </p>
+            <pre>
+                Alphabet: F, G, X
+                Constants: F, G, +, −
+                Axiom: F−−XF−−F−−XF
+                Production rules: X → XF+G+XF−−F−−XF+G+X
+                Angle: 45
+                </pre>
+            </p>
+            <p>
+                Here, both F and G mean "draw forward", + means "turn left 45°", and − means "turn right 45°" (see
+                <a href="https://en.wikipedia.org/wiki/Turtle_graphics">turtle graphics</a>). The curve is usually drawn with different lengths for F and G.
+            </p>
+        </section>
+        <section id="inputs">
+            <p>
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="0" id="iterationNr" type="number">
+            </p>
+        </section>
+    </article>
+    <article>
+        <svg width="800" height="800" id="canvas">
+            <g id="lines"></g>
+        </svg>
+    </article>
+</main>
+</body>
+</html>
