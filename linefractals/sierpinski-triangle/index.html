@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sierpiński triangles</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" type="module"></script>
+</head>
+<body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1>Sierpiński triangles</h1>
+            </header>
+            <p>
+                See <a href="https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle">Wikipedia</a>. Extract below.
+            </p>
+            <p>
+                The Sierpiński triangle (sometimes spelled Sierpinski), also called the Sierpiński gasket or Sierpiński
+                sieve, is a fractal attractive fixed set with the overall shape of an equilateral triangle, subdivided
+                recursively into smaller equilateral triangles. Originally constructed as a curve, this is one of the
+                basic examples of self-similar sets—that is, it is a mathematically generated pattern that is
+                reproducible at any magnification or reduction. It is named after the Polish mathematician Wacław
+                Sierpiński, but appeared as a decorative pattern many centuries before the work of Sierpiński.
+            </p>
+            <p>The production rules for this curve is: </p>
+            <pre>
+    variables : F G
+    constants : + −
+    start  : F−G−G
+    rules  : (F → F−G+F+G−F), (G → GG)
+    angle  : 120°
+                </pre>
+            </p>
+            <p>
+                Here, F and G both mean "draw forward", + means "turn left by angle", and − means "turn right by angle".
+            </p>
+        </section>
+        <section id="inputs">
+            <p>
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="0" id="iterationNr" type="number">
+            </p>
+            <p>
+                <label for="cbxUseAnimatedPath">Use animated path</label>
+                <input type="checkbox" name="useAnimatedPath" id="cbxUseAnimatedPath">
+            </p>
+            <p>
+                <label for="cbxUseColoring">Use colored shape lines</label>
+                <input type="checkbox" name="useColoring" id="cbxUseColoring">
+            </p>
+
+
+        </section>
+    </article>
+    <article>
+        <svg width="800" height="800" id="canvas">
+            <g id="lines" transform="translate(0,800) scale(1, -1)"></g>
+        </svg>
+    </article>
+</main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+svg {
+  polyline.shape {
+    stroke: black;
+    stroke-width: 1;
+    fill:none;
+  }
+
+  polyline.shape.animated {
+    animation: dash 2s linear forwards;
+  }
+
+
+  line.shape {
+    stroke-width: 1;
+    stroke:black;
+  }
+
+  line.shape.iteration-0 { stroke: black; }
+  line.shape.iteration-1 { stroke: green; }
+  line.shape.iteration-2 { stroke: blue; }
+  line.shape.iteration-3 { stroke: red; }
+  line.shape.iteration-4 { stroke: darkgray; }
+  line.shape.iteration-5 { stroke: aqua; }
+  line.shape.iteration-6 { stroke: fuchsia; }
+  line.shape.iteration-7 { stroke: blueviolet; }
+  line.shape.iteration-8 { stroke: burlywood ; }
+  line.shape.iteration-9 { stroke: cadetblue; }
+  line.shape.iteration-10 { stroke: dodgerblue; }
+
+}
+
+math {
+  font-size: large;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
