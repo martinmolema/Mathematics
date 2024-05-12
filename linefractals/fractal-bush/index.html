@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fractal bush</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" type="module"></script>
+</head>
+<body>
+<main>
+    <article>
+        <section>
+            <header>
+                <h1>Fractal Plant</h1>
+            </header>
+            <p>
+                Creating a fractal bush using the L-rewrite system. See <a
+                    href="https://en.wikipedia.org/wiki/L-system">Wikipedia</a>.
+                The fractal production rules for this specific fractal were obtained from <a
+                    href="https://paulbourke.net/fractals/lsys/">Paul Bourke</a>.
+            </p>
+            <p>The production rules for this curve is: </p>
+            <pre>
+
+axiom = F
+F -> FF+[+F-F-F]-[-F+F+F]
+angle = 22.5
+                </pre>
+            </p>
+            <p>
+                First you need to initialize an empty stack. This follows the LIFO (Last in, First Out) method to add
+                and remove elements. Here, F means "draw forward", − means "turn right 22.5°", and + means "turn left
+                25°". X does not correspond to any drawing action and is used to control the evolution of the curve. The
+                square bracket "[" corresponds to saving the current values for position and angle, so you push the
+                position and angle to the top of the stack, when the "]" token is encountered, pop the stack and reset
+                the position and angle. Every "[" comes before every "]" token.
+            </p>
+
+        </section>
+        <section id="inputs">
+            <p>
+                <label for="iterationNr">Iteration:</label>
+                <input name="iteration" value="0" id="iterationNr" type="number">
+            </p>
+        </section>
+    </article>
+    <article>
+        <svg width="800" height="800" id="canvas">
+            <g id="lines" transform="translate(400,800) scale(1,-1)"></g>
+        </svg>
+    </article>
+</main>
+</body>
+</html>
