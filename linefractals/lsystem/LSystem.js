@@ -1,4 +1,3 @@
-
 import {Point} from './Point.js';
 import {StackItem} from './StackItem.js';
 
@@ -20,11 +19,52 @@ export class LSystem {
     rotationAngle = 0;
     stack = undefined;
     lastPosition = undefined;
+    lineLengthMultiplier = 1;
+    svgWidth = 0;
+    svgHeight = 0;
 
     processedRules = [];
 
-    constructor(elSVGParent) {
+    constructor(elSVGParent, svgWidth, svgHeight) {
         this.elParent = elSVGParent;
+        this.svgHeight = svgHeight;
+        this.svgWidth = svgWidth;
+    }
+
+    setOrigin(x, y) {
+        this.originX = x;
+        this.originY = y;
+    }
+
+    setOriginLeftCenter(marginX, marginY) {
+        this.originX = -this.svgWidth / 2 + marginX;
+        this.originY = 0;
+    }
+
+    setOriginRightCenter(marginX, marginY) {
+        this.originX = this.svgWidth / 2 - marginX;
+        this.originY = 0;
+    }
+
+    setOriginBottomLeft(marginX, marginY) {
+        this.originX = -this.svgWidth / 2 + marginX;
+        this.originY = -this.svgHeight / 2 + marginY;
+    }
+
+    setOriginBottomRight(marginX, marginY) {
+        this.originX = this.svgWidth / 2 + marginX;
+        this.originY = -this.svgHeight / 2 - marginY;
+    }
+
+    setOriginTopLeft(marginX, marginY) {
+        this.originX = -this.svgWidth / 2 - marginX;
+        this.originY = this.svgHeight / 2 - marginY;
+    }
+
+
+    setOriginTopRight(marginX, marginY) {
+        this.originX = this.svgWidth / 2 - marginX;
+        this.originY = this.svgHeight / 2 - marginY;
     }
 
     addRule(rule) {
@@ -60,55 +100,56 @@ export class LSystem {
 
         this.nrOfIterationsRequested = nrOfIterations;
 
-        let result = this.axiom;
-
-        for (let i = 1; i <= nrOfIterations; i++) {
-            result = this.generateOneIteration(result);
-        }
-        this.formula = result;
-        this.drawFormula(result);
-        return result;
+        this.startGeneration(nrOfIterations, this.axiom, this.lineLength);
     }
 
-    applyRule(char) {
-        return this.processedRules[char] || char;
-    }
+    startGeneration(nrOfIterations, formula, lineLength) {
+        if (nrOfIterations !== 0) {
+            for (let char of formula) {
 
-    generateOneIteration(currentResult) {
-        let result = '';
+                if (this.processedRules[char] !== undefined) {
+                    lineLength = this.processNonRuleCharFromFormula(char, lineLength);
+                    const newFormula = this.processedRules[char];
+                    this.startGeneration(nrOfIterations - 1, newFormula, lineLength);
 
-        for (const char of currentResult) {
-            result += this.applyRule(char);
-        }
-        return result;
-    }
-
-    drawFormula(formula) {
-        for(let char of formula) {
-            switch (char) {
-                case "F":
-                    this.lastPosition = this.drawLine(this.lastPosition, this.lineLength);
-                    break;
-                case "[":
-                    this.stack.push(new StackItem(this.angle, this.lastPosition))
-                    break;
-                case "]":
-                    const item = this.stack.pop();
-                    this.lastPosition.x = item.position.x;
-                    this.lastPosition.y = item.position.y;
-                    this.angle = item.angle;
-                    break;
-                case "+":
-                    this.turn(this.rotationAngle);
-                    break;
-                case "-":
-                    this.turn(-this.rotationAngle);
-                    break;
+                } else {
+                    lineLength = this.processNonRuleCharFromFormula(char, lineLength);
+                }
             }
         }
+        return;
     }
 
-    drawLine(point1, length){
+    processNonRuleCharFromFormula(char, length) {
+
+        switch (char) {
+            case "F":
+                this.lastPosition = this.drawLine(this.lastPosition, length);
+                break;
+            case "[":
+                this.stack.push(new StackItem(this.angle, this.lastPosition))
+                break;
+            case "]":
+                const item = this.stack.pop();
+                this.lastPosition.x = item.position.x;
+                this.lastPosition.y = item.position.y;
+                this.angle = item.angle;
+                break;
+            case ">":
+                length *= this.lineLengthMultiplier;
+                break;
+            case "+":
+                this.turn(this.rotationAngle);
+                break;
+            case "-":
+                this.turn(-this.rotationAngle);
+                break;
+        }
+
+        return length;
+    }
+
+    drawLine(point1, length) {
         const newx = point1.x + Math.cos((this.angle / 180) * Math.PI) * length;
         const newy = point1.y + Math.sin((this.angle / 180) * Math.PI) * length;
 
