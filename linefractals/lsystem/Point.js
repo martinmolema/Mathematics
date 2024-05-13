@@ -1,11 +1,13 @@
 export class Point {
     x;
     y;
-    iterationNr;
+    iterationNr = -1;
+    letter = '';
 
-    constructor(x, y, iterationNr) {
+    constructor(x, y, iterationNr, letter) {
         this.x = x;
         this.y = y;
-        this.iterationNr = iterationNr;
+        this.iterationNr = iterationNr | -1;
+        this.letter = letter | '';
     }
 }
