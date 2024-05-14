@@ -3,5 +3,6 @@ svg {
   line {
     stroke-width: 1;
     stroke:black;
+    vector-effect:non-scaling-stroke;
   }
 }

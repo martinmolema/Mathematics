@@ -168,6 +168,7 @@ function setup() {
     let dragPoint = new Point(0,0);
     let translation = new Point(0,0);
     let temporaryTranslation = new Point(0,0);
+    let zoomFactor = 1;
 
     let isDragging = false;
     const CTM = svgContainer.getScreenCTM();
@@ -224,9 +225,29 @@ function setup() {
 
             console.log(`- drag to (${newX},${newY}) => delta = (${diffX},${diffY}) => translation = (${temporaryTranslation.x},${-temporaryTranslation.y})`);
 
-            elParent.setAttribute('transform', `translate(${temporaryTranslation.x},${-temporaryTranslation.y})`);
+            setZoomTranslation(elParent, zoomFactor, temporaryTranslation);
+            // elParent.setAttribute('transform', `translate(${temporaryTranslation.x},${-temporaryTranslation.y})`);
         }
     });
 
+    svgContainer.addEventListener("wheel" , (event) => {
+        console.log(event.deltaX, event.deltaY);
+        if (event.deltaY < 0) {
+            zoomFactor += 0.1;
+        }
+        else {
+            zoomFactor -= 0.1;
+        }
+        zoomFactor = Math.min(5,zoomFactor);
+        zoomFactor = Math.max(0.1, zoomFactor);
 
+        setZoomTranslation(elParent, zoomFactor, translation);
+    });
+}
+
+function setZoomTranslation(svgElement, zoom, translation){
+    const translateStr = `translate(${translation.x},${-translation.y})`;
+    const zoomStr = `scale(${zoom},${zoom})`;
+
+    svgElement.setAttribute('transform', `${translateStr} ${zoomStr}`);
 }
