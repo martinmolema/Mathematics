@@ -12,10 +12,15 @@
         <header>
             <h1>L-System rewrite testing grounds.</h1>
         </header>
+        <p>
+            Many thanks to <a href="https://paulbourke.net/fractals/lsys/">Paul Bourke</a>
+        </p>
     </article>
     <article>
-        <svg width="800" height="800">
-            <g id="canvas" transform="translate(400,400) scale(1,-1)"></g>
+        <svg width="800" height="800" id="drawing" >
+            <g transform="translate(400,400) scale(1,-1)">
+                <g id="canvas" transform="translate(0,0)"></g>
+            </g>
         </svg>
     </article>
 </main>

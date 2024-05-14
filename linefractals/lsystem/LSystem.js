@@ -52,12 +52,12 @@ export class LSystem {
     }
 
     setOriginBottomRight(marginX, marginY) {
-        this.originX = this.svgWidth / 2 + marginX;
-        this.originY = -this.svgHeight / 2 - marginY;
+        this.originX = this.svgWidth / 2 - marginX;
+        this.originY = -this.svgHeight / 2 + marginY;
     }
 
     setOriginTopLeft(marginX, marginY) {
-        this.originX = -this.svgWidth / 2 - marginX;
+        this.originX = -this.svgWidth / 2 + marginX;
         this.originY = this.svgHeight / 2 - marginY;
     }
 
