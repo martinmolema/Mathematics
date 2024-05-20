@@ -8,6 +8,6 @@ export class Point {
         this.x = x;
         this.y = y;
         this.iterationNr = iterationNr | -1;
-        this.letter = letter | '';
+        this.letter = letter || '';
     }
 }
