@@ -85,8 +85,8 @@ export class LSystem {
         this.rules.forEach(rule => {
             const parts = rule.split('=');
             if (parts.length > 1) {
-                const varname = parts[0];
-                const rulepart = parts[1];
+                const varname = parts[0].trim();
+                const rulepart = parts[1].trim();
 
                 this.processedRules[varname] = rulepart;
             }
