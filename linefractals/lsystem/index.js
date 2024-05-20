@@ -38,18 +38,18 @@ function setup() {
 
 */
 
-/*    // fractal tree
+    // fractal tree
     lsystem.addVariable('F');
     lsystem.addVariable('X');
-    lsystem.addRule('X=>[-FX]+FX');
+    lsystem.addRule('X= >[-FX]+FX');
     lsystem.setAxiom('FX');
     lsystem.lineLength = 200;
     lsystem.rotationAngle = 40;
     lsystem.originY = -100;
-    lsystem.lineLengthMultiplier = 0.6;
-    lsystem.generate(8);
-    */
-/*
+    lsystem.lineLengthMultiplier = 0.5;
+    lsystem.generate(12);
+
+    /*
     // plant left oriented
     lsystem.addVariable('F');
     lsystem.addVariable('X');
@@ -108,7 +108,7 @@ function setup() {
     lsystem.setOrigin(200, -300);
     lsystem.generate(5);
 */
-
+/*
     // Sierpinski Arrowhead
     lsystem.addVariable('F');
     lsystem.addVariable('X');
@@ -120,7 +120,7 @@ function setup() {
     lsystem.startingAngle = 0;
     lsystem.rotationAngle = 60;
     lsystem.setOriginBottomLeft(10,10)
-    lsystem.generate(7);
+    lsystem.generate(7);*/
 
 /*
     // Hilbert
