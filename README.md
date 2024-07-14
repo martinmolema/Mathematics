@@ -26,6 +26,6 @@ The following projects are available:
   * Fibonacci spiral
   * Fibonacci snowflake 
 
-You can see the working code here: [http://math.molema.org](http://wiskunde.molema.org) and play with it
+You can see the working code here: [http://math.molema.org](http://math.molema.org) and play with it
 yourself. 
 
