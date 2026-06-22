@@ -1,6 +1,7 @@
 import {SVGSupport} from "./SVGSupport.js";
 
 export class BallTracker {
+    id = 0;
     /**
      * The angle in degrees
      * @type {number}
@@ -20,19 +21,27 @@ export class BallTracker {
     cx = 0;
     cy = 0;
 
+    speedbar = undefined;
+
     /**
      *
      * @param angleInDegrees angleInDegrees in degrees (0 - 360) . will internally be converted to radians
      * @param svgInfo
      * @param extraClass
+     * @param id
      */
-    constructor(/* Number */ angleInDegrees, /* SVGInfo */ svgInfo, extraClass) {
+    constructor(/* Number */ angleInDegrees, /* SVGInfo */ svgInfo, extraClass, /*number*/ id) {
         // 2π rad = 360° ; Math.cos & Math.sin need radians
+        this.id =id;
         this.angleInDegrees = angleInDegrees;
         this.angleInRadians = (Math.PI / 180) * angleInDegrees;
         this.svgInfo = svgInfo;
         this.svgSupport = new SVGSupport(svgInfo.svgGroupCollections);
         this.createCircle(extraClass);
+    }
+
+    setSpeedBar(/* HTMLProgressElement */ speedbar) {
+        this.speedbar = speedbar;
     }
 
     createCircle(extraClass) {
@@ -48,8 +57,14 @@ export class BallTracker {
 
         const pos = Math.cos(angleInRadians); // this is the position on the line regardless of the rotated angle. (e.g. the x-axis)
 
-        this.cx = this.svgInfo.svgCX + (Math.cos(this.angleInRadians))  * this.svgInfo.r * pos;
-        this.cy = this.svgInfo.svgCY - (Math.sin(this.angleInRadians))  * this.svgInfo.r * pos;
+        const x = Math.cos(this.angleInRadians);
+        const y = Math.sin(this.angleInRadians);
+
+        this.cx = this.svgInfo.svgCX + x  * this.svgInfo.r * pos;
+        this.cy = this.svgInfo.svgCY - y  * this.svgInfo.r * pos;
+        const speed = Math.sqrt(1 - (pos * pos));
+        this.speedbar.value = speed * 100;
+
 
         if (showBalls) {
             this.circle.setAttribute("cx", this.cx);

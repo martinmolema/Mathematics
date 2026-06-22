@@ -82,16 +82,16 @@ export class Runner {
 
     initValuesFromControls() {
 
-        this.nrOfCollections        = this.elNrOfCollections.value;
-        this.distanceType           = this.elDistanceType.value;
-        this.distanceInDegrees      = this.elDistanceValue.value;
-        this.nrOfBallsPerCollection = this.elnrOfBalls.value;
-        this.fillOpacity            = this.elFillOpacity.value;
-        this.refreshSpeed           = this.elRefreshSpeed.value;
-        this.animationDirection     = this.elAnimationDirection.value;
-        this.ballOpacity            = this.elBallOpacity.value;
-        this.ballSize               = this.elBallSize.value;
+        this.nrOfCollections        = parseInt(this.elNrOfCollections.value);
+        this.distanceInDegrees      = parseInt(this.elDistanceValue.value);
+        this.nrOfBallsPerCollection = parseInt(this.elnrOfBalls.value);
+        this.fillOpacity            = parseInt(this.elFillOpacity.value);
+        this.refreshSpeed           = parseInt(this.elRefreshSpeed.value);
+        this.animationDirection     = parseInt(this.elAnimationDirection.value);
+        this.ballOpacity            = parseInt(this.elBallOpacity.value);
+        this.ballSize               = parseInt(this.elBallSize.value);
 
+        this.distanceType           = this.elDistanceType.value;
         this.showBackgroundLines    = this.elShowBackgroundLines.checked;
         this.showOuterballs         = this.elshowOuterballs.checked;
         this.fillShapes             = this.elFillShapes.checked;

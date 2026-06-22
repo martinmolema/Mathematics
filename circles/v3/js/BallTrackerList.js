@@ -28,9 +28,16 @@ export class BallTrackerList {
         this.balls.length = 0;
     }
 
-    addNewBall(/* Number */ angle, cssColor) {
-        const ball = new BallTracker(angle, this.svgInfo, cssColor);
+    /**
+     *
+     * @param angle
+     * @param cssColor
+     * @param id
+     */
+    addNewBall(/* Number */ angle, cssColor, /*number */ id) {
+        const ball = new BallTracker(angle, this.svgInfo, cssColor, id);
         this.balls.push(ball);
+        return ball;
     }
 
     updateAngle(/*Number*/ angle, /* GUIOptions */ guiOptions) {
@@ -45,6 +52,7 @@ export class BallTrackerList {
         } else {
             this.travellingCircle.classList.add("hidden");
         }
+
 
         let startOpacity = guiOptions.ballOpacity;
         const remainingOpacity = 5;

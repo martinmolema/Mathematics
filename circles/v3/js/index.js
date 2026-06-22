@@ -113,6 +113,8 @@ export class Runner {
         this.elfadeOpacity            = document.querySelector("input[name='fadeOpacity']");
         this.elShapeLineWidth         = document.getElementById("shapeLineWidth");
 
+        this.elSpeedBars = document.getElementById("speedBars");
+
         /* The radio button group */
         this.elRadiobuttonsBallColoringType = document.querySelectorAll("input[name='ballColoringType']");
         this.elRadioBallColoringTypeValue   = document.querySelector("input[name='ballColoringType']");
@@ -151,17 +153,17 @@ export class Runner {
     }
 
     initValuesFromControls() {
-        this.options.nrOfCollections        = this.elNrOfCollections.value;
-        this.options.distanceType           = this.elDistanceType.value;
-        this.options.distanceInDegrees      = this.elDistanceValue.value;
-        this.options.nrOfBallsPerCollection = this.elnrOfBalls.value;
-        this.options.fillOpacity            = this.elFillOpacity.value;
-        this.options.refreshSpeed           = this.elRefreshSpeed.value;
-        this.options.animationDirection     = this.elAnimationDirection.value;
-        this.options.ballOpacity            = this.elBallOpacity.value;
-        this.options.ballSize               = this.elBallSize.value;
-        this.options.shapeLineWidth         = this.elShapeLineWidth.value;
+        this.options.nrOfCollections        = parseInt(this.elNrOfCollections.value);
+        this.options.distanceInDegrees      = parseInt(this.elDistanceValue.value);
+        this.options.nrOfBallsPerCollection = parseInt(this.elnrOfBalls.value);
+        this.options.fillOpacity            = parseInt(this.elFillOpacity.value);
+        this.options.refreshSpeed           = parseInt(this.elRefreshSpeed.value);
+        this.options.ballOpacity            = parseInt(this.elBallOpacity.value);
+        this.options.ballSize               = parseInt(this.elBallSize.value);
+        this.options.shapeLineWidth         = parseInt(this.elShapeLineWidth.value);
 
+        this.options.animationDirection     = this.elAnimationDirection.value;
+        this.options.distanceType           = this.elDistanceType.value;
         this.options.showBackgroundLines    = this.elShowBackgroundLines.checked;
         this.options.showOuterballs         = this.elshowOuterballs.checked;
         this.options.fillShapes             = this.elFillShapes.checked;
@@ -567,23 +569,28 @@ export class Runner {
                 distanceInDegrees = 360 / this.options.nrOfCollections;
                 break;
         }
+        this.elSpeedBars.innerHTML = "";
+
         for (let c = 0; c < this.options.nrOfCollections; c++) {
             const collectionColor = this.options.paletteListForCollections().getPaletteColor(c);
             const coll = this.collection.newList(c * distanceInDegrees, collectionColor);
             let colNr = 0;
+            let idBall = 1;
+
             for (let angle = 0; angle < 180; angle += (180 / this.options.nrOfBallsPerCollection)) {
+                let ball;
 
                 switch(this.options.ballColorType) {
                     case BALL_COLOR_TYPE_FIXED:
-                        coll.addNewBall(angle, this.options.selectedSingleHSLColor);
+                        ball = coll.addNewBall(angle, this.options.selectedSingleHSLColor, idBall);
                         break;
                     case BALL_COLOR_TYPE_FOLLOW_SHAPE:
                         const paletteColor = this.options.paletteListForCollections().getPaletteColor(c);
-                        coll.addNewBall(angle, paletteColor);
+                        ball = coll.addNewBall(angle, paletteColor,idBall);
                         break;
                     case BALL_COLOR_TYPE_PALETTE:
                         const cssColor = this.options.paletteListForBalls().getPaletteColor(colNr++);
-                        coll.addNewBall(angle, cssColor);
+                        ball = coll.addNewBall(angle, cssColor, idBall);
                         break;
                 }
 
@@ -595,6 +602,15 @@ export class Runner {
                 else{
                 }
 
+                const bar = document.createElement("progress");
+                bar.max = 100;
+                bar.value = 0 ;
+                bar.id = "speedbar_bal_" + idBall;
+                this.elSpeedBars.appendChild(bar);
+
+                ball.setSpeedBar(bar);
+
+                idBall++;
             }
             coll.initSecondStage();
         }

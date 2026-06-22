@@ -170,3 +170,15 @@ div.hslcolors {
     hsl(360, 100%, 50%)
     );
 }
+
+/**
+Speedbars
+ */
+.speedBars {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    overflow-y: scroll;
+}
+
+
